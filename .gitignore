@@ -1,0 +1,10 @@
+node_modules/
+*.zip
+.env
+.DS_Store
+
+*.swp
+pending.txt
+zip-delete
+package-lock.json
+
