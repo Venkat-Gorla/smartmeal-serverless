@@ -2,8 +2,6 @@
 
 This service is a **Node.js AWS Lambda** function that uploads a JSON file to **Amazon S3** when triggered via **API Gateway**.
 
----
-
 ## ✅ Features
 
 - 📝 Creates a structured `meal-<timestamp>.json` file
@@ -11,16 +9,12 @@ This service is a **Node.js AWS Lambda** function that uploads a JSON file to **
 - 🌐 Triggered by a POST request to a public API Gateway endpoint
 - 🧾 Built with modern **ES Modules** using `"type": "module"`
 
----
-
 ## 🔧 Tech Stack
 
 - AWS Lambda (Node.js 18+)
 - Amazon S3
 - AWS API Gateway
 - AWS SDK v3 (`@aws-sdk/client-s3`)
-
----
 
 ## 🚀 Deployment Notes
 
@@ -42,8 +36,6 @@ This service is a **Node.js AWS Lambda** function that uploads a JSON file to **
    - Method: POST
    - Content-Type: `application/json`
 
----
-
 ## 📥 Sample POST Request (via Postman or curl)
 
 ```json
@@ -55,9 +47,9 @@ Content-Type: application/json
 }
 ```
 
-Note: Input is currently static in code (used for test/demo purposes).
+## Run locally (after setting BUCKET_NAME)
 
----
+node local-test.js
 
 ## 📁 File Structure
 
@@ -68,16 +60,11 @@ upload-service/
 ├── .gitignore
 ```
 
----
-
 ## ✅ TODO (Future Enhancements)
 
-- Accept meal data from request body (`event.body`)
 - Save metadata to DynamoDB
 - Trigger SNS notification after upload
 - Add unit tests
-
----
 
 ## 📜 License
 

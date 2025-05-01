@@ -1,27 +1,42 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-// vegorla:
-// error handling for async code
 const s3 = new S3Client({ region: "us-east-1" });
 
-// event will contain the request info and will be used later
 export const handler = async (event) => {
-  const content = JSON.stringify({
-    title: "Sample Meal",
-    createdAt: new Date().toISOString(),
-  });
+  try {
+    const body = JSON.parse(event.body);
 
-  const command = new PutObjectCommand({
-    Bucket: process.env.BUCKET_NAME,
-    Key: `meal-${Date.now()}.json`,
-    Body: content,
-    ContentType: "application/json",
-  });
+    if (!body.title || !body.description) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "title and description required" }),
+      };
+    }
 
-  await s3.send(command);
+    const content = JSON.stringify({
+      title: body.title,
+      description: body.description,
+      createdAt: new Date().toISOString(),
+    });
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: "File uploaded successfully!" }),
-  };
+    const command = new PutObjectCommand({
+      Bucket: process.env.BUCKET_NAME,
+      Key: `meal-${Date.now()}.json`,
+      Body: content,
+      ContentType: "application/json",
+    });
+
+    await s3.send(command);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Meal saved to S3 successfully." }),
+    };
+  } catch (err) {
+    console.error("Upload failed:", err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Internal server error" }),
+    };
+  }
 };
