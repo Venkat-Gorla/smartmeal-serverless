@@ -13,25 +13,7 @@ export const handler = async (event) => {
       };
     }
 
-    const content = JSON.stringify({
-      title: body.title,
-      description: body.description,
-      createdAt: new Date().toISOString(),
-    });
-
-    const command = new PutObjectCommand({
-      Bucket: process.env.BUCKET_NAME,
-      Key: `meal-${Date.now()}.json`,
-      Body: content,
-      ContentType: "application/json",
-    });
-
-    await s3.send(command);
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: "Meal saved to S3 successfully." }),
-    };
+    return await uploadToS3(body);
   } catch (err) {
     console.error("Upload failed:", err);
     return {
@@ -40,3 +22,25 @@ export const handler = async (event) => {
     };
   }
 };
+
+async function uploadToS3(body) {
+  const content = JSON.stringify({
+    title: body.title,
+    description: body.description,
+    createdAt: new Date().toISOString(),
+  });
+
+  const command = new PutObjectCommand({
+    Bucket: process.env.BUCKET_NAME,
+    Key: `meal-${Date.now()}.json`,
+    Body: content,
+    ContentType: "application/json",
+  });
+
+  await s3.send(command);
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Meal saved to S3 successfully." }),
+  };
+}

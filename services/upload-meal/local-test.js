@@ -9,16 +9,27 @@
 
 import { handler } from "./upload.js";
 
-const event = {
+const successEvent = {
   body: JSON.stringify({
     title: "Test Meal for local test",
     description: "This is a test meal description.",
   }),
 };
 
+const failureEvent = {
+  body: JSON.stringify({
+    title: "", // invalid: missing description or empty title
+  }),
+};
+
 const run = async () => {
-  const response = await handler(event);
-  console.log("Response:", response);
+  console.log("Testing SUCCESS event:");
+  const successResponse = await handler(successEvent);
+  console.log("Response:", successResponse);
+
+  console.log("\nTesting FAILURE event:");
+  const failureResponse = await handler(failureEvent);
+  console.log("Response:", failureResponse);
 };
 
 run();
