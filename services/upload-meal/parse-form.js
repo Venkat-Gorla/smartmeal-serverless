@@ -1,5 +1,7 @@
 import Busboy from "busboy";
 
+// Note: this function will be called by the Lambda handler, all error handling and
+// response mapping is supposed to happen there
 export function parseMultipartFormData(event) {
   return new Promise((resolve, reject) =>
     parseFormHelper(event, resolve, reject)
@@ -9,7 +11,13 @@ export function parseMultipartFormData(event) {
 function parseFormHelper(event, resolve, reject) {
   const contentType =
     event.headers["content-type"] || event.headers["Content-Type"];
-  // vegorla: content-type validation
+
+  if (!contentType?.includes("multipart/form-data")) {
+    return reject({
+      statusCode: 400,
+      body: JSON.stringify({ error: "Expected multipart/form-data" }),
+    });
+  }
 
   const busboy = new Busboy({ headers: { "content-type": contentType } });
 
@@ -21,6 +29,7 @@ function parseFormHelper(event, resolve, reject) {
     fields[fieldname] = val;
   });
 
+  // vegorla: enforce file size to be some limit?
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
     const chunks = [];
 
