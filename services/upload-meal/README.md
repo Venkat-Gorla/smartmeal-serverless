@@ -60,6 +60,11 @@ upload-service/
 ├── .gitignore
 ```
 
+## Unit Tests
+
+- Added unit tests for the Lambda S3 upload handler using `vitest`.
+- Mocked `@aws-sdk/client-s3` to simulate `S3Client.send` and validate `PutObjectCommand` usage.
+
 ## ✅ TODO (Future Enhancements)
 
 - Save metadata to DynamoDB
