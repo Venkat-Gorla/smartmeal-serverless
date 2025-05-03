@@ -70,6 +70,7 @@ upload-meal/
 - Save metadata to DynamoDB
 - Trigger SNS notification after upload
 - README: review and enhance
+- form parsing logic
 - app and unit tests in action, screenshots
 - complete file structure
 - about the Author

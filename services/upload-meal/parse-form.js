@@ -1,4 +1,3 @@
-// vegorla: different name for import?
 import Busboy from "busboy";
 
 // Note: this function will be called by the Lambda handler, all error handling and
@@ -43,7 +42,15 @@ function parseFormHelper(event, resolve, reject) {
   });
 
   busboy.on("finish", () => {
-    // vegorla: parsed output validation
+    // vegorla: parsed output validation should happen inside Lambda.
+    // this function should be generic
+    // if (!file?.mimeType?.startsWith("image/")) {
+    //   return {
+    //     statusCode: 400,
+    //     body: "Invalid file type. Only images allowed.",
+    //   };
+    // }
+
     resolve({ fields, file: { ...fileInfo, buffer: fileBuffer } });
   });
 
