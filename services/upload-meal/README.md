@@ -54,7 +54,7 @@ node local-test.js
 ## 📁 File Structure
 
 ```
-upload-service/
+upload-meal/
 ├── upload.js           # Lambda handler
 ├── package.json        # With `"type": "module"`
 ├── .gitignore
@@ -65,22 +65,15 @@ upload-service/
 - Added unit tests for the Lambda S3 upload handler using `vitest`.
 - Mocked `@aws-sdk/client-s3` to simulate `S3Client.send` and validate `PutObjectCommand` usage.
 
-## ✅ TODO (Future Enhancements)
+## ✅ Pending TODO (Future Enhancements)
 
 - Save metadata to DynamoDB
 - Trigger SNS notification after upload
-- Add unit tests
+- README: review and enhance
+- app and unit tests in action, screenshots
+- complete file structure
+- about the Author
 
 ## 📜 License
 
 MIT (or your preferred license)
-
-```
-
----
-
-Would you like:
-
-**a.** A second `README.md` for the root repo that explains the whole `smartmeal-serverless` project structure?
-**b.** A GitHub Actions YAML workflow to auto-deploy Lambda on push to `main` branch? 🚀
-```
