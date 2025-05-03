@@ -1,7 +1,5 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-const s3 = new S3Client({ region: "us-east-1" });
-
 export const handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
@@ -37,6 +35,7 @@ async function uploadToS3(body) {
     ContentType: "application/json",
   });
 
+  const s3 = new S3Client({ region: "us-east-1" });
   await s3.send(command);
 
   return {
