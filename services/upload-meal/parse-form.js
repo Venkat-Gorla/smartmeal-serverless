@@ -1,3 +1,4 @@
+// vegorla: different name for import?
 import Busboy from "busboy";
 
 // Note: this function will be called by the Lambda handler, all error handling and
@@ -19,7 +20,7 @@ function parseFormHelper(event, resolve, reject) {
     });
   }
 
-  const busboy = new Busboy({ headers: { "content-type": contentType } });
+  const busboy = Busboy({ headers: { "content-type": contentType } });
 
   const fields = {};
   let fileBuffer = null;
@@ -30,13 +31,14 @@ function parseFormHelper(event, resolve, reject) {
   });
 
   // vegorla: enforce file size to be some limit?
-  busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+  busboy.on("file", (fieldname, file, info) => {
+    const { filename, encoding, mimeType } = info;
     const chunks = [];
 
     file.on("data", (data) => chunks.push(data));
     file.on("end", () => {
       fileBuffer = Buffer.concat(chunks);
-      fileInfo = { filename, mimetype };
+      fileInfo = { filename, encoding, mimeType };
     });
   });
 
