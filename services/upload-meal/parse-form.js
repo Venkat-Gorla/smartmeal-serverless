@@ -56,10 +56,9 @@ function parseFormHelper(event, resolve, reject) {
 
   busboy.on("error", reject);
 
-  const bodyBuffer = Buffer.from(
-    event.body,
-    // vegorla can we assume this prop is set for Lambda invocation?
-    event.isBase64Encoded ? "base64" : "utf8"
-  );
+  // Note: event.isBase64Encoded is not guaranteed to be set in all environments.
+  // Safely coerce to boolean to ensure proper decoding.
+  const isBase64 = !!event.isBase64Encoded;
+  const bodyBuffer = Buffer.from(event.body, isBase64 ? "base64" : "utf8");
   busboy.end(bodyBuffer);
 }
