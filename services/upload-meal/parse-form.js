@@ -10,7 +10,7 @@ export function parseMultipartFormData(event) {
 
 function parseFormHelper(event, resolve, reject) {
   const contentType =
-    event.headers["content-type"] || event.headers["Content-Type"];
+    event.headers?.["content-type"] || event.headers?.["Content-Type"];
 
   if (!contentType?.includes("multipart/form-data")) {
     return reject({
