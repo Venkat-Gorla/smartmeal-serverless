@@ -44,3 +44,18 @@ describe("parseMultipartFormData - success case", () => {
     expect(result.file.buffer.equals(fileContent)).toBe(true);
   });
 });
+
+describe("parseMultipartFormData - failure cases", () => {
+  it("should reject if content-type is missing or invalid", async () => {
+    const event = {
+      headers: {}, // no content-type
+      body: "",
+      isBase64Encoded: false,
+    };
+
+    await expect(parseMultipartFormData(event)).rejects.toEqual({
+      statusCode: 400,
+      body: JSON.stringify({ error: "Expected multipart/form-data" }),
+    });
+  });
+});
