@@ -1,30 +1,33 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { parseMultipartFormData } from "./parse-form.js";
 
 export const handler = async (event) => {
   try {
-    const body = JSON.parse(event.body);
+    const { fields, file } = await parseMultipartFormData(event);
 
-    if (!body.title || !body.description) {
+    const { title, description } = fields;
+
+    if (!title || !description) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: "title and description required" }),
       };
     }
 
-    return await uploadToS3(body);
+    return await uploadToS3({ title, description });
   } catch (err) {
     console.error("Upload failed:", err);
     return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Internal server error" }),
+      statusCode: err?.statusCode || 500,
+      body: err?.body || JSON.stringify({ error: "Internal server error" }),
     };
   }
 };
 
-async function uploadToS3(body) {
+async function uploadToS3({ title, description }) {
   const content = JSON.stringify({
-    title: body.title,
-    description: body.description,
+    title,
+    description,
     createdAt: new Date().toISOString(),
   });
 

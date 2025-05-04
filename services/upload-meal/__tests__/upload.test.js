@@ -1,6 +1,7 @@
 import { vi, describe, beforeEach, afterAll, it, expect } from "vitest";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { handler } from "../upload.js";
+import { createMockEvent } from "./test-util.js";
 
 const mockSend = vi.fn();
 
@@ -31,12 +32,7 @@ describe("Lambda S3 Upload - Success Path", () => {
   });
 
   it("should upload valid meal to S3 and return 200", async () => {
-    const event = {
-      body: JSON.stringify({
-        title: "Tacos",
-        description: "Spicy beef tacos",
-      }),
-    };
+    const event = await createMockEvent("Tacos", "Spicy chicken tacos");
 
     // when you call the send method, it should resolve to an empty object
     mockSend.mockResolvedValueOnce({});
@@ -63,9 +59,7 @@ describe("Lambda S3 Upload - Failure Path", () => {
   });
 
   it("returns 400 if title or description is missing", async () => {
-    const event = {
-      body: JSON.stringify({ title: "" }), // missing description
-    };
+    const event = await createMockEvent("Tacos", ""); // missing description
 
     const response = await handler(event);
 
