@@ -8,26 +8,19 @@
 // - run the test with: node local-test.js
 
 import { handler } from "./upload.js";
-
-const successEvent = {
-  body: JSON.stringify({
-    title: "Test Meal for local test",
-    description: "This is a test meal description.",
-  }),
-};
-
-const failureEvent = {
-  body: JSON.stringify({
-    title: "", // invalid: missing description or empty title
-  }),
-};
+import { createMockEvent } from "./__tests__/test-util.js";
 
 const run = async () => {
   console.log("Testing SUCCESS event:");
+  const successEvent = await createMockEvent(
+    "Test Meal for local test",
+    "This is a test meal description."
+  );
   const successResponse = await handler(successEvent);
   console.log("Response:", successResponse);
 
   console.log("\nTesting FAILURE event:");
+  const failureEvent = await createMockEvent("", "description."); // invalid: empty title
   const failureResponse = await handler(failureEvent);
   console.log("Response:", failureResponse);
 };
