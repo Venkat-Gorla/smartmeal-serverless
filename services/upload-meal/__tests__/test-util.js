@@ -16,16 +16,14 @@ export async function createMockEvent(title, description) {
   });
 
   const stream = new PassThrough();
-  const chunks = [];
-
   form.pipe(stream);
 
+  const chunks = [];
   for await (const chunk of stream) {
     chunks.push(chunk);
   }
 
   const buffer = Buffer.concat(chunks);
-
   const headers = form.getHeaders(); // includes the correct content-type with boundary
 
   return {
