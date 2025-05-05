@@ -1,5 +1,5 @@
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png"];
-const MAX_FILE_SIZE = 20 * 1024; // 20KB
+export const MAX_FILE_SIZE = 300 * 1024; // 300KB
 
 export function getExtension(mimeType) {
   if (mimeType === "image/jpeg") return ".jpg";
@@ -21,7 +21,7 @@ export function validateFile(file) {
   }
 
   if (file.buffer.length > MAX_FILE_SIZE) {
-    throw Object.assign(new Error("File too large (max 20KB)"), {
+    throw Object.assign(new Error("File too large (max 300KB)"), {
       statusCode: 400,
     });
   }

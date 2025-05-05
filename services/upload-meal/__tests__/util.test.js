@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { validateFile, getExtension } from "../util.js";
+import { validateFile, getExtension, MAX_FILE_SIZE } from "../util.js";
 
 describe("getExtension", () => {
   it("should return .jpg for image/jpeg", () => {
@@ -24,7 +24,7 @@ describe("validateFile", () => {
     mimeType: "image/jpeg",
   };
 
-  it("should pass validation for valid jpeg under 20KB", () => {
+  it("should pass validation for valid jpeg under max size limit", () => {
     expect(() => validateFile(baseFile)).not.toThrow();
   });
 
@@ -37,18 +37,21 @@ describe("validateFile", () => {
     const invalidFile = { ...baseFile, mimeType: "application/pdf" };
     try {
       validateFile(invalidFile);
+      throw new Error("Expected validateFile to throw");
     } catch (err) {
       expect(err.message).toMatch(/Unsupported file type/);
       expect(err.statusCode).toBe(400);
     }
   });
 
-  it("should fail for file size over 20KB", () => {
-    const bigBuffer = Buffer.alloc(25 * 1024); // 25KB
+  it("should fail for file size over max limit", () => {
+    const bigBuffer = Buffer.alloc(MAX_FILE_SIZE + 1024);
     const largeFile = { ...baseFile, buffer: bigBuffer };
     try {
       validateFile(largeFile);
+      throw new Error("Expected validateFile to throw");
     } catch (err) {
+      expect(err).toBeInstanceOf(Error);
       expect(err.message).toMatch(/File too large/);
       expect(err.statusCode).toBe(400);
     }

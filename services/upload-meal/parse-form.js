@@ -29,7 +29,6 @@ function parseFormHelper(event, resolve, reject) {
     fields[fieldname] = val;
   });
 
-  // vegorla: enforce file size to be some limit?
   busboy.on("file", (fieldname, file, info) => {
     const { filename, encoding, mimeType } = info;
     const chunks = [];
