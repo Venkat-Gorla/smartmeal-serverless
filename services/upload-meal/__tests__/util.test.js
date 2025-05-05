@@ -1,5 +1,21 @@
 import { describe, it, expect } from "vitest";
-import { validateFile } from "../util.js";
+import { validateFile, getExtension } from "../util.js";
+
+describe("getExtension", () => {
+  it("should return .jpg for image/jpeg", () => {
+    expect(getExtension("image/jpeg")).toBe(".jpg");
+  });
+
+  it("should return .png for image/png", () => {
+    expect(getExtension("image/png")).toBe(".png");
+  });
+
+  it("should throw for unsupported mime type", () => {
+    expect(() => getExtension("application/pdf")).toThrow(
+      "Unsupported MIME type: application/pdf"
+    );
+  });
+});
 
 describe("validateFile", () => {
   const baseFile = {

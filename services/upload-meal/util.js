@@ -1,7 +1,6 @@
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png"];
 const MAX_FILE_SIZE = 20 * 1024; // 20KB
 
-// vegorla can have focused unit tests for this logic
 export function getExtension(mimeType) {
   if (mimeType === "image/jpeg") return ".jpg";
   if (mimeType === "image/png") return ".png";
