@@ -39,6 +39,7 @@ describe("validateFile", () => {
       validateFile(invalidFile);
       throw new Error("Expected validateFile to throw");
     } catch (err) {
+      expect(err).toBeInstanceOf(Error);
       expect(err.message).toMatch(/Unsupported file type/);
       expect(err.statusCode).toBe(400);
     }
