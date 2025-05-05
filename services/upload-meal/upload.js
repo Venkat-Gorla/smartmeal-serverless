@@ -1,10 +1,10 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { parseMultipartFormData } from "./parse-form.js";
+import { validateFile } from "./util.js";
 
 export const handler = async (event) => {
   try {
     const { fields, file } = await parseMultipartFormData(event);
-
     const { title, description } = fields;
 
     if (!title || !description) {
@@ -13,6 +13,8 @@ export const handler = async (event) => {
         body: JSON.stringify({ error: "title and description required" }),
       };
     }
+
+    validateFile(file);
 
     return await uploadToS3({ title, description });
   } catch (err) {

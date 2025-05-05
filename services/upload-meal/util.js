@@ -1,7 +1,7 @@
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png"];
 export const MAX_FILE_SIZE = 300 * 1024; // 300KB
 
-export function getExtension(mimeType) {
+export function getFileExtension(mimeType) {
   if (mimeType === "image/jpeg") return ".jpg";
   if (mimeType === "image/png") return ".png";
   throw new Error(`Unsupported MIME type: ${mimeType}`);
