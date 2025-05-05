@@ -1,48 +1,28 @@
 import { describe, it, expect } from "vitest";
 import { parseMultipartFormData } from "../parse-form.js";
+import { createMockEvent } from "./test-util.js";
 
-// vegorla integrate with the new function for Lambda event creation
-function createMockEvent(boundary, formBuffer, isBase64Encoded = true) {
-  return {
-    headers: {
-      "Content-Type": `multipart/form-data; boundary=${boundary}`,
-    },
-    body: isBase64Encoded
-      ? formBuffer.toString("base64")
-      : formBuffer.toString(),
-    isBase64Encoded,
-  };
-}
-
-// vegorla: test for image file parsing?
 describe("parseMultipartFormData - success case", () => {
-  it("should parse a text field and a file upload", async () => {
-    const boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
-    const fileContent = Buffer.from("Hello world!");
+  it("should parse a text field and a file", async () => {
+    const title = "Test Title";
+    const description = "dummy description";
     const filename = "test.txt";
-
-    const multipartBody = [
-      `--${boundary}`,
-      'Content-Disposition: form-data; name="title"',
-      "",
-      "Test Title",
-      `--${boundary}`,
-      `Content-Disposition: form-data; name="file"; filename="${filename}"`,
-      "Content-Type: text/plain",
-      "",
-      fileContent.toString(),
-      `--${boundary}--`,
-      "",
-    ].join("\r\n");
-
-    const mockEvent = createMockEvent(boundary, Buffer.from(multipartBody));
+    const fileContent = "Hello world!";
+    const contentType = "text/plain";
+    const mockEvent = await createMockEvent(title, description, {
+      filename,
+      fileContent,
+      contentType,
+    });
 
     const result = await parseMultipartFormData(mockEvent);
 
-    expect(result.fields.title).toBe("Test Title");
+    expect(result.fields.title).toBe(title);
+    expect(result.fields.description).toBe(description);
+    expect(result.file).toBeDefined();
     expect(result.file.filename).toBe(filename);
-    expect(result.file.mimeType).toBe("text/plain");
-    expect(result.file.buffer.equals(fileContent)).toBe(true);
+    expect(result.file.mimeType).toBe(contentType);
+    expect(result.file.buffer.equals(Buffer.from(fileContent))).toBe(true);
   });
 });
 
