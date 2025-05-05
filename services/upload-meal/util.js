@@ -15,14 +15,17 @@ export function validateFile(file) {
   }
 
   if (!ALLOWED_MIME_TYPES.includes(file.mimeType)) {
-    throw Object.assign(new Error("Unsupported file type"), {
-      statusCode: 400,
-    });
+    throw errorResponse("Unsupported file type");
   }
 
   if (file.buffer.length > MAX_FILE_SIZE) {
-    throw Object.assign(new Error("File too large (max 300KB)"), {
-      statusCode: 400,
-    });
+    throw errorResponse("File too large (max 300KB)");
   }
+}
+
+function errorResponse(message, statusCode = 400) {
+  const err = new Error(message);
+  err.statusCode = statusCode;
+  err.body = JSON.stringify({ error: message });
+  return err;
 }

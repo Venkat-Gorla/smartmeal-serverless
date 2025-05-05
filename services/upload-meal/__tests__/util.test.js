@@ -42,6 +42,9 @@ describe("validateFile", () => {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toMatch(/Unsupported file type/);
       expect(err.statusCode).toBe(400);
+      expect(JSON.parse(err.body)).toEqual({
+        error: "Unsupported file type",
+      });
     }
   });
 
@@ -55,6 +58,9 @@ describe("validateFile", () => {
       expect(err).toBeInstanceOf(Error);
       expect(err.message).toMatch(/File too large/);
       expect(err.statusCode).toBe(400);
+      expect(JSON.parse(err.body)).toEqual({
+        error: "File too large (max 300KB)",
+      });
     }
   });
 });
