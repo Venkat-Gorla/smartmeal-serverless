@@ -1,6 +1,6 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { parseMultipartFormData } from "./parse-form.js";
-import { validateFile, getFileExtension } from "./util.js";
+import { validateFile, getFileExtension, normalizeMetadata } from "./util.js";
 import { randomUUID } from "crypto";
 
 export const handler = async (event) => {
@@ -31,23 +31,19 @@ async function uploadToS3({ title, description, file }) {
   const extension = getFileExtension(file.mimeType);
   const key = `uploads/${randomUUID()}${extension}`;
 
+  const rawMetadata = {
+    title,
+    description,
+    createdAt: new Date().toISOString(),
+  };
+
   const command = new PutObjectCommand({
     Bucket: process.env.BUCKET_NAME,
     Key: key,
     Body: file.buffer,
     ContentType: file.mimeType,
-    // vegorla metadata has to be lowercase ASCII and needs validation
-    Metadata: {
-      title,
-      description,
-    },
+    Metadata: normalizeMetadata(rawMetadata),
   });
-
-  // const content = JSON.stringify({
-  //   title,
-  //   description,
-  //   createdAt: new Date().toISOString(),
-  // });
 
   // const command = new PutObjectCommand({
   //   Bucket: process.env.BUCKET_NAME,

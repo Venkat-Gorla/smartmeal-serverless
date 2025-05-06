@@ -29,3 +29,12 @@ function errorResponse(message, statusCode = 400) {
   err.body = JSON.stringify({ error: message });
   return err;
 }
+
+export function normalizeMetadata(obj) {
+  const safeMetadata = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const lowerKey = key.toLowerCase().replace(/[^a-z0-9-]/g, "-"); // safe ASCII
+    safeMetadata[lowerKey] = String(value);
+  }
+  return safeMetadata;
+}

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { validateFile, getFileExtension, MAX_FILE_SIZE } from "../util.js";
+import { normalizeMetadata } from "../util.js";
 
 describe("getFileExtension", () => {
   it("should return .jpg for image/jpeg", () => {
@@ -62,5 +63,30 @@ describe("validateFile", () => {
         error: "File too large (max 300KB)",
       });
     }
+  });
+});
+
+describe("normalizeMetadata", () => {
+  it("converts keys to lowercase", () => {
+    const input = { TITLE: "Tacos", DESCRIPTION: "Yum" };
+    const result = normalizeMetadata(input);
+    expect(result).toEqual({ title: "Tacos", description: "Yum" });
+  });
+
+  it("replaces special characters in keys with dash", () => {
+    const input = { "User Name": "Alice", "Emoji🚀": "value" };
+    const result = normalizeMetadata(input);
+    expect(result).toEqual({ "user-name": "Alice", "emoji--": "value" });
+  });
+
+  it("converts values to strings", () => {
+    const input = { count: 5, active: true, nullValue: null };
+    const result = normalizeMetadata(input);
+    expect(result).toEqual({ count: "5", active: "true", nullvalue: "null" });
+  });
+
+  it("handles empty input object", () => {
+    const result = normalizeMetadata({});
+    expect(result).toEqual({});
   });
 });
