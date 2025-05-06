@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { parseMultipartFormData } from "../parse-form.js";
-import { createMockEvent } from "./test-util.js";
+import { createEventWithFileInput } from "./test-util.js";
 
 describe("parseMultipartFormData - success case", () => {
   it("should parse a text field and a file", async () => {
@@ -9,7 +9,7 @@ describe("parseMultipartFormData - success case", () => {
     const filename = "test.txt";
     const fileContent = "Hello world!";
     const contentType = "text/plain";
-    const mockEvent = await createMockEvent(title, description, {
+    const mockEvent = await createEventWithFileInput(title, description, {
       filename,
       fileContent,
       contentType,

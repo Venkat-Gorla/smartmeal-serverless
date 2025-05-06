@@ -1,15 +1,21 @@
 // some helper functions for testing
 
+import { createReadStream } from "fs";
+import { basename } from "path";
+import mime from "mime-types";
 import FormData from "form-data";
 import { PassThrough } from "stream";
 
 /**
  * Create a mock Lambda event with multipart/form-data using form-data package.
+ * If the optional filePath is provided, it will read the file from the filesystem.
+ * Otherwise, it will create a fake file with the provided content.
  */
-export async function createMockEvent(
+export async function createEventWithFileInput(
   title,
   description,
   {
+    filePath,
     filename = "test.jpg",
     fileContent = "fake image content",
     contentType = "image/jpeg",
@@ -18,8 +24,32 @@ export async function createMockEvent(
   const form = new FormData();
   form.append("title", title);
   form.append("description", description);
-  form.append("file", Buffer.from(fileContent), { filename, contentType });
 
+  appendFileToForm(form, { filePath, filename, fileContent, contentType });
+
+  return createEventFromForm(form);
+}
+
+function appendFileToForm(
+  form,
+  { filePath, filename, fileContent, contentType }
+) {
+  if (filePath) {
+    const realFileName = basename(filePath);
+    const realMime = mime.lookup(filePath) || "application/octet-stream";
+    form.append("file", createReadStream(filePath), {
+      filename: realFileName,
+      contentType: realMime,
+    });
+  } else {
+    form.append("file", Buffer.from(fileContent), {
+      filename,
+      contentType,
+    });
+  }
+}
+
+async function createEventFromForm(form) {
   const stream = new PassThrough();
   form.pipe(stream);
 

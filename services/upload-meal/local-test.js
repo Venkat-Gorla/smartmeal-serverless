@@ -8,11 +8,11 @@
 // - run the test with: node local-test.js
 
 import { handler } from "./upload.js";
-import { createMockEvent } from "./__tests__/test-util.js";
+import { createEventWithFileInput } from "./__tests__/test-util.js";
 
 const run = async () => {
   console.log("Testing SUCCESS event:");
-  const successEvent = await createMockEvent(
+  const successEvent = await createEventWithFileInput(
     "Test Meal for local test",
     "This is a test meal description."
   );
@@ -20,7 +20,7 @@ const run = async () => {
   console.log("Response:", successResponse);
 
   console.log("\nTesting FAILURE event:");
-  const failureEvent = await createMockEvent("", "description."); // invalid: empty title
+  const failureEvent = await createEventWithFileInput("", "description."); // invalid: empty title
   const failureResponse = await handler(failureEvent);
   console.log("Response:", failureResponse);
 };
