@@ -1,6 +1,6 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { parseMultipartFormData } from "./parse-form.js";
-import { validateFile, getFileExtension, normalizeMetadata } from "./util.js";
+import { validateFile, generateS3Key, normalizeMetadata } from "./util.js";
 
 export const handler = async (event) => {
   try {
@@ -28,8 +28,7 @@ export const handler = async (event) => {
 
 async function uploadToS3({ title, description, file }) {
   const userId = "dev-user"; // vegorla For testing only
-  const extension = getFileExtension(file.mimeType);
-  const key = `uploads/${userId}/meal-${Date.now()}${extension}`;
+  const key = generateS3Key(userId, file.mimeType);
 
   const rawMetadata = {
     title,

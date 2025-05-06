@@ -1,6 +1,20 @@
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png"];
 export const MAX_FILE_SIZE = 300 * 1024; // 300KB
 
+/**
+ * Generate a safe, human-readable S3 key for uploaded file.
+ * Includes user ID and ISO timestamp.
+ */
+// vegorla unit test using reg expression for date
+export function generateS3Key(userId, mimeType) {
+  const extension = getFileExtension(mimeType);
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  return `uploads/${userId}/meal-${timestamp}${extension}`;
+}
+
+/**
+ * Convert MIME type to file extension or throw for unsupported types
+ */
 export function getFileExtension(mimeType) {
   if (mimeType === "image/jpeg") return ".jpg";
   if (mimeType === "image/png") return ".png";

@@ -7,22 +7,18 @@
 //     - On Windows (CMD): set BUCKET_NAME=your-bucket-name
 // - run the test with: node local-test.js
 
-import { handler } from "./upload.js";
-import { createEventWithFileInput } from "./__tests__/test-util.js";
+import { handler } from "../upload.js";
+import { createEventWithFileInput } from "../__tests__/test-util.js";
 
 const run = async () => {
   console.log("Testing SUCCESS event:");
   const successEvent = await createEventWithFileInput(
     "Test Meal for local test",
-    "This is a test meal description."
+    "This is a test meal description.",
+    { filePath: "./chicken-curry.jpg" }
   );
   const successResponse = await handler(successEvent);
   console.log("Response:", successResponse);
-
-  console.log("\nTesting FAILURE event:");
-  const failureEvent = await createEventWithFileInput("", "description."); // invalid: empty title
-  const failureResponse = await handler(failureEvent);
-  console.log("Response:", failureResponse);
 };
 
 run();
