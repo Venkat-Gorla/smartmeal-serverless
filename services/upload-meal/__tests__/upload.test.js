@@ -47,8 +47,8 @@ describe("Lambda S3 Upload - Success Path", () => {
 
     expect(sentCommand).toBeInstanceOf(PutObjectCommand);
     expect(sentCommand.input.Bucket).toBe("mock-bucket");
-    expect(sentCommand.input.ContentType).toBe("application/json");
-    expect(sentCommand.input.Body).toContain("Tacos");
+    expect(sentCommand.input.ContentType).toBe("image/jpeg");
+    expect(sentCommand.input.Metadata.title).toBe("Tacos");
     expect(response.statusCode).toBe(200);
     expect(JSON.parse(response.body).message).toBe(
       "Meal saved to S3 successfully."

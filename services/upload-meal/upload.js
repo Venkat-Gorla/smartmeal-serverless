@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { parseMultipartFormData } from "./parse-form.js";
-import { validateFile } from "./util.js";
+import { validateFile, getFileExtension } from "./util.js";
+import { randomUUID } from "crypto";
 
 export const handler = async (event) => {
   try {
@@ -16,7 +17,7 @@ export const handler = async (event) => {
 
     validateFile(file);
 
-    return await uploadToS3({ title, description });
+    return await uploadToS3({ title, description, file });
   } catch (err) {
     console.error("Upload failed:", err);
     return {
@@ -26,19 +27,34 @@ export const handler = async (event) => {
   }
 };
 
-async function uploadToS3({ title, description }) {
-  const content = JSON.stringify({
-    title,
-    description,
-    createdAt: new Date().toISOString(),
-  });
+async function uploadToS3({ title, description, file }) {
+  const extension = getFileExtension(file.mimeType);
+  const key = `uploads/${randomUUID()}${extension}`;
 
   const command = new PutObjectCommand({
     Bucket: process.env.BUCKET_NAME,
-    Key: `meal-${Date.now()}.json`,
-    Body: content,
-    ContentType: "application/json",
+    Key: key,
+    Body: file.buffer,
+    ContentType: file.mimeType,
+    // vegorla metadata has to be lowercase ASCII and needs validation
+    Metadata: {
+      title,
+      description,
+    },
   });
+
+  // const content = JSON.stringify({
+  //   title,
+  //   description,
+  //   createdAt: new Date().toISOString(),
+  // });
+
+  // const command = new PutObjectCommand({
+  //   Bucket: process.env.BUCKET_NAME,
+  //   Key: `meal-${Date.now()}.json`,
+  //   Body: content,
+  //   ContentType: "application/json",
+  // });
 
   const s3 = new S3Client({ region: "us-east-1" });
   await s3.send(command);

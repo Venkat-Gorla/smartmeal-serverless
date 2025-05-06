@@ -1,9 +1,9 @@
 // some helper functions for testing
 
-import { createReadStream } from "fs";
-import { basename } from "path";
-import mime from "mime-types";
 import FormData from "form-data";
+import { basename } from "path";
+import { createReadStream } from "fs";
+import mime from "mime-types";
 import { PassThrough } from "stream";
 
 /**
