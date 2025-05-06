@@ -1,7 +1,6 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { parseMultipartFormData } from "./parse-form.js";
 import { validateFile, getFileExtension, normalizeMetadata } from "./util.js";
-import { randomUUID } from "crypto";
 
 export const handler = async (event) => {
   try {
@@ -28,8 +27,9 @@ export const handler = async (event) => {
 };
 
 async function uploadToS3({ title, description, file }) {
+  const userId = "dev-user"; // vegorla For testing only
   const extension = getFileExtension(file.mimeType);
-  const key = `uploads/${randomUUID()}${extension}`;
+  const key = `uploads/${userId}/meal-${Date.now()}${extension}`;
 
   const rawMetadata = {
     title,
@@ -44,13 +44,6 @@ async function uploadToS3({ title, description, file }) {
     ContentType: file.mimeType,
     Metadata: normalizeMetadata(rawMetadata),
   });
-
-  // const command = new PutObjectCommand({
-  //   Bucket: process.env.BUCKET_NAME,
-  //   Key: `meal-${Date.now()}.json`,
-  //   Body: content,
-  //   ContentType: "application/json",
-  // });
 
   const s3 = new S3Client({ region: "us-east-1" });
   await s3.send(command);
