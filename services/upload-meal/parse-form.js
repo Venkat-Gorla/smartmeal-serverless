@@ -41,15 +41,6 @@ function parseFormHelper(event, resolve, reject) {
   });
 
   busboy.on("finish", () => {
-    // vegorla: parsed output validation should happen inside Lambda.
-    // this function should be generic
-    // if (!file?.mimeType?.startsWith("image/")) {
-    //   return {
-    //     statusCode: 400,
-    //     body: "Invalid file type. Only images allowed.",
-    //   };
-    // }
-
     resolve({ fields, file: { ...fileInfo, buffer: fileBuffer } });
   });
 

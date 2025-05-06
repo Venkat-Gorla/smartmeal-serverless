@@ -4,14 +4,14 @@ export const MAX_FILE_SIZE = 300 * 1024; // 300KB
 export function getFileExtension(mimeType) {
   if (mimeType === "image/jpeg") return ".jpg";
   if (mimeType === "image/png") return ".png";
-  throw new Error(`Unsupported MIME type: ${mimeType}`);
+  throw errorResponse(`Unsupported MIME type: ${mimeType}`);
 }
 
 export function validateFile(file) {
   // vegorla
   // user given filename can be part of metadata
   if (!file || !file.buffer || !file.filename || !file.mimeType) {
-    throw new Error("Invalid file upload");
+    throw errorResponse("Invalid file upload");
   }
 
   if (!ALLOWED_MIME_TYPES.includes(file.mimeType)) {
