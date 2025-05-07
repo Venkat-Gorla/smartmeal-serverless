@@ -1,6 +1,35 @@
 import { describe, it, expect } from "vitest";
-import { validateFile, getFileExtension, MAX_FILE_SIZE } from "../util.js";
-import { normalizeMetadata } from "../util.js";
+import {
+  generateS3Key,
+  validateFile,
+  getFileExtension,
+  MAX_FILE_SIZE,
+  normalizeMetadata,
+} from "../util.js";
+
+describe("generateS3Key", () => {
+  const userId = "dev-user";
+
+  it("should generate key with valid ISO timestamp and .jpg extension", () => {
+    const key = generateS3Key(userId, "image/jpeg");
+    expect(key).toMatch(
+      new RegExp(
+        `^uploads/${userId}/meal-\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}-\\d{3}Z\\.jpg$`
+      )
+    );
+  });
+
+  it("should generate key with .png extension", () => {
+    const key = generateS3Key(userId, "image/png");
+    expect(key.endsWith(".png")).toBe(true);
+  });
+
+  it("should throw error on unsupported mime type", () => {
+    expect(() => generateS3Key(userId, "text/plain")).toThrow(
+      "Unsupported MIME type: text/plain"
+    );
+  });
+});
 
 describe("getFileExtension", () => {
   it("should return .jpg for image/jpeg", () => {

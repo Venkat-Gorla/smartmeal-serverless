@@ -5,7 +5,6 @@ export const MAX_FILE_SIZE = 300 * 1024; // 300KB
  * Generate a safe, human-readable S3 key for uploaded file.
  * Includes user ID and ISO timestamp.
  */
-// vegorla unit test using reg expression for date
 export function generateS3Key(userId, mimeType) {
   const extension = getFileExtension(mimeType);
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
