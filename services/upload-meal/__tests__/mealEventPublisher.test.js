@@ -1,8 +1,4 @@
 import { vi, describe, beforeEach, it, expect } from "vitest";
-// import {
-//   mockEventStore,
-//   mockEventBridgeSend,
-// } from "@test/utils/mockEventBridge.js";
 import { publishMealUploadedEvent } from "../events/mealEventPublisher.js";
 
 // Shared in-memory store for captured events
