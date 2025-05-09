@@ -1,5 +1,6 @@
 import { PutItemCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
+import { buildMealReadModelItem } from "../utils/util.js";
 
 export async function handler(event) {
   // Lambda entrypoint
@@ -15,28 +16,7 @@ export async function handleMealUploadedEvent(event) {
   const TABLE_NAME = process.env.MEALS_TABLE;
   const BUCKET = process.env.BUCKET_NAME;
 
-  // vegorla this object creation can be moved to utility function and unit tested
-  const {
-    mealId,
-    userId,
-    title,
-    description,
-    imageKey,
-    createdAt = new Date().toISOString(),
-  } = event.detail;
-
-  // vegorla how to remove/ hide s3 bucket dependency? This should not be given to the client
-  const imageUrl = `https://${BUCKET}.s3.amazonaws.com/${imageKey}`;
-
-  const item = {
-    mealId,
-    userId,
-    title,
-    description,
-    createdAt,
-    likes: 0,
-    imageUrl,
-  };
+  const item = buildMealReadModelItem(event.detail, BUCKET);
 
   const command = new PutItemCommand({
     TableName: TABLE_NAME,
