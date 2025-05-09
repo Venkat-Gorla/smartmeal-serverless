@@ -13,7 +13,7 @@ export const mockEventBridgeSend = vi.fn((command) => {
       detail: JSON.parse(entry.Detail),
     });
   }
-  // vegorla what is this?
+
   return Promise.resolve({ FailedEntryCount: 0, Entries: [] });
 });
 

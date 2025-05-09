@@ -27,7 +27,7 @@ export const handler = async (event) => {
 };
 
 async function uploadToS3({ title, description, file }) {
-  const userId = "dev-user"; // vegorla For testing only
+  const userId = "dev-user"; // vegorla: replace with authenticated user
   const key = generateS3Key(userId, file.mimeType);
 
   const rawMetadata = {
