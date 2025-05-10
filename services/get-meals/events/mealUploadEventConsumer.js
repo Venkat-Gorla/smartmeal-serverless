@@ -14,7 +14,7 @@ export async function handleMealUploadedEvent(event) {
   // business logic, write to DynamoDB
   const ddb = new DynamoDBClient({ region: "us-east-1" }); // vegorla use shared const
   const TABLE_NAME = process.env.MEALS_TABLE;
-  const BUCKET = process.env.BUCKET_NAME;
+  const BUCKET = process.env.BUCKET_NAME; // vegorla bucket should not be needed here
 
   const item = buildMealReadModelItem(event.detail, BUCKET);
 
