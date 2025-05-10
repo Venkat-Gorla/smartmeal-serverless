@@ -1,30 +1,34 @@
 import { PutItemCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
-import { buildMealReadModelItem } from "../utils/util.js";
+import { buildMealReadModelItem } from "../utils/dynamo-db.js";
+import { AWS_REGION } from "../../../shared/constants/aws.js";
 
+// Lambda entrypoint
 export async function handler(event) {
-  // Lambda entrypoint
-  for (const record of event.Records || []) {
-    const detail = JSON.parse(record.body).detail;
-    await handleMealUploadedEvent({ detail });
+  try {
+    for (const record of event.Records || []) {
+      const detail = JSON.parse(record.body).detail;
+      await handleMealUploadedEvent({ detail });
+    }
+  } catch (err) {
+    console.error("Failed to process event:", err);
+    throw err; // so Lambda reports failure
   }
 }
 
+// business logic, write to DynamoDB
 export async function handleMealUploadedEvent(event) {
-  // business logic, write to DynamoDB
-  const ddb = new DynamoDBClient({ region: "us-east-1" }); // vegorla use shared const
   const TABLE_NAME = process.env.MEALS_TABLE;
-  const BUCKET = process.env.BUCKET_NAME; // vegorla bucket should not be needed here
-
-  const item = buildMealReadModelItem(event.detail, BUCKET);
+  const item = buildMealReadModelItem(event.detail);
 
   const command = new PutItemCommand({
     TableName: TABLE_NAME,
     Item: marshall(item),
   });
 
+  const ddb = new DynamoDBClient({ region: AWS_REGION });
   await ddb.send(command);
-  // vegorla try catch handling similar to upload
-  // return response that can be validated? Note: this is an internal Lambda
-  console.log("Meal inserted into MealsRead table:", mealId);
+
+  console.log("Meal inserted into MealsRead table:", item.mealId);
+  return item.mealId; // for test visibility
 }
