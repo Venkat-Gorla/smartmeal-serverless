@@ -1,6 +1,5 @@
 import { randomUUID } from "crypto";
 
-// vegorla: should have focused unit tests for this file
 export function generateImageUrl(bucket, region, key) {
   return `https://${bucket}.s3.${region}.amazonaws.com/${key}`;
 }

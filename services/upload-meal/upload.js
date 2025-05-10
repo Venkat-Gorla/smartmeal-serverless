@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { parseMultipartFormData } from "./parse-form.js";
 import { validateFile, generateS3Key, normalizeMetadata } from "./util.js";
+import { AWS_REGION } from "../../shared/constants/aws.js";
 
 export const handler = async (event) => {
   try {
@@ -45,7 +46,7 @@ async function uploadToS3({ title, description, file }) {
     Metadata: normalizeMetadata(rawMetadata),
   });
 
-  const s3 = new S3Client({ region: "us-east-1" }); // vegorla can use region const
+  const s3 = new S3Client({ region: AWS_REGION });
   await s3.send(command);
 
   return {

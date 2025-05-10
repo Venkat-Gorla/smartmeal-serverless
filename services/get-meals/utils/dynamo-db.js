@@ -6,7 +6,7 @@
  */
 export function buildMealReadModelItem(detail) {
   const {
-    mealId, // vegorla event producer doesn't need the mealId, it is dynamo DB specific
+    mealId,
     userId,
     title,
     description,
