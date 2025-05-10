@@ -3,6 +3,7 @@ import { marshall } from "@aws-sdk/util-dynamodb";
 import { buildMealReadModelItem } from "../utils/dynamo-db.js";
 import { AWS_REGION } from "../../../shared/constants/aws.js";
 
+// vegorla unit test using mock
 // Lambda entrypoint
 export async function handler(event) {
   try {
