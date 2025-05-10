@@ -1,0 +1,13 @@
+{
+  "name": "get-meals",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "VG",
+  "license": "ISC",
+  "description": ""
+}

@@ -6,7 +6,7 @@
  */
 export function buildMealReadModelItem(detail, bucketName) {
   const {
-    mealId,
+    mealId, // vegorla event producer doesn't need the mealId, it is dynamo DB specific
     userId,
     title,
     description,
@@ -15,6 +15,8 @@ export function buildMealReadModelItem(detail, bucketName) {
   } = detail;
 
   // vegorla how to remove/ hide s3 bucket dependency? This should not be given to the client
+  // - this is not an exact match of the image URL inside s3, region is missing
+  // - why can't we move this logic inside the event producer?
   const imageUrl = `https://${bucketName}.s3.amazonaws.com/${imageKey}`;
 
   return {
