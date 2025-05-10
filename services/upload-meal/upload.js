@@ -17,6 +17,7 @@ export const handler = async (event) => {
     validateFile(file);
 
     return await uploadToS3({ title, description, file });
+    // vegorla publish meal upload event along with full image URL
   } catch (err) {
     console.error("Upload failed:", err);
     return {
@@ -44,7 +45,7 @@ async function uploadToS3({ title, description, file }) {
     Metadata: normalizeMetadata(rawMetadata),
   });
 
-  const s3 = new S3Client({ region: "us-east-1" });
+  const s3 = new S3Client({ region: "us-east-1" }); // vegorla can use region const
   await s3.send(command);
 
   return {

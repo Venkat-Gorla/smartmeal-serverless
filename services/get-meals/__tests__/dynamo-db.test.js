@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { buildMealReadModelItem } from "../utils/dynamo-db.js";
+import {
+  buildMealUploadedEvent,
+  generateImageUrl,
+} from "@shared/utils/meal-event.js";
+import { AWS_REGION } from "@shared/constants/aws.js";
 
 describe("buildMealReadModelItem", () => {
   it("should build a valid item with provided timestamp and imageUrl", () => {
@@ -41,6 +46,31 @@ describe("buildMealReadModelItem", () => {
     expect(result.imageUrl).toBe(
       "https://cdn.smartmeal.app/uploads/meal-2.jpg"
     );
+    expect(result.createdAt).toMatch(
+      /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
+    );
+  });
+
+  it("should use event creation function inside producer", () => {
+    const key = "uploads/meal-2.jpg";
+    const bucket = "cdn.smartmeal.app";
+    const event = buildMealUploadedEvent({
+      userId: "user456",
+      title: "Pasta",
+      description: "Creamy sauce",
+      key,
+      bucket,
+      region: AWS_REGION,
+    });
+
+    const result = buildMealReadModelItem(event);
+
+    expect(result.mealId).toBe(event.mealId);
+    expect(result.mealId).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+    );
+    expect(result.likes).toBe(0);
+    expect(result.imageUrl).toBe(generateImageUrl(bucket, AWS_REGION, key));
     expect(result.createdAt).toMatch(
       /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
     );
