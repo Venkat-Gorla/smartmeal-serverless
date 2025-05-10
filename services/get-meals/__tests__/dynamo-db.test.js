@@ -45,4 +45,26 @@ describe("buildMealReadModelItem", () => {
       /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
     );
   });
+
+  it("should throw if imageUrl is missing", () => {
+    const detail = {
+      mealId: "meal-3",
+      userId: "user789",
+      title: "Salad",
+      description: "Fresh greens",
+    };
+
+    expect(() => buildMealReadModelItem(detail)).toThrow();
+  });
+
+  it("should throw if title is missing", () => {
+    const detail = {
+      mealId: "meal-4",
+      userId: "user321",
+      description: "Delicious",
+      imageUrl: "https://cdn.smartmeal.app/uploads/meal-4.jpg",
+    };
+
+    expect(() => buildMealReadModelItem(detail)).toThrow();
+  });
 });

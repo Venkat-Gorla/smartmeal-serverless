@@ -14,6 +14,10 @@ export function buildMealReadModelItem(detail) {
     createdAt = new Date().toISOString(),
   } = detail;
 
+  if (!mealId || !userId || !title || !description || !imageUrl) {
+    throw new Error("Missing required field in meal detail payload");
+  }
+
   return {
     mealId,
     userId,
