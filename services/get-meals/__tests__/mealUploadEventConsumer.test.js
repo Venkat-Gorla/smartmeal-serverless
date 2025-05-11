@@ -65,6 +65,7 @@ describe("handleMealUploadedEvent", () => {
     const event = createMealUploadedEvent();
 
     await expect(handleMealUploadedEvent(event)).rejects.toThrow("DDB fail");
+    expect(mockSend).toHaveBeenCalledTimes(1);
   });
 
   function createMealUploadedEvent() {
