@@ -1,5 +1,15 @@
-// import { vi } from "vitest";
+// Shared in-memory store for captured events
+export const mockEventStore = [];
 
-// Nice to have, low priority
-// - move Mock implementation of the EventBridgeClient to this file
-// - it is currently in the test file mealEventPublisher.test.js
+export function mockEventBridgeSendDefinition(command) {
+  const entries = command.input.Entries || [];
+  for (const entry of entries) {
+    mockEventStore.push({
+      source: entry.Source,
+      detailType: entry.DetailType,
+      detail: JSON.parse(entry.Detail),
+    });
+  }
+
+  return Promise.resolve({ FailedEntryCount: 0, Entries: [] });
+}

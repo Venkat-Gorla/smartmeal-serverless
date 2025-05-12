@@ -1,21 +1,11 @@
 import { vi, describe, beforeEach, it, expect } from "vitest";
 import { publishMealUploadedEvent } from "../events/mealEventPublisher.js";
+import {
+  mockEventStore,
+  mockEventBridgeSendDefinition,
+} from "@test/utils/mockEventBridge.js";
 
-// Shared in-memory store for captured events
-export const mockEventStore = [];
-
-export const mockEventBridgeSend = vi.fn((command) => {
-  const entries = command.input.Entries || [];
-  for (const entry of entries) {
-    mockEventStore.push({
-      source: entry.Source,
-      detailType: entry.DetailType,
-      detail: JSON.parse(entry.Detail),
-    });
-  }
-
-  return Promise.resolve({ FailedEntryCount: 0, Entries: [] });
-});
+const mockEventBridgeSend = vi.fn(mockEventBridgeSendDefinition);
 
 vi.mock("@aws-sdk/client-eventbridge", () => {
   return {
