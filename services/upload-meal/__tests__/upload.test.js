@@ -65,6 +65,7 @@ describe("Lambda S3 Upload - Success Path", () => {
 
     expect(mockS3Send).toHaveBeenCalledTimes(1);
     expect(mockEventBridgeSend).toHaveBeenCalledTimes(1);
+    expect(mockEventStore).toHaveLength(1);
     const sentCommand = mockS3Send.mock.calls[0][0];
 
     expect(sentCommand).toBeInstanceOf(PutObjectCommand);
@@ -92,6 +93,7 @@ describe("Lambda S3 Upload - Failure Path", () => {
 
     expect(mockS3Send).not.toHaveBeenCalled();
     expect(mockEventBridgeSend).not.toHaveBeenCalled();
+    expect(mockEventStore).toHaveLength(0);
     expect(response.statusCode).toBe(400);
     expect(JSON.parse(response.body).error).toBe(
       "title and description required"
