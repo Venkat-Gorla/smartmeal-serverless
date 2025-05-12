@@ -2,8 +2,12 @@ import { vi, describe, beforeEach, afterAll, it, expect } from "vitest";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { handler } from "../upload.js";
 import { createEventWithFileInput } from "./test-util.js";
+import {
+  mockEventStore,
+  mockEventBridgeSendDefinition,
+} from "@test/utils/mockEventBridge.js";
 
-const mockSend = vi.fn();
+const mockS3Send = vi.fn();
 
 vi.mock("@aws-sdk/client-s3", () => {
   return {
@@ -14,7 +18,22 @@ vi.mock("@aws-sdk/client-s3", () => {
     },
 
     S3Client: class {
-      send = mockSend;
+      send = mockS3Send;
+    },
+  };
+});
+
+const mockEventBridgeSend = vi.fn(mockEventBridgeSendDefinition);
+
+vi.mock("@aws-sdk/client-eventbridge", () => {
+  return {
+    PutEventsCommand: class {
+      constructor(input) {
+        this.input = input;
+      }
+    },
+    EventBridgeClient: class {
+      send = mockEventBridgeSend;
     },
   };
 });
@@ -24,7 +43,9 @@ describe("Lambda S3 Upload - Success Path", () => {
 
   beforeEach(() => {
     process.env = { ...OLD_ENV, BUCKET_NAME: "mock-bucket" };
-    mockSend.mockReset();
+    mockS3Send.mockReset();
+    mockEventStore.length = 0;
+    mockEventBridgeSend.mockClear();
   });
 
   afterAll(() => {
@@ -38,12 +59,13 @@ describe("Lambda S3 Upload - Success Path", () => {
     );
 
     // when you call the send method, it should resolve to an empty object
-    mockSend.mockResolvedValueOnce({});
+    mockS3Send.mockResolvedValueOnce({});
 
     const response = await handler(event);
 
-    expect(mockSend).toHaveBeenCalledTimes(1);
-    const sentCommand = mockSend.mock.calls[0][0];
+    expect(mockS3Send).toHaveBeenCalledTimes(1);
+    expect(mockEventBridgeSend).toHaveBeenCalledTimes(1);
+    const sentCommand = mockS3Send.mock.calls[0][0];
 
     expect(sentCommand).toBeInstanceOf(PutObjectCommand);
     expect(sentCommand.input.Bucket).toBe("mock-bucket");
@@ -51,14 +73,16 @@ describe("Lambda S3 Upload - Success Path", () => {
     expect(sentCommand.input.Metadata.title).toBe("Tacos");
     expect(response.statusCode).toBe(200);
     expect(JSON.parse(response.body).message).toBe(
-      "Meal saved to S3 successfully."
+      "Meal uploaded to S3 and event published."
     );
   });
 });
 
 describe("Lambda S3 Upload - Failure Path", () => {
   beforeEach(() => {
-    mockSend.mockReset();
+    mockS3Send.mockReset();
+    mockEventStore.length = 0;
+    mockEventBridgeSend.mockClear();
   });
 
   it("returns 400 if title or description is missing", async () => {
@@ -66,7 +90,8 @@ describe("Lambda S3 Upload - Failure Path", () => {
 
     const response = await handler(event);
 
-    expect(mockSend).not.toHaveBeenCalled();
+    expect(mockS3Send).not.toHaveBeenCalled();
+    expect(mockEventBridgeSend).not.toHaveBeenCalled();
     expect(response.statusCode).toBe(400);
     expect(JSON.parse(response.body).error).toBe(
       "title and description required"
