@@ -2,7 +2,6 @@
   "name": "smartmeal-serverless",
   "version": "1.0.0",
   "description": "“SmartMeal” — Meal sharing with image uploads, real-time voting, and notification via microservices on AWS using event-driven SNS and DynamoDB. Built in Node.js, deployed with serverless infra.",
-  "main": "vitest.config.js",
   "type": "module",
   "scripts": {
     "test": "vitest"
