@@ -48,7 +48,7 @@ describe("handleMealUploadedEvent (internal function)", () => {
     marshall.mockReturnValue({ mocked: "item" });
 
     const event = createMealUploadedEvent();
-    const result = await handleMealUploadedEvent(event);
+    const result = await handleMealUploadedEvent(event.detail);
 
     const expectedReadModelItem = buildMealReadModelItem(event.detail);
     expect(marshall).toHaveBeenCalledWith(expectedReadModelItem);
@@ -63,7 +63,9 @@ describe("handleMealUploadedEvent (internal function)", () => {
 
     const event = createMealUploadedEvent();
 
-    await expect(handleMealUploadedEvent(event)).rejects.toThrow("DDB fail");
+    await expect(handleMealUploadedEvent(event.detail)).rejects.toThrow(
+      "DDB fail"
+    );
     expect(mockSend).toHaveBeenCalledTimes(1);
   });
 });
@@ -88,16 +90,9 @@ describe("handler (Lambda driver)", () => {
     process.env = OLD_ENV;
   });
 
-  it("processes all valid records in event", async () => {
+  it("processes valid event", async () => {
     mockSend.mockResolvedValue({});
     marshall.mockReturnValue({ mocked: "item" });
-
-    // const event = {
-    //   Records: [
-    //     { body: JSON.stringify({ detail: createMealUploadedEvent().detail }) },
-    //     { body: JSON.stringify({ detail: createMealUploadedEvent().detail }) },
-    //   ],
-    // };
 
     const event = {
       detail: createMealUploadedEvent().detail,
@@ -110,54 +105,31 @@ describe("handler (Lambda driver)", () => {
     expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 
-  it("throws and logs error if any record fails", async () => {
+  it("throws and logs error if event processing fails", async () => {
     marshall.mockReturnValue({ mocked: "item" });
-    mockSend.mockRejectedValueOnce(new Error("fail"));
+    mockSend.mockRejectedValueOnce(new Error("ddb failure"));
 
     const event = {
       detail: createMealUploadedEvent().detail,
     };
 
-    await expect(handler(event)).rejects.toThrow("fail");
+    await expect(handler(event)).rejects.toThrow("ddb failure");
     expect(marshall).toHaveBeenCalledTimes(1);
     expect(mockSend).toHaveBeenCalledTimes(1);
     expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "Failed to process event:",
+      "Failed to process MealUploaded event:",
       expect.any(Error)
     );
   });
 
-  // it("does not fail if Records is missing", async () => {
-  //   await expect(handler({})).resolves.toBeUndefined();
-  //   expect(marshall).not.toHaveBeenCalled();
-  //   expect(mockSend).not.toHaveBeenCalled();
-  // });
-
-  // it("throws if one of multiple records fails", async () => {
-  //   const successDetail = createMealUploadedEvent().detail;
-  //   const failDetail = createMealUploadedEvent().detail;
-
-  //   marshall.mockReturnValue({ mocked: "item" });
-  //   mockSend
-  //     .mockResolvedValueOnce({}) // success
-  //     .mockRejectedValueOnce(new Error("ddb failure")); // failure
-
-  //   const event = {
-  //     Records: [
-  //       { body: JSON.stringify({ detail: successDetail }) },
-  //       { body: JSON.stringify({ detail: failDetail }) },
-  //     ],
-  //   };
-
-  //   await expect(handler(event)).rejects.toThrow("ddb failure");
-
-  //   expect(marshall).toHaveBeenCalledTimes(event.Records.length);
-  //   expect(mockSend).toHaveBeenCalledTimes(event.Records.length);
-  //   expect(consoleErrorSpy).toHaveBeenCalledWith(
-  //     "Failed to process event:",
-  //     expect.any(Error)
-  //   );
-  // });
+  it("does not fail if event detail is missing", async () => {
+    await expect(handler({})).resolves.toBeUndefined();
+    expect(marshall).not.toHaveBeenCalled();
+    expect(mockSend).not.toHaveBeenCalled();
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Skipping event: Missing or invalid detail payload."
+    );
+  });
 });
 
 function beforeEachSetup(OLD_ENV) {
