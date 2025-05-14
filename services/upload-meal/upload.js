@@ -1,7 +1,7 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { parseMultipartFormData } from "./parse-form.js";
 import { validateFile, generateS3Key, normalizeMetadata } from "./util.js";
-import { buildMealUploadedEvent } from "../../shared/utils/meal-event.js";
+import { buildMealUploadedEvent } from "./events/meal-event.js";
 import { publishMealUploadedEvent } from "./events/mealEventPublisher.js";
 
 const AWS_REGION = "us-east-1";
