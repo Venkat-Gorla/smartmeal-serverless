@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { generateImageUrl, buildMealUploadedEvent } from "../meal-event.js";
+import {
+  generateImageUrl,
+  buildMealUploadedEvent,
+} from "../events/meal-event.js";
 
 describe("generateImageUrl", () => {
   it("should return correct S3 URL", () => {

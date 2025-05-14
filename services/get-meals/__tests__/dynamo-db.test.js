@@ -1,9 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { buildMealReadModelItem } from "../utils/dynamo-db.js";
+
+// Note: this cross-service dependency must NOT be done inside product code
 import {
   buildMealUploadedEvent,
   generateImageUrl,
-} from "@shared/utils/meal-event.js";
+} from "../../upload-meal/events/meal-event.js";
 
 describe("buildMealReadModelItem", () => {
   it("should build a valid item with provided timestamp and imageUrl", () => {

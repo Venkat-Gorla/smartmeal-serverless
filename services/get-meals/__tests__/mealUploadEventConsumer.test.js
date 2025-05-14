@@ -3,7 +3,9 @@ import {
   handleMealUploadedEvent,
   handler,
 } from "../events/mealUploadEventConsumer.js";
-import { buildMealUploadedEvent } from "@shared/utils/meal-event.js";
+
+// Note: this cross-service dependency must NOT be done inside product code
+import { buildMealUploadedEvent } from "../../upload-meal/events/meal-event.js";
 import { buildMealReadModelItem } from "../utils/dynamo-db.js";
 import { marshall } from "@aws-sdk/util-dynamodb";
 
