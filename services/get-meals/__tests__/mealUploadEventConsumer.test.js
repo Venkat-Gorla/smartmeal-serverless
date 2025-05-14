@@ -92,17 +92,21 @@ describe("handler (Lambda driver)", () => {
     mockSend.mockResolvedValue({});
     marshall.mockReturnValue({ mocked: "item" });
 
+    // const event = {
+    //   Records: [
+    //     { body: JSON.stringify({ detail: createMealUploadedEvent().detail }) },
+    //     { body: JSON.stringify({ detail: createMealUploadedEvent().detail }) },
+    //   ],
+    // };
+
     const event = {
-      Records: [
-        { body: JSON.stringify({ detail: createMealUploadedEvent().detail }) },
-        { body: JSON.stringify({ detail: createMealUploadedEvent().detail }) },
-      ],
+      detail: createMealUploadedEvent().detail,
     };
 
     await handler(event);
 
-    expect(marshall).toHaveBeenCalledTimes(event.Records.length);
-    expect(mockSend).toHaveBeenCalledTimes(event.Records.length);
+    expect(marshall).toHaveBeenCalledTimes(1);
+    expect(mockSend).toHaveBeenCalledTimes(1);
     expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 
@@ -111,51 +115,49 @@ describe("handler (Lambda driver)", () => {
     mockSend.mockRejectedValueOnce(new Error("fail"));
 
     const event = {
-      Records: [
-        { body: JSON.stringify({ detail: createMealUploadedEvent().detail }) },
-      ],
+      detail: createMealUploadedEvent().detail,
     };
 
     await expect(handler(event)).rejects.toThrow("fail");
-    expect(marshall).toHaveBeenCalledTimes(event.Records.length);
-    expect(mockSend).toHaveBeenCalledTimes(event.Records.length);
+    expect(marshall).toHaveBeenCalledTimes(1);
+    expect(mockSend).toHaveBeenCalledTimes(1);
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       "Failed to process event:",
       expect.any(Error)
     );
   });
 
-  it("does not fail if Records is missing", async () => {
-    await expect(handler({})).resolves.toBeUndefined();
-    expect(marshall).not.toHaveBeenCalled();
-    expect(mockSend).not.toHaveBeenCalled();
-  });
+  // it("does not fail if Records is missing", async () => {
+  //   await expect(handler({})).resolves.toBeUndefined();
+  //   expect(marshall).not.toHaveBeenCalled();
+  //   expect(mockSend).not.toHaveBeenCalled();
+  // });
 
-  it("throws if one of multiple records fails", async () => {
-    const successDetail = createMealUploadedEvent().detail;
-    const failDetail = createMealUploadedEvent().detail;
+  // it("throws if one of multiple records fails", async () => {
+  //   const successDetail = createMealUploadedEvent().detail;
+  //   const failDetail = createMealUploadedEvent().detail;
 
-    marshall.mockReturnValue({ mocked: "item" });
-    mockSend
-      .mockResolvedValueOnce({}) // success
-      .mockRejectedValueOnce(new Error("ddb failure")); // failure
+  //   marshall.mockReturnValue({ mocked: "item" });
+  //   mockSend
+  //     .mockResolvedValueOnce({}) // success
+  //     .mockRejectedValueOnce(new Error("ddb failure")); // failure
 
-    const event = {
-      Records: [
-        { body: JSON.stringify({ detail: successDetail }) },
-        { body: JSON.stringify({ detail: failDetail }) },
-      ],
-    };
+  //   const event = {
+  //     Records: [
+  //       { body: JSON.stringify({ detail: successDetail }) },
+  //       { body: JSON.stringify({ detail: failDetail }) },
+  //     ],
+  //   };
 
-    await expect(handler(event)).rejects.toThrow("ddb failure");
+  //   await expect(handler(event)).rejects.toThrow("ddb failure");
 
-    expect(marshall).toHaveBeenCalledTimes(event.Records.length);
-    expect(mockSend).toHaveBeenCalledTimes(event.Records.length);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "Failed to process event:",
-      expect.any(Error)
-    );
-  });
+  //   expect(marshall).toHaveBeenCalledTimes(event.Records.length);
+  //   expect(mockSend).toHaveBeenCalledTimes(event.Records.length);
+  //   expect(consoleErrorSpy).toHaveBeenCalledWith(
+  //     "Failed to process event:",
+  //     expect.any(Error)
+  //   );
+  // });
 });
 
 function beforeEachSetup(OLD_ENV) {

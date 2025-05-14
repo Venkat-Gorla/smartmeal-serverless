@@ -1,18 +1,32 @@
 import { PutItemCommand, DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { buildMealReadModelItem } from "../utils/dynamo-db.js";
-import { AWS_REGION } from "../../../shared/constants/aws.js";
 
 // Lambda entrypoint
+// export async function handler(event) {
+//   try {
+//     for (const record of event.Records || []) {
+//       const detail = JSON.parse(record.body).detail;
+//       await handleMealUploadedEvent({ detail });
+//     }
+//   } catch (err) {
+//     console.error("Failed to process event:", err);
+//     throw err; // so Lambda reports failure
+//   }
+// }
+
+// vegorla remove commented code, fix object nesting and unit tests
+// fix shared dependency, check for undefined before accessing object prop
 export async function handler(event) {
   try {
-    for (const record of event.Records || []) {
-      const detail = JSON.parse(record.body).detail;
-      await handleMealUploadedEvent({ detail });
-    }
+    console.log("Received EventBridge event:", JSON.stringify(event, null, 2));
+
+    const detail = event.detail;
+    await handleMealUploadedEvent({ detail });
+
   } catch (err) {
     console.error("Failed to process event:", err);
-    throw err; // so Lambda reports failure
+    throw err;
   }
 }
 
@@ -26,7 +40,7 @@ export async function handleMealUploadedEvent(event) {
     Item: marshall(item),
   });
 
-  const ddb = new DynamoDBClient({ region: AWS_REGION });
+  const ddb = new DynamoDBClient({ region: "us-east-1" });
   await ddb.send(command);
 
   console.log("Meal inserted into MealsRead table:", item.mealId);
