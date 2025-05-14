@@ -4,7 +4,6 @@ import {
   buildMealUploadedEvent,
   generateImageUrl,
 } from "@shared/utils/meal-event.js";
-import { AWS_REGION } from "@shared/constants/aws.js";
 
 describe("buildMealReadModelItem", () => {
   it("should build a valid item with provided timestamp and imageUrl", () => {
@@ -54,6 +53,7 @@ describe("buildMealReadModelItem", () => {
   it("should use event creation function inside producer", () => {
     const key = "uploads/meal-2.jpg";
     const bucket = "cdn.smartmeal.app";
+    const AWS_REGION = "us-east-1";
     const event = buildMealUploadedEvent({
       userId: "user456",
       title: "Pasta",

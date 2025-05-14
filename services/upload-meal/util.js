@@ -21,7 +21,6 @@ export function getFileExtension(mimeType) {
 }
 
 export function validateFile(file) {
-  // vegorla: user given filename can be part of metadata
   if (!file || !file.buffer || !file.filename || !file.mimeType) {
     throw errorResponse("Invalid file upload");
   }

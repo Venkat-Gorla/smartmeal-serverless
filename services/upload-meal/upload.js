@@ -3,7 +3,8 @@ import { parseMultipartFormData } from "./parse-form.js";
 import { validateFile, generateS3Key, normalizeMetadata } from "./util.js";
 import { buildMealUploadedEvent } from "../../shared/utils/meal-event.js";
 import { publishMealUploadedEvent } from "./events/mealEventPublisher.js";
-import { AWS_REGION } from "../../shared/constants/aws.js";
+
+const AWS_REGION = "us-east-1";
 
 export const handler = async (event) => {
   try {

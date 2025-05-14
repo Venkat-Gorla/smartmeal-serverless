@@ -2,10 +2,9 @@ import {
   EventBridgeClient,
   PutEventsCommand,
 } from "@aws-sdk/client-eventbridge";
-import { AWS_REGION } from "../../../shared/constants/aws.js";
 
 export async function publishMealUploadedEvent(meal) {
-  const eventBridge = new EventBridgeClient({ region: AWS_REGION });
+  const eventBridge = new EventBridgeClient({ region: "us-east-1" });
 
   const event = {
     Source: "mealshare.upload",
