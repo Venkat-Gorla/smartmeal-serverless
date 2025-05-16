@@ -1,14 +1,21 @@
-const { defaultProvider } = require("@aws-sdk/credential-provider-node");
-const { NodeHttpHandler } = require("@aws-sdk/node-http-handler");
-const { createAwsSigv4Signer } = require("@opensearch-project/opensearch/aws");
-const { Client } = require("@opensearch-project/opensearch");
+// This file is responsible for creating an OpenSearch client using AWS credentials.
+// It uses the AWS SDK to sign requests and the OpenSearch client to interact with the OpenSearch service.
+// The client is configured to use the OpenSearch endpoint specified in environment variables.
+import { defaultProvider } from "@aws-sdk/credential-provider-node";
+import { NodeHttpHandler } from "@aws-sdk/node-http-handler";
+import {
+  createAwsSigv4Signer,
+  AwsSigv4Connection,
+} from "@opensearch-project/opensearch/aws";
+import { Client } from "@opensearch-project/opensearch";
 
-const REGION = process.env.AWS_REGION || "us-east-1";
+const AWS_REGION = "us-east-1";
+// vegorla can the endpoint be internal? Calling code will be our Lambda
 const DOMAIN_ENDPOINT = process.env.OPENSEARCH_ENDPOINT; // e.g. https://search-my-domain.us-east-1.es.amazonaws.com
 
 const createClient = () => {
   const signer = createAwsSigv4Signer({
-    region: REGION,
+    region: AWS_REGION,
     service: "es",
     getCredentials: defaultProvider(),
   });
@@ -16,8 +23,7 @@ const createClient = () => {
   return new Client({
     ...signer,
     node: DOMAIN_ENDPOINT,
-    Connection: require("@opensearch-project/opensearch/aws")
-      .AwsSigv4Connection,
+    Connection: AwsSigv4Connection,
     Transport: {
       requestTimeout: 3000,
       agent: new NodeHttpHandler(),
@@ -25,12 +31,14 @@ const createClient = () => {
   });
 };
 
-module.exports = createClient;
+export default createClient;
 
 // Usage example
-const createClient = require("../esClient/client");
+// src/indexMeal.js
+import createClient from "../es-client/client.js";
 const es = createClient();
 
+// vegorla Need error handling for await
 await es.index({
   index: "meals-index",
   id: "meal-abc",

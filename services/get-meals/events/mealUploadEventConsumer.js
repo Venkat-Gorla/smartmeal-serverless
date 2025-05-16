@@ -3,7 +3,6 @@ import { marshall } from "@aws-sdk/util-dynamodb";
 import { buildMealReadModelItem } from "../utils/dynamo-db.js";
 
 // Lambda entrypoint
-// vegorla remove shared dependency, every service must be self-contained
 export async function handler(event) {
   try {
     console.log("Received EventBridge event:", JSON.stringify(event, null, 2));
