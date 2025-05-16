@@ -10,8 +10,6 @@ import {
 import { Client } from "@opensearch-project/opensearch";
 
 const AWS_REGION = "us-east-1";
-// vegorla can the endpoint be internal? Calling code will be our Lambda
-const DOMAIN_ENDPOINT = process.env.OPENSEARCH_ENDPOINT; // e.g. https://search-my-domain.us-east-1.es.amazonaws.com
 
 const createClient = () => {
   const signer = createAwsSigv4Signer({
@@ -19,6 +17,9 @@ const createClient = () => {
     service: "es",
     getCredentials: defaultProvider(),
   });
+
+  // vegorla can the endpoint be internal? Calling code will be our Lambda
+  const DOMAIN_ENDPOINT = process.env.OPENSEARCH_ENDPOINT; // e.g. https://search-my-domain.us-east-1.es.amazonaws.com
 
   return new Client({
     ...signer,
@@ -32,18 +33,3 @@ const createClient = () => {
 };
 
 export default createClient;
-
-// Usage example
-// src/indexMeal.js
-import createClient from "../es-client/client.js";
-const es = createClient();
-
-// vegorla Need error handling for await
-await es.index({
-  index: "meals-index",
-  id: "meal-abc",
-  body: {
-    title: "Tacos",
-    createdAt: "2025-05-01T10:00:00Z",
-  },
-});
