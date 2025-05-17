@@ -4,30 +4,41 @@ const MEALS_INDEX = "meals-index";
 
 /**
  * Index a meal document into OpenSearch.
- * @param {Object} meal - Full meal object from DynamoDB
- * @param {string} meal.mealId
- * @param {string} meal.userId
- * @param {string} meal.title
- * @param {string} meal.description
- * @param {string} meal.createdAt
- * @param {number} meal.likes
- * @param {string} meal.imageUrl
+ * @param {Object} meal - complete meal object
+ * @returns {Promise<void>}
+ * @throws {Error} If indexing fails
  */
 export async function indexMeal(meal) {
   const es = createClient();
 
-  // vegorla error handling
-  await es.index({
-    index: MEALS_INDEX,
-    id: meal.mealId,
-    body: {
+  try {
+    const response = await es.index({
+      index: MEALS_INDEX,
+      id: meal.mealId,
+      body: {
+        mealId: meal.mealId,
+        userId: meal.userId,
+        title: meal.title,
+        description: meal.description,
+        createdAt: meal.createdAt,
+        likes: meal.likes,
+        imageUrl: meal.imageUrl,
+      },
+    });
+
+    if (
+      response.body?.result !== "created" &&
+      response.body?.result !== "updated"
+    ) {
+      throw new Error(`Unexpected OpenSearch result: ${response.body?.result}`);
+    }
+  } catch (err) {
+    console.error("Failed to index meal", {
       mealId: meal.mealId,
-      userId: meal.userId,
-      title: meal.title,
-      description: meal.description,
-      createdAt: meal.createdAt,
-      likes: meal.likes,
-      imageUrl: meal.imageUrl,
-    },
-  });
+      error: err,
+    });
+
+    // Rethrow for caller to handle
+    throw new Error(`Failed to index meal ${meal.mealId}: ${err.message}`);
+  }
 }

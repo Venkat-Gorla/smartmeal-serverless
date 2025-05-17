@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { indexMeal } from "../indexer.js";
 
 const indexMock = vi.fn();
@@ -12,12 +12,19 @@ vi.mock("../client.js", () => ({
 }));
 
 describe("indexMeal", () => {
+  let consoleErrorSpy;
+
   beforeEach(() => {
     vi.clearAllMocks();
+    consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   it("indexes a meal successfully", async () => {
-    indexMock.mockResolvedValueOnce({ result: "created" });
+    indexMock.mockResolvedValueOnce({ body: { result: "created" } });
 
     const meal = {
       mealId: "meal-123",
@@ -36,17 +43,26 @@ describe("indexMeal", () => {
       id: "meal-123",
       body: meal,
     });
+
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 
   it("handles index failure", async () => {
-    indexMock.mockRejectedValueOnce(new Error("Index failed"));
+    indexMock.mockResolvedValueOnce({ body: { result: "noop" } });
 
     const meal = {
-      id: "meal-err",
+      mealId: "meal-err",
       title: "Broken Dish",
       createdAt: "2025-05-16T09:00:00Z",
     };
 
-    await expect(indexMeal(meal)).rejects.toThrow("Index failed");
+    await expect(indexMeal(meal)).rejects.toThrow(
+      /Unexpected OpenSearch result/
+    );
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Failed to index meal",
+      expect.any(Object)
+    );
   });
 });
