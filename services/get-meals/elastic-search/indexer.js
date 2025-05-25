@@ -1,6 +1,5 @@
 import createClient from "./client.js";
-
-const MEALS_INDEX = "meals-index";
+import { MEALS_INDEX } from "./constants.js";
 
 /**
  * Index a meal document into OpenSearch.
