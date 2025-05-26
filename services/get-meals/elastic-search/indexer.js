@@ -21,7 +21,7 @@ export async function indexMeal(meal) {
         description: meal.description,
         createdAt: meal.createdAt,
         likes: meal.likes,
-        imageUrl: meal.imageUrl,
+        // imageUrl removed for privacy
       },
     });
 

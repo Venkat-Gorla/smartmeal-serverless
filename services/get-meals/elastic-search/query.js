@@ -14,7 +14,6 @@ const ALLOWED_SORT_FIELDS = ["createdAt", "likes"];
  * @returns {Promise<Object>} Paginated meals
  */
 // vegorla error handling
-// remove imageUrl from the indexer
 export async function getMeals({
   page = 1,
   pageSize = 10,

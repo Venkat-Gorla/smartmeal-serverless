@@ -38,10 +38,13 @@ describe("indexMeal", () => {
 
     await indexMeal(meal);
 
+    const { imageUrl, ...indexedMeal } = meal;
+
+    // Verify the indexed meal does not include imageUrl
     expect(indexMock).toHaveBeenCalledWith({
       index: "meals-index",
       id: "meal-123",
-      body: meal,
+      body: indexedMeal,
     });
 
     expect(consoleErrorSpy).not.toHaveBeenCalled();
