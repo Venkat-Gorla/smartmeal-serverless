@@ -12,24 +12,33 @@ import { Client } from "@opensearch-project/opensearch";
 const AWS_REGION = "us-east-1";
 
 const createClient = () => {
-  const signer = createAwsSigv4Signer({
-    region: AWS_REGION,
-    service: "es",
-    getCredentials: defaultProvider(),
-  });
+  if (!process.env.OPENSEARCH_ENDPOINT) {
+    throw new Error("OPENSEARCH_ENDPOINT environment variable is not set");
+  }
 
   // vegorla can the endpoint be internal? Calling code will be our Lambda
   const DOMAIN_ENDPOINT = process.env.OPENSEARCH_ENDPOINT; // e.g. https://search-my-domain.us-east-1.es.amazonaws.com
 
-  return new Client({
-    ...signer,
-    node: DOMAIN_ENDPOINT,
-    Connection: AwsSigv4Connection,
-    Transport: {
-      requestTimeout: 3000,
-      agent: new NodeHttpHandler(),
-    },
-  });
+  try {
+    const signer = createAwsSigv4Signer({
+      region: AWS_REGION,
+      service: "es",
+      getCredentials: defaultProvider(),
+    });
+
+    return new Client({
+      ...signer,
+      node: DOMAIN_ENDPOINT,
+      Connection: AwsSigv4Connection,
+      Transport: {
+        requestTimeout: 3000,
+        agent: new NodeHttpHandler(),
+      },
+    });
+  } catch (error) {
+    console.error("Error creating OpenSearch client:", error);
+    throw error;
+  }
 };
 
 export default createClient;

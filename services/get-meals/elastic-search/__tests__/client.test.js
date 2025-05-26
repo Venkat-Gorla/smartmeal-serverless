@@ -44,7 +44,7 @@ vi.mock("@opensearch-project/opensearch", () => ({
 
 describe("createClient", () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.clearAllMocks(); // reset call history without removing the mocks themselves
   });
 
   it("creates a client with correct signer and config", () => {
@@ -67,5 +67,13 @@ describe("createClient", () => {
     });
 
     expect(result).toEqual({ client: "mockClient" });
+  });
+
+  it("throws if OPENSEARCH_ENDPOINT is not set", () => {
+    vi.unstubAllEnvs(); // clear all stubbed env vars
+
+    expect(() => createClient()).toThrow(
+      "OPENSEARCH_ENDPOINT environment variable is not set"
+    );
   });
 });
