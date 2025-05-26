@@ -38,16 +38,7 @@ export async function getMeals({
 
   const es = createClient();
   const from = (page - 1) * pageSize;
-
-  const query = {
-    bool: {
-      must: [],
-    },
-  };
-
-  if (userId) {
-    query.bool.must.push({ term: { userId } });
-  }
+  const query = buildMealQuery(userId);
 
   const response = await es.search({
     index: MEALS_INDEX,
@@ -70,4 +61,18 @@ export async function getMeals({
     page,
     pageSize,
   };
+}
+
+function buildMealQuery(userId) {
+  const query = {
+    bool: {
+      must: [],
+    },
+  };
+
+  if (userId) {
+    query.bool.must.push({ term: { userId } });
+  }
+
+  return query;
 }
