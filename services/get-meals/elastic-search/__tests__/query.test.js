@@ -52,6 +52,24 @@ describe("getMeals", () => {
     expect(result.pageSize).toBe(pageSize);
   });
 
+  it("returns empty result when no meals match", async () => {
+    searchMock.mockResolvedValue({
+      body: {
+        hits: {
+          hits: [],
+          total: { value: 0 },
+        },
+      },
+    });
+
+    const result = await getMeals({ page: 1, pageSize: 10 });
+
+    expect(result.meals).toEqual([]);
+    expect(result.total).toBe(0);
+    expect(result.page).toBe(1);
+    expect(result.pageSize).toBe(10);
+  });
+
   it("throws on invalid page or pageSize", async () => {
     await expect(() => getMeals({ page: 0 })).rejects.toThrow();
     await expect(() => getMeals({ pageSize: 0 })).rejects.toThrow();
@@ -104,5 +122,10 @@ describe("getMeals", () => {
         },
       })
     );
+  });
+
+  it("throws if search fails", async () => {
+    searchMock.mockRejectedValue(new Error("Search failed"));
+    await expect(() => getMeals()).rejects.toThrow("Search failed");
   });
 });
