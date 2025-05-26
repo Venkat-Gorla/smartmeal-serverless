@@ -13,7 +13,6 @@ const ALLOWED_SORT_FIELDS = ["createdAt", "likes"];
  * @param {string} [options.sortOrder='desc'] - Sort order ('asc' or 'desc')
  * @returns {Promise<Object>} Paginated meals
  */
-// vegorla error handling
 export async function getMeals({
   page = 1,
   pageSize = 10,
@@ -33,6 +32,10 @@ export async function getMeals({
     throw new Error(
       `Invalid sortBy: must be one of ${ALLOWED_SORT_FIELDS.join(", ")}`
     );
+  }
+
+  if (userId && (typeof userId !== "string" || userId.trim() === "")) {
+    throw new Error("Invalid userId: must be a non-empty string");
   }
 
   const es = createClient();
