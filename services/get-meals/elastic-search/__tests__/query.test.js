@@ -41,8 +41,15 @@ describe("getMeals", () => {
         index: expect.any(String),
         from: 0,
         size: pageSize,
-        sort: [{ createdAt: { order: "desc" } }],
         _source: { excludes: ["imageUrl"] },
+        body: {
+          query: {
+            bool: {
+              must: [],
+            },
+          },
+          sort: [{ createdAt: { order: "desc" } }],
+        },
       })
     );
 
@@ -116,9 +123,10 @@ describe("getMeals", () => {
         body: {
           query: {
             bool: {
-              must: [{ term: { userId: "user-1" } }],
+              must: [{ term: { "userId.keyword": "user-1" } }],
             },
           },
+          sort: [{ createdAt: { order: "desc" } }],
         },
       })
     );
