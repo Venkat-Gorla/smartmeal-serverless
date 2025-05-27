@@ -1,10 +1,17 @@
+# Node.js
 node_modules/
-*.zip
-.env
-.DS_Store
-
-*.swp
-pending.txt
-zip-delete
 package-lock.json
 
+# OS/filesystem
+.DS_Store
+*.swp
+
+# Environment
+.env
+setup_env.cmd
+
+# Archives/Temp
+*.zip
+zip-delete
+pending.txt
+result.log

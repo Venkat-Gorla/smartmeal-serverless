@@ -11,6 +11,8 @@
   "description": "",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.808.0",
-    "@aws-sdk/util-dynamodb": "^3.808.0"
+    "@aws-sdk/credential-provider-node": "^3.817.0",
+    "@aws-sdk/util-dynamodb": "^3.808.0",
+    "@opensearch-project/opensearch": "^3.5.1"
   }
 }

@@ -42,21 +42,24 @@ export async function getMeals({
   const from = (page - 1) * pageSize;
   const query = buildMealQuery(userId);
 
+  // vegorla: validate response before return, check with Git copilot
+  // auto-log available fields/types if queries return 0 results (for future debugging)
   const response = await es.search({
     index: MEALS_INDEX,
     from,
     size: pageSize,
-    sort: [{ [sortBy]: { order: sortOrder } }],
     _source: {
       excludes: ["imageUrl"],
     },
     body: {
       query,
+      sort: [{ [sortBy]: { order: sortOrder } }],
     },
   });
 
   const hits = response.body.hits.hits;
 
+  // vegorla: pagination metadata (has next, prev) should be added to the response
   return {
     meals: hits.map((hit) => hit._source),
     total: response.body.hits.total.value,
@@ -66,15 +69,9 @@ export async function getMeals({
 }
 
 function buildMealQuery(userId) {
-  const query = {
-    bool: {
-      must: [],
-    },
-  };
-
+  const query = { bool: { must: [] } };
   if (userId) {
-    query.bool.must.push({ term: { userId } });
+    query.bool.must.push({ term: { "userId.keyword": userId } });
   }
-
   return query;
 }
