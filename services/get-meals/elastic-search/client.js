@@ -42,10 +42,7 @@ const createClient = () => {
     region: AWS_REGION,
     // vegorla: "service" will be something else in case of server-less search, followup
     service: "es",
-    getCredentials: () => {
-      const credentialsProvider = defaultProvider();
-      return credentialsProvider();
-    },
+    getCredentials: defaultProvider(),
   });
 
   return new Client({
