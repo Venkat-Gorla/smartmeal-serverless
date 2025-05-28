@@ -58,13 +58,18 @@ export async function getMeals({
   });
 
   const hits = response.body.hits.hits;
+  const totalRaw = response.body.hits.total;
+  const total = typeof totalRaw === "number" ? totalRaw : totalRaw?.value ?? 0;
+  const totalPages = Math.ceil(total / pageSize);
 
-  // vegorla: pagination metadata (has next, prev) should be added to the response
   return {
     meals: hits.map((hit) => hit._source),
-    total: response.body.hits.total.value,
+    total,
     page,
     pageSize,
+    totalPages,
+    hasNext: page < totalPages,
+    hasPrev: page > 1,
   };
 }
 

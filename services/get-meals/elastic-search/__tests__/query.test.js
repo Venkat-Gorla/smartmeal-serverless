@@ -57,6 +57,9 @@ describe("getMeals", () => {
     expect(result.total).toBe(2);
     expect(result.page).toBe(page);
     expect(result.pageSize).toBe(pageSize);
+    expect(result.totalPages).toBe(Math.ceil(result.total / pageSize));
+    expect(result.hasNext).toBe(false);
+    expect(result.hasPrev).toBe(false);
   });
 
   it("returns empty result when no meals match", async () => {
