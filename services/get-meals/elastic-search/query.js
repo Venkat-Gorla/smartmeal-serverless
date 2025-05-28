@@ -20,23 +20,7 @@ export async function getMeals({
   sortBy = "createdAt",
   sortOrder = "desc",
 } = {}) {
-  if (page < 1 || pageSize < 1) {
-    throw new Error("Invalid pagination: page and pageSize must be >= 1");
-  }
-
-  if (!["asc", "desc"].includes(sortOrder)) {
-    throw new Error("Invalid sortOrder: must be 'asc' or 'desc'");
-  }
-
-  if (!ALLOWED_SORT_FIELDS.includes(sortBy)) {
-    throw new Error(
-      `Invalid sortBy: must be one of ${ALLOWED_SORT_FIELDS.join(", ")}`
-    );
-  }
-
-  if (userId && (typeof userId !== "string" || userId.trim() === "")) {
-    throw new Error("Invalid userId: must be a non-empty string");
-  }
+  validateInput({ page, pageSize, userId, sortBy, sortOrder });
 
   const es = createClient();
   const from = (page - 1) * pageSize;
@@ -57,6 +41,40 @@ export async function getMeals({
     },
   });
 
+  return createResponse(page, pageSize, response);
+}
+
+function validateInput(options) {
+  const { page, pageSize, userId, sortBy, sortOrder } = options;
+
+  if (page < 1 || pageSize < 1) {
+    throw new Error("Invalid pagination: page and pageSize must be >= 1");
+  }
+
+  if (!["asc", "desc"].includes(sortOrder)) {
+    throw new Error("Invalid sortOrder: must be 'asc' or 'desc'");
+  }
+
+  if (!ALLOWED_SORT_FIELDS.includes(sortBy)) {
+    throw new Error(
+      `Invalid sortBy: must be one of ${ALLOWED_SORT_FIELDS.join(", ")}`
+    );
+  }
+
+  if (userId && (typeof userId !== "string" || userId.trim() === "")) {
+    throw new Error("Invalid userId: must be a non-empty string");
+  }
+}
+
+function buildMealQuery(userId) {
+  const query = { bool: { must: [] } };
+  if (userId) {
+    query.bool.must.push({ term: { "userId.keyword": userId } });
+  }
+  return query;
+}
+
+function createResponse(page, pageSize, response) {
   const hits = response.body.hits.hits;
   const totalRaw = response.body.hits.total;
   const total = typeof totalRaw === "number" ? totalRaw : totalRaw?.value ?? 0;
@@ -71,12 +89,4 @@ export async function getMeals({
     hasNext: page < totalPages,
     hasPrev: page > 1,
   };
-}
-
-function buildMealQuery(userId) {
-  const query = { bool: { must: [] } };
-  if (userId) {
-    query.bool.must.push({ term: { "userId.keyword": userId } });
-  }
-  return query;
 }
