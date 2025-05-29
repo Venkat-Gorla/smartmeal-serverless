@@ -29,7 +29,7 @@ async function indexMeals() {
       imageUrl: `https://skip.com/${i}.jpg`, // ignored
     });
   }
-  console.log(`Indexed ${totalMeals} meals`);
+  success(`Indexed ${totalMeals} meals`);
 }
 
 async function queryMeals() {
@@ -37,10 +37,12 @@ async function queryMeals() {
   const pageSize = 2;
   let currentPage;
   let page1 = null;
+  const allTimestamps = [];
 
   do {
     currentPage = await getMeals({ userId, page, pageSize });
-    processCurrentPage(currentPage);
+    const timestamps = processCurrentPage(currentPage);
+    allTimestamps.push(...timestamps);
 
     if (page === 1) {
       page1 = currentPage;
@@ -49,7 +51,10 @@ async function queryMeals() {
   } while (currentPage.hasNext);
 
   validateFirstPage(page1, pageSize);
-  console.log("\nRequired assertions passed, end of integration test!");
+  validateSorted(allTimestamps);
+  success(
+    "\nRequired assertions and sort validation passed, end of integration test!"
+  );
 }
 
 function processCurrentPage(currentPage) {
@@ -57,6 +62,7 @@ function processCurrentPage(currentPage) {
     `\nPrinting page number ${currentPage.page}:`,
     JSON.stringify(currentPage, null, 2)
   );
+  return currentPage.meals.map((meal) => meal.createdAt);
 }
 
 function validateFirstPage(page1, pageSize) {
@@ -67,6 +73,22 @@ function validateFirstPage(page1, pageSize) {
   assert(page1.hasPrev === false, "Expected hasPrev false on page 1");
 }
 
+function validateSorted(timestamps) {
+  assert(timestamps.every(Boolean), "Some timestamps are null or undefined");
+  const isSorted = timestamps.every(
+    (val, i, arr) => i === 0 || val <= arr[i - 1]
+  );
+  assert(isSorted, "Timestamps are not sorted in descending order");
+}
+
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+function success(msg) {
+  console.log("\x1b[32m%s\x1b[0m", msg); // green
+}
+
+function error(msg) {
+  console.error("\x1b[31m%s\x1b[0m", msg); // red
 }
