@@ -80,31 +80,37 @@ describe("getMeals", () => {
     expect(result.pageSize).toBe(10);
   });
 
+  it("throws if 'page' is missing", async () => {
+    await expect(() => getMeals({})).rejects.toThrow(
+      "Invalid or missing 'page'"
+    );
+  });
+
   it("throws on invalid page or pageSize", async () => {
     await expect(() => getMeals({ page: 0 })).rejects.toThrow();
     await expect(() => getMeals({ pageSize: 0 })).rejects.toThrow();
   });
 
   it("throws on invalid sortOrder", async () => {
-    await expect(() => getMeals({ sortOrder: "bad" })).rejects.toThrow(
+    await expect(() => getMeals({ page: 1, sortOrder: "bad" })).rejects.toThrow(
       "Invalid sortOrder"
     );
   });
 
   it("throws on invalid sortBy", async () => {
-    await expect(() => getMeals({ sortBy: "random" })).rejects.toThrow(
+    await expect(() => getMeals({ page: 1, sortBy: "random" })).rejects.toThrow(
       "Invalid sortBy"
     );
   });
 
   it("throws on invalid userId (number)", async () => {
-    await expect(() => getMeals({ userId: 123 })).rejects.toThrow(
+    await expect(() => getMeals({ page: 1, userId: 123 })).rejects.toThrow(
       "Invalid userId"
     );
   });
 
   it("throws on invalid userId (empty)", async () => {
-    await expect(() => getMeals({ userId: "   " })).rejects.toThrow(
+    await expect(() => getMeals({ page: 1, userId: "   " })).rejects.toThrow(
       "Invalid userId"
     );
   });
@@ -119,7 +125,7 @@ describe("getMeals", () => {
       },
     });
 
-    await getMeals({ userId: "user-1" });
+    await getMeals({ page: 1, userId: "user-1" });
 
     expect(searchMock).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -137,6 +143,6 @@ describe("getMeals", () => {
 
   it("throws if search fails", async () => {
     searchMock.mockRejectedValue(new Error("Search failed"));
-    await expect(() => getMeals()).rejects.toThrow("Search failed");
+    await expect(() => getMeals({ page: 1 })).rejects.toThrow("Search failed");
   });
 });
