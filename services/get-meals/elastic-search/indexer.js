@@ -10,7 +10,7 @@ import { MEALS_INDEX } from "./constants.js";
 export async function indexMeal(meal) {
   const es = createClient();
 
-  // vegorla: if the index doesn't exist, you can do some bootstrapping
+  // if the index doesn't exist, you can do some bootstrapping
   // to create the correct field mappings etc.
   // this will prevent bugs and unexpected behavior when doing query
   try {

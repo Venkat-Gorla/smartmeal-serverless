@@ -1,30 +1,9 @@
-// This file is responsible for creating an OpenSearch client using AWS credentials.
-// It uses the AWS SDK to sign requests and the OpenSearch client to interact with the OpenSearch service.
-// The client is configured to use the OpenSearch endpoint specified in environment variables.
-
-// vegorla: review and remove commented code
-// const createClient = () => {
-//   try {
-//     const signer = createAwsSigv4Signer({
-//       region: AWS_REGION,
-//       service: "es",
-//       getCredentials: defaultProvider(),
-//     });
-
-//     return new Client({
-//       ...signer,
-//       node: DOMAIN_ENDPOINT,
-//       Connection: AwsSigv4Connection,
-//       Transport: {
-//         requestTimeout: 3000,
-//         agent: new NodeHttpHandler(),
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Error creating OpenSearch client:", error);
-//     throw error;
-//   }
-// };
+// - This file is responsible for creating an OpenSearch client using
+//   AWS credentials.
+// - It uses the AWS SDK to sign requests and the OpenSearch client to
+//   interact with the OpenSearch service.
+// - The client is configured to use the OpenSearch endpoint specified
+//   in environment variables.
 
 import { defaultProvider } from "@aws-sdk/credential-provider-node";
 import { Client } from "@opensearch-project/opensearch";
@@ -39,16 +18,21 @@ const createClient = () => {
     throw new Error("OPENSEARCH_ENDPOINT environment variable is not set");
   }
 
-  const signer = AwsSigv4Signer({
-    region: AWS_REGION,
-    service: "es", // managed open-search domain
-    getCredentials: defaultProvider(),
-  });
+  try {
+    const signer = AwsSigv4Signer({
+      region: AWS_REGION,
+      service: "es", // managed open-search domain
+      getCredentials: defaultProvider(),
+    });
 
-  return new Client({
-    node: DOMAIN_ENDPOINT,
-    ...signer,
-  });
+    return new Client({
+      node: DOMAIN_ENDPOINT,
+      ...signer,
+    });
+  } catch (error) {
+    console.error("Error creating OpenSearch client:", error);
+    throw error;
+  }
 };
 
 export default createClient;
