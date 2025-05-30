@@ -19,10 +19,28 @@ const tableName = process.env.MEALS_TABLE;
 const mealId = "df5d96f3-5e2b-4a55-b51f-9533e8b1a1c5"; // hard-coded
 const userId = "user-int";
 
-// vegorla can change to anonymous function
-// check unneeded logs
 const run = async () => {
+  console.log(`Running integration test for mealId: ${mealId}`);
+
   // Step 1: Create
+  await createRecord();
+
+  console.log("Waiting 1s for stream...");
+  await new Promise((r) => setTimeout(r, 1000));
+
+  // Step 2: Modify
+  await modifyRecord();
+
+  // Step 3 (Optional): Delete
+  const DELETE_AFTER_TEST = false;
+  if (DELETE_AFTER_TEST) {
+    await deleteRecord();
+  }
+};
+
+run().catch((err) => console.error("Test failed:", err));
+
+async function createRecord() {
   console.log("Creating test meal...");
   await client.send(
     new PutItemCommand({
@@ -38,11 +56,9 @@ const run = async () => {
       },
     })
   );
+}
 
-  console.log("Waiting 1s for stream...");
-  await new Promise((r) => setTimeout(r, 1000));
-
-  // Step 2: Modify
+async function modifyRecord() {
   console.log("Updating title...");
   await client.send(
     new UpdateItemCommand({
@@ -54,20 +70,15 @@ const run = async () => {
   );
 
   console.log("Modify done. Check Lambda logs...");
+}
 
-  // Step 3 (Optional): Delete
-  const DELETE_AFTER_TEST = false;
-
-  if (DELETE_AFTER_TEST) {
-    console.log("Deleting test record...");
-    await client.send(
-      new DeleteItemCommand({
-        TableName: tableName,
-        Key: { mealId: { S: mealId } },
-      })
-    );
-    console.log("Deleted.");
-  }
-};
-
-run().catch((err) => console.error("Test failed:", err));
+async function deleteRecord() {
+  console.log("Deleting test record...");
+  await client.send(
+    new DeleteItemCommand({
+      TableName: tableName,
+      Key: { mealId: { S: mealId } },
+    })
+  );
+  console.log("Deleted.");
+}
