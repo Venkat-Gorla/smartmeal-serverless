@@ -3,7 +3,7 @@ const { unmarshall } = utilDynamo;
 
 // verified to be working
 // - pending: es indexer, dynamo integration test to create and modify a record
-//   that will trigger this code path
+//   that will trigger this code path, mock based unit tests
 export const handler = async (event) => {
   console.log("[DynamoDB Stream] Received event:", JSON.stringify(event));
 
