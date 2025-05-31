@@ -3,11 +3,11 @@
 // for error handling on invalid inputs.
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getMeals } from "../query.js";
+import { getMeals } from "../../elastic-search/query.js";
 
 const searchMock = vi.fn();
 
-vi.mock("../client.js", () => ({
+vi.mock("../../elastic-search/client.js", () => ({
   default: () => ({
     search: searchMock,
   }),

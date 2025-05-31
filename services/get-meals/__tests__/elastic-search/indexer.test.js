@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { indexMeal } from "../indexer.js";
+import { indexMeal } from "../../elastic-search/indexer.js";
 
 const indexMock = vi.fn();
 
 // Mock client.js
-vi.mock("../client.js", () => ({
+vi.mock("../../elastic-search/client.js", () => ({
   default: () => ({
     index: indexMock,
   }),

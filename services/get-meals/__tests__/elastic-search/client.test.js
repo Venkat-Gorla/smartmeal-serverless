@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import createClient from "../client.js";
+import createClient from "../../elastic-search/client.js";
 import { AwsSigv4Signer } from "@opensearch-project/opensearch/aws";
 import { Client } from "@opensearch-project/opensearch";
 
