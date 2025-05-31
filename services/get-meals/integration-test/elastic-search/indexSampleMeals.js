@@ -4,8 +4,8 @@
 // Note: this code can be migrated to a Lambda that is deployed inside
 // the same VPC as open-search, so OS will have internal access only
 
-import { indexMeal } from "../indexer.js";
-import { getMeals } from "../query.js";
+import { indexMeal } from "../../elastic-search/indexer.js";
+import { getMeals } from "../../elastic-search/query.js";
 
 const userId = "user-int";
 const now = new Date();
