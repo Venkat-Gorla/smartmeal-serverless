@@ -26,12 +26,11 @@ const mockMeal = {
   likes: 0,
 };
 
-// vegorla: can we use mockMeal inside the record?
 const mockEvent = {
   Records: [
     {
       eventName: "INSERT",
-      dynamodb: { NewImage: { dummy: "value" } },
+      dynamodb: { NewImage: mockMeal },
     },
   ],
 };
@@ -50,12 +49,12 @@ describe("Lambda indexer handler", () => {
   });
 
   it("should index meal successfully and log expected output", async () => {
-    unmarshall.mockReturnValueOnce(mockMeal);
+    unmarshall.mockImplementation((input) => input);
     indexMeal.mockResolvedValueOnce();
 
     await handler(mockEvent);
 
-    expect(unmarshall).toHaveBeenCalledWith({ dummy: "value" });
+    expect(unmarshall).toHaveBeenCalledWith(mockMeal);
     expect(indexMeal).toHaveBeenCalledWith(mockMeal);
     expect(logSpy).toHaveBeenCalledWith(
       `Successfully indexed meal ${mockMeal.mealId}`
@@ -64,12 +63,12 @@ describe("Lambda indexer handler", () => {
 
   it("should log error if indexing fails", async () => {
     const error = new Error("index failed");
-    unmarshall.mockReturnValueOnce(mockMeal);
+    unmarshall.mockImplementation((input) => input);
     indexMeal.mockRejectedValueOnce(error);
 
     await handler(mockEvent);
 
-    expect(unmarshall).toHaveBeenCalledWith({ dummy: "value" });
+    expect(unmarshall).toHaveBeenCalledWith(mockMeal);
     expect(indexMeal).toHaveBeenCalledWith(mockMeal);
     expect(errorSpy).toHaveBeenCalledWith(
       `Failed to index meal ${mockMeal.mealId}:`,
