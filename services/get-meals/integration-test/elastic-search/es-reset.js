@@ -12,8 +12,29 @@
 //   on a match_all query.
 
 import createClient from "../../elastic-search/client.js";
+import { getMeals } from "../../elastic-search/query.js";
 import { MEALS_INDEX } from "../../elastic-search/constants.js";
 import process from "process";
+
+async function queryAllFromIndex() {
+  let page = 1;
+  const pageSize = 20;
+  let currentPage = await getMeals({ page, pageSize });
+
+  while (currentPage.meals.length > 0) {
+    processCurrentPage(currentPage);
+    page++;
+    if (!currentPage.hasNext) break;
+    currentPage = await getMeals({ page, pageSize });
+  }
+}
+
+function processCurrentPage(currentPage) {
+  console.log(
+    `\nPrinting page number ${currentPage.page}:`,
+    JSON.stringify(currentPage, null, 2)
+  );
+}
 
 async function deleteAllFromIndex(dryRun = false) {
   const client = createClient();
@@ -64,19 +85,25 @@ async function main() {
   const [, , ...args] = process.argv;
   // const indexArg = args.find((arg) => arg.startsWith("--index="));
   const flags = new Set(args);
+  const queryFlag = flags.has("--query");
   const deleteFlag = flags.has("--delete");
   const dryRunFlag = flags.has("--dry-run");
+  // can have "--summary" flag to log only counts, not full page data
 
-  if (!deleteFlag) {
+  if (!queryFlag && !deleteFlag) {
     console.error(
       // "Usage: node es-reset.js --delete --index=my-index-name [--dry-run]"
-      "Usage: node es-reset.js --delete [--dry-run]"
+      "Usage: node es-reset.js --query --delete [--dry-run]"
     );
     process.exit(1);
   }
 
   // const indexName = indexArg.split("=")[1];
-  await deleteAllFromIndex(dryRunFlag);
+  if (queryFlag) {
+    await queryAllFromIndex();
+  } else if (deleteFlag) {
+    await deleteAllFromIndex(dryRunFlag);
+  }
 }
 
 main();
