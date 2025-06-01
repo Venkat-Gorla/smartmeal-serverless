@@ -4,7 +4,7 @@ import path from "path";
 export default defineConfig({
   resolve: {
     alias: {
-      "@test": path.resolve(__dirname, "test"),
+      "@test": path.resolve(__dirname, "services/test"),
     },
   },
   test: {
