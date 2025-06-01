@@ -68,6 +68,7 @@ describe("handleMealUploadedEvent (internal function)", () => {
     await expect(handleMealUploadedEvent(event.detail)).rejects.toThrow(
       "DDB fail"
     );
+    expect(marshall).toHaveBeenCalledTimes(1);
     expect(mockSend).toHaveBeenCalledTimes(1);
   });
 });

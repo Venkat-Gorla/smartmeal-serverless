@@ -5,8 +5,6 @@ const { unmarshall } = utilDynamo;
 /**
  * Lambda handler for DynamoDB Stream to OpenSearch indexer.
  */
-// - vegorla: mock based unit tests
-// - script to remove unwanted documents from es
 export const handler = async (event) => {
   console.log("[DynamoDB Stream] Received event:", JSON.stringify(event));
 
