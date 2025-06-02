@@ -8,11 +8,14 @@
   "keywords": [],
   "author": "VG",
   "license": "ISC",
-  "description": "",
+  "description": "Lambda function and CLI tools for get-meals API (Dynamo + OpenSearch)",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.808.0",
     "@aws-sdk/credential-provider-node": "^3.817.0",
     "@aws-sdk/util-dynamodb": "^3.808.0",
     "@opensearch-project/opensearch": "^3.5.1"
+  },
+  "devDependencies": {
+    "commander": "^14.0.0"
   }
 }
