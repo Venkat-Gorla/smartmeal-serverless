@@ -12,6 +12,7 @@ import { getMeals } from "../elastic-search/query.js";
 export const handler = async (event) => {
   try {
     const params = event.queryStringParameters || {};
+    console.log("[getMeals API] Params:", params);
 
     const page = parseInt(params.page, 10);
     if (!page || page < 1) {
@@ -36,10 +37,8 @@ export const handler = async (event) => {
     return {
       statusCode: 200,
       body: JSON.stringify(result),
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:3000", // vegorla TODO: restrict origin for prod
-      },
+      headers: getHeaders(),
+      isBase64Encoded: false,
     };
   } catch (err) {
     console.error("[getMeals API] Error:", err);
@@ -47,10 +46,15 @@ export const handler = async (event) => {
     return {
       statusCode: 400,
       body: JSON.stringify({ error: err.message }),
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost:3000", // TODO: restrict origin for prod
-      },
+      headers: getHeaders(),
+      isBase64Encoded: false,
     };
   }
 };
+
+function getHeaders() {
+  return {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "http://localhost:3000", // vegorla TODO: restrict origin for prod
+  };
+}
