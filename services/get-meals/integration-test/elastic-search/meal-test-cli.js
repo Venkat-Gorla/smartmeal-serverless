@@ -27,13 +27,12 @@ program
   .parse(process.argv);
 
 const options = program.opts();
-let insertedMealIds = [];
 
 (async () => {
   if (options.insert) {
-    await insertMeals(options.insert);
+    const insertedMealIds = await insertMeals(options.insert);
     if (options.delete) {
-      await deleteMeals();
+      await deleteMeals(insertedMealIds);
     }
   } else {
     console.log("Nothing to do. Use --insert <number> [--delete]");
@@ -42,13 +41,14 @@ let insertedMealIds = [];
 
 async function insertMeals(n) {
   const batches = [];
+  const insertedMealIds = [];
   for (let i = 0; i < n; i += 25) {
     batches.push(
       client.send(
         new BatchWriteItemCommand({
           RequestItems: {
             [TABLE_NAME]: Array.from({ length: Math.min(25, n - i) }, (_, j) =>
-              generateMeal(i + j)
+              generateMeal(i + j, insertedMealIds)
             ),
           },
         })
@@ -57,9 +57,11 @@ async function insertMeals(n) {
   }
   await Promise.all(batches);
   console.log(`Inserted ${n} meal records.`);
+
+  return insertedMealIds;
 }
 
-function generateMeal(index) {
+function generateMeal(index, insertedMealIds) {
   const mealId = `meal-${String(index + 1).padStart(3, "0")}`; // meal-001, meal-002
   insertedMealIds.push(mealId);
   return {
@@ -79,7 +81,7 @@ function generateMeal(index) {
   };
 }
 
-async function deleteMeals() {
+async function deleteMeals(insertedMealIds) {
   const batches = [];
   for (let i = 0; i < insertedMealIds.length; i += 25) {
     const keys = insertedMealIds.slice(i, i + 25).map((mealId) => ({
