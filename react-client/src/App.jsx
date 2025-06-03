@@ -11,8 +11,8 @@ import MealCard from "./components/MealCard";
 
 export default function App() {
   return (
-    <div className="container py-4">
-      <h1 className="mb-4 text-center text-secondary">Smart Meals</h1>
+    <div className="container py-4 bg-dark">
+      <h1 className="mb-4 text-center text-info">Smart Meals</h1>
       <div className="row g-4">
         {dummyMeals.map((meal) => (
           <div key={meal.id} className="col-sm-6 col-md-4 col-lg-3">
@@ -24,6 +24,7 @@ export default function App() {
   );
 }
 
+// vegorla: can we extend this data and implement/ test infinite scrolling?
 // Dummy data (normally imported from a JSON file or API)
 const dummyMeals = [
   {
