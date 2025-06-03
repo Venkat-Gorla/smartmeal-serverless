@@ -29,25 +29,16 @@ program
 const options = program.opts();
 let insertedMealIds = [];
 
-function generateMeal(index) {
-  const mealId = `meal-${String(index + 1).padStart(3, "0")}`; // meal-001, meal-002
-  insertedMealIds.push(mealId);
-  return {
-    PutRequest: {
-      Item: {
-        mealId: { S: mealId },
-        userId: { S: userId },
-        title: { S: `title-${index + 1}` },
-        description: { S: `description-${index + 1}` },
-        createdAt: {
-          S: new Date(now.getTime() + (index + 1) * 1000).toISOString(),
-        },
-        likes: { N: "0" },
-        imageUrl: { S: "https://example.com/int-meal.jpg" },
-      },
-    },
-  };
-}
+(async () => {
+  if (options.insert) {
+    await insertMeals(options.insert);
+    if (options.delete) {
+      await deleteMeals();
+    }
+  } else {
+    console.log("Nothing to do. Use --insert <number> [--delete]");
+  }
+})();
 
 async function insertMeals(n) {
   const batches = [];
@@ -66,6 +57,26 @@ async function insertMeals(n) {
   }
   await Promise.all(batches);
   console.log(`Inserted ${n} meal records.`);
+}
+
+function generateMeal(index) {
+  const mealId = `meal-${String(index + 1).padStart(3, "0")}`; // meal-001, meal-002
+  insertedMealIds.push(mealId);
+  return {
+    PutRequest: {
+      Item: {
+        mealId: { S: mealId },
+        userId: { S: userId },
+        title: { S: `title-${index + 1}` },
+        description: { S: `description-${index + 1}` },
+        createdAt: {
+          S: new Date(now.getTime() + (index + 1) * 1000).toISOString(),
+        },
+        likes: { N: "0" },
+        imageUrl: { S: "https://example.com/int-meal.jpg" },
+      },
+    },
+  };
 }
 
 async function deleteMeals() {
@@ -88,14 +99,3 @@ async function deleteMeals() {
   await Promise.all(batches);
   console.log(`Deleted ${insertedMealIds.length} meal records.`);
 }
-
-(async () => {
-  if (options.insert) {
-    await insertMeals(options.insert);
-    if (options.delete) {
-      await deleteMeals();
-    }
-  } else {
-    console.log("Nothing to do. Use --insert <number> [--delete]");
-  }
-})();
