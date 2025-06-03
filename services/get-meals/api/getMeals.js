@@ -8,7 +8,6 @@ import { getMeals } from "../elastic-search/query.js";
 /**
  * API Gateway Lambda handler for GET /meals
  */
-// vegorla pending: unit tests
 export const handler = async (event) => {
   try {
     const params = event.queryStringParameters || {};
