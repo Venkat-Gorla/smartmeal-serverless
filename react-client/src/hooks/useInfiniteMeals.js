@@ -41,12 +41,13 @@ async function getMeals(page) {
   await new Promise((res) => setTimeout(res, 2000)); // simulate delay
 
   return Array.from({ length: end - start + 1 }, (_, i) => {
-    const id = start + i;
+    const id = `${Date.now()}-${i}`;
+    const index = start + i;
     return {
-      id, // vegorla: in strict mode, id is not unique and causes a warning
-      name: `Meal ${id}`,
+      id,
+      name: `Meal ${index}`,
       calories: 300 + Math.floor(Math.random() * 200),
-      image: images[id % images.length],
+      image: images[index % images.length],
     };
   });
 }
