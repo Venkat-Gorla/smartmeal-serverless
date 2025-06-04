@@ -26,9 +26,6 @@ export default function useInfiniteMeals() {
 }
 
 // vegorla: using this function to implement/test infinite scrolling.
-// - when doing back-end integration, we will likely need Loading spinner since it
-//   is expected to be slow.
-// - Enhance loading UI with Bootstrap spinner or skeleton cards
 // Mock paginated API - returns 10 meals per page
 async function getMeals(page) {
   const images = Array.from(

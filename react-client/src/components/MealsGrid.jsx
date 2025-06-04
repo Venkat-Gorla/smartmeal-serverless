@@ -16,7 +16,11 @@ export default function MealsGrid() {
       {/* vegorla: intersection observer */}
       <div className="text-center mt-4">
         {loading ? (
-          <div className="text-light">Loading...</div>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border text-info" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         ) : (
           hasMore && (
             <button className="btn btn-outline-info" onClick={loadMore}>
