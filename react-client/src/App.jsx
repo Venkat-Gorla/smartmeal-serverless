@@ -1,56 +1,58 @@
-// export default function App() {
-//   return (
-//     <div className="container mt-5 border">
-//       <h1 className="text-primary">Hello, Bootstrap!</h1>
-//       <p className="lead">Smart Meals is under construction...</p>
-//     </div>
-//   );
-// }
-
 import MealCard from "./components/MealCard";
+import { useState, useEffect } from "react";
 
 export default function App() {
+  const [meals, setMeals] = useState([]);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const newMeals = getMeals(page);
+    setMeals((prev) => [...prev, ...newMeals]);
+  }, [page]);
+
   return (
     <div className="container py-4 bg-dark">
       <h1 className="mb-4 text-center text-info">Smart Meals</h1>
       <div className="row g-4">
-        {dummyMeals.map((meal) => (
+        {meals.map((meal) => (
           <div key={meal.id} className="col-sm-6 col-md-4 col-lg-3">
             <MealCard meal={meal} />
           </div>
         ))}
       </div>
+      <div className="text-center mt-4">
+        {meals.length < 100 && (
+          <button
+            className="btn btn-outline-info"
+            onClick={() => setPage((p) => p + 1)}
+          >
+            Load More
+          </button>
+        )}
+      </div>
     </div>
   );
 }
 
-// vegorla: can we extend this data and implement/ test infinite scrolling?
-// Dummy data (normally imported from a JSON file or API)
-const dummyMeals = [
-  {
-    id: 1,
-    name: "Grilled Chicken Bowl",
-    // image: "https://via.placeholder.com/300.png",
-    image: "https://picsum.photos/200/200?random=1",
-    calories: 450,
-  },
-  {
-    id: 2,
-    name: "Tofu Stir Fry",
-    // image: "https://loremflickr.com/200/200/food",
-    image: "https://picsum.photos/200/200?random=2",
-    calories: 390,
-  },
-  {
-    id: 3,
-    name: "Quinoa Salad",
-    image: "https://picsum.photos/200/200?random=3",
-    calories: 320,
-  },
-  {
-    id: 4,
-    name: "Beef Burrito",
-    image: "https://picsum.photos/200/200?random=4",
-    calories: 500,
-  },
-];
+// vegorla: using this function to implement/test infinite scrolling.
+// - when doing back-end integration, we will likely need Loading spinner since it
+//   is expected to be slow.
+// Mock paginated API - returns 10 meals per page
+function getMeals(page) {
+  const images = Array.from(
+    { length: 20 },
+    (_, i) => `https://picsum.photos/200/200?random=${i + 1}`
+  );
+  const start = (page - 1) * 10 + 1;
+  const end = Math.min(start + 9, 100);
+
+  return Array.from({ length: end - start + 1 }, (_, i) => {
+    const id = start + i;
+    return {
+      id,
+      name: `Meal ${id}`,
+      calories: 300 + Math.floor(Math.random() * 200),
+      image: images[id % images.length],
+    };
+  });
+}
