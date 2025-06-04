@@ -3,10 +3,16 @@ import { useState, useEffect } from "react";
 export default function useInfiniteMeals() {
   const [meals, setMeals] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const newMeals = getMeals(page);
-    setMeals((prev) => [...prev, ...newMeals]);
+    setLoading(true);
+    getMeals(page).then((newMeals) => {
+      // TODO: prevent race conditions if page is incremented rapidly
+      // use react-query or request queueing for production apps
+      setMeals((prev) => [...prev, ...newMeals]);
+      setLoading(false);
+    });
   }, [page]);
 
   const loadMore = () => setPage((p) => p + 1);
@@ -15,15 +21,16 @@ export default function useInfiniteMeals() {
     meals,
     loadMore,
     hasMore: meals.length < 100,
+    loading,
   };
 }
 
 // vegorla: using this function to implement/test infinite scrolling.
 // - when doing back-end integration, we will likely need Loading spinner since it
 //   is expected to be slow.
-// - have fake delay in this function for server simulation.
+// - Enhance loading UI with Bootstrap spinner or skeleton cards
 // Mock paginated API - returns 10 meals per page
-function getMeals(page) {
+async function getMeals(page) {
   const images = Array.from(
     { length: 20 },
     (_, i) => `https://picsum.photos/200/200?random=${i + 1}`
@@ -31,10 +38,12 @@ function getMeals(page) {
   const start = (page - 1) * 10 + 1;
   const end = Math.min(start + 9, 100);
 
+  await new Promise((res) => setTimeout(res, 2000)); // simulate delay
+
   return Array.from({ length: end - start + 1 }, (_, i) => {
     const id = start + i;
     return {
-      id,
+      id, // vegorla: in strict mode, id is not unique and causes a warning
       name: `Meal ${id}`,
       calories: 300 + Math.floor(Math.random() * 200),
       image: images[id % images.length],

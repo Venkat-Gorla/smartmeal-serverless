@@ -2,7 +2,7 @@ import useInfiniteMeals from "../hooks/useInfiniteMeals";
 import MealCard from "./MealCard";
 
 export default function MealsGrid() {
-  const { meals, loadMore, hasMore } = useInfiniteMeals();
+  const { meals, loadMore, hasMore, loading } = useInfiniteMeals();
 
   return (
     <>
@@ -13,12 +13,16 @@ export default function MealsGrid() {
           </div>
         ))}
       </div>
-      {/* vegorla: migrate to infinite scroll with intersection observer */}
+      {/* vegorla: intersection observer */}
       <div className="text-center mt-4">
-        {hasMore && (
-          <button className="btn btn-outline-info" onClick={loadMore}>
-            Load More
-          </button>
+        {loading ? (
+          <div className="text-light">Loading...</div>
+        ) : (
+          hasMore && (
+            <button className="btn btn-outline-info" onClick={loadMore}>
+              Load More
+            </button>
+          )
         )}
       </div>
     </>
