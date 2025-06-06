@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     // vegorla: make Navbar always visible at the top
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <Link to="/" className="navbar-brand text-info">
+      <Link to="/" className="navbar-brand text-primary">
         Smart Meals
       </Link>
       <div className="collapse navbar-collapse">

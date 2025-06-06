@@ -1,4 +1,6 @@
-// vegorla: using this function to implement/test infinite scrolling.
+import { v4 as uuidv4 } from "uuid";
+
+// Using this function to implement/test infinite scrolling.
 // Mock paginated API - returns 10 meals per page
 export async function getMeals(page) {
   const images = Array.from(
@@ -11,7 +13,7 @@ export async function getMeals(page) {
   await new Promise((res) => setTimeout(res, 2000)); // simulate delay
 
   return Array.from({ length: end - start + 1 }, (_, i) => {
-    const id = `${Date.now()}-${i}`; // vegorla: change to UUID
+    const id = uuidv4();
     const index = start + i;
     return {
       id,
