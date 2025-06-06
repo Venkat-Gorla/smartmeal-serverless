@@ -3,11 +3,14 @@ import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
+
   const location = useLocation();
   const currentPathStyle = "fw-bold text-light border-bottom";
+  const isActive = (path) =>
+    location.pathname === path ? `nav-link ${currentPathStyle}` : "nav-link";
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 sticky-top">
       <Link to="/" className="navbar-brand text-primary">
         Smart Meals
       </Link>
@@ -28,32 +31,17 @@ export default function Navbar() {
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav me-auto">
           <li className="nav-item">
-            <Link
-              to="/"
-              className={`nav-link ${
-                location.pathname === "/" ? currentPathStyle : ""
-              }`}
-            >
+            <Link to="/" className={isActive("/")}>
               Home
             </Link>
           </li>
           <li className="nav-item">
-            <Link
-              to="/browse"
-              className={`nav-link ${
-                location.pathname === "/browse" ? currentPathStyle : ""
-              }`}
-            >
+            <Link to="/browse" className={isActive("/browse")}>
               Browse
             </Link>
           </li>
           <li className="nav-item">
-            <Link
-              to="/about"
-              className={`nav-link ${
-                location.pathname === "/about" ? currentPathStyle : ""
-              }`}
-            >
+            <Link to="/about" className={isActive("/about")}>
               About
             </Link>
           </li>
