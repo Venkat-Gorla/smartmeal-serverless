@@ -1,8 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 
+export async function getMeals(page) {
+  return getMockMeals(page);
+}
+
 // Using this function to implement/test infinite scrolling.
 // Mock paginated API - returns 10 meals per page
-export async function getMockMeals(page) {
+async function getMockMeals(page) {
   const images = Array.from(
     { length: 20 },
     (_, i) => `https://picsum.photos/200/200?random=${i + 1}`

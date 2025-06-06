@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getMockMeals } from "../api/meals";
+import { getMeals } from "../api/meals";
 
 // vegorla: Suggested Next Move with React Query
 // - useInfiniteQuery
@@ -21,7 +21,7 @@ export default function useInfiniteMeals() {
 
   useEffect(() => {
     setLoading(true);
-    getMockMeals(page).then((newMeals) => {
+    getMeals(page).then((newMeals) => {
       // TODO: prevent race conditions if page is incremented rapidly
       // use react-query or request queueing for production apps
       setMeals((prev) => [...prev, ...newMeals]);
