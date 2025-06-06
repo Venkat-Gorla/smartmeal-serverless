@@ -5,8 +5,7 @@ export default function Navbar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    // vegorla: make Navbar always visible at the top
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4 fixed-top">
       <Link to="/" className="navbar-brand text-primary">
         Smart Meals
       </Link>
