@@ -1,9 +1,6 @@
 import useInfiniteMeals from "../hooks/useInfiniteMeals";
 import MealCard from "./MealCard";
 
-// vegorla: when we do client navigation and come back to this view, the
-// additional fetched meals are lost and we start from the initial state.
-// See if we can fix this behavior
 export default function MealsGrid() {
   const { meals, loadMore, hasMore, loading } = useInfiniteMeals();
 

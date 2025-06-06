@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { getMeals } from "../api/meals";
+import { getMockMeals } from "../api/meals";
+
+// vegorla: Suggested Next Move with React Query
+// - useInfiniteQuery
+// - With query key: ['meals', page]
+// - getNextPageParam for pagination
+// - Optional staleTime and cacheTime to control memory usage
+// - this will help us retain the meals state during page navigation
 
 /**
  * Custom hook to fetch meals in an infinite scrolling manner.
@@ -14,7 +21,7 @@ export default function useInfiniteMeals() {
 
   useEffect(() => {
     setLoading(true);
-    getMeals(page).then((newMeals) => {
+    getMockMeals(page).then((newMeals) => {
       // TODO: prevent race conditions if page is incremented rapidly
       // use react-query or request queueing for production apps
       setMeals((prev) => [...prev, ...newMeals]);
