@@ -23,7 +23,7 @@ export default function MealsGrid() {
           </div>
         ) : (
           hasMore && (
-            <button className="btn btn-outline-info" onClick={loadMore}>
+            <button className="btn btn-outline-primary" onClick={loadMore}>
               Load More
             </button>
           )

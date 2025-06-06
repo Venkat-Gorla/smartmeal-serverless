@@ -15,7 +15,7 @@ export default function Navbar() {
         Smart Meals
       </Link>
 
-      {/* Mobile toggle button, add js reference to make it work */}
+      {/* Mobile toggle button */}
       <button
         className="navbar-toggler"
         type="button"
