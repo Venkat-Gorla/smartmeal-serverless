@@ -11,7 +11,7 @@ export async function getMeals(page) {
   await new Promise((res) => setTimeout(res, 2000)); // simulate delay
 
   return Array.from({ length: end - start + 1 }, (_, i) => {
-    const id = `${Date.now()}-${i}`;
+    const id = `${Date.now()}-${i}`; // vegorla: change to UUID
     const index = start + i;
     return {
       id,
