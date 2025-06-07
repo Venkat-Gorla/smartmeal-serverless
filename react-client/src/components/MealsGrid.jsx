@@ -2,7 +2,10 @@ import useInfiniteMeals from "../hooks/useInfiniteMeals";
 import MealCard from "./MealCard";
 
 export default function MealsGrid() {
-  const { meals, loadMore, hasMore, loading } = useInfiniteMeals();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useInfiniteMeals();
+
+  const meals = data?.pages.flatMap((page) => page.data) || [];
 
   return (
     <>
@@ -15,18 +18,18 @@ export default function MealsGrid() {
       </div>
       {/* vegorla: intersection observer */}
       <div className="text-center mt-4">
-        {loading ? (
+        {isLoading || isFetchingNextPage ? (
           <div className="d-flex justify-content-center">
             <div className="spinner-border text-info" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
           </div>
+        ) : hasNextPage ? (
+          <button className="btn btn-outline-primary" onClick={fetchNextPage}>
+            Load More
+          </button>
         ) : (
-          hasMore && (
-            <button className="btn btn-outline-primary" onClick={loadMore}>
-              Load More
-            </button>
-          )
+          <p className="text-muted">No more meals.</p>
         )}
       </div>
     </>
