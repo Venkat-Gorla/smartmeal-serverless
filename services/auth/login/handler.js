@@ -3,6 +3,12 @@ import {
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
+const corsHeaders = {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Credentials": true,
+};
+
 export const handler = async (event) => {
   try {
     const command = createAuthCommand(event);
@@ -15,7 +21,7 @@ export const handler = async (event) => {
   } catch (err) {
     return {
       statusCode: 401,
-      headers: { "Content-Type": "application/json" },
+      headers: corsHeaders,
       body: JSON.stringify({ error: err.message }),
     };
   }
@@ -45,7 +51,7 @@ function createAuthCommand(event) {
 function createSuccessResponse(response) {
   return {
     statusCode: 200,
-    headers: { "Content-Type": "application/json" },
+    headers: corsHeaders,
     body: JSON.stringify({
       accessToken: response.AuthenticationResult.AccessToken,
       idToken: response.AuthenticationResult.IdToken,
