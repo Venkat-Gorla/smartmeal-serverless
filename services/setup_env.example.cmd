@@ -14,3 +14,4 @@ set MEALS_TABLE=
 
 :: Cognito auth login Lambda
 set COGNITO_CLIENT_ID=
+set COGNITO_USER_POOL_ID=

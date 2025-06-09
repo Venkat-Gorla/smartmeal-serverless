@@ -1,23 +1,25 @@
 import {
   CognitoIdentityProviderClient,
   SignUpCommand,
+  AdminConfirmSignUpCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { AWS_REGION, CORS_HEADERS } from "../constants.js";
 
 export const handler = async (event) => {
   try {
-    const command = createSignUpCommand(event);
     const cognitoClient = new CognitoIdentityProviderClient({
       region: AWS_REGION,
     });
+    const response = await cognitoClient.send(createSignUpCommand(event));
 
-    const response = await cognitoClient.send(command);
+    // admin confirm the newly created user
+    await cognitoClient.send(createAdminConfirmSignUpCommand(event));
 
     return {
       statusCode: 201,
       headers: CORS_HEADERS,
       body: JSON.stringify({
-        message: "Signup successful",
+        message: "Signup successful and confirmed",
         userSub: response.UserSub,
       }),
     };
@@ -46,5 +48,18 @@ function createSignUpCommand(event) {
     Username: username,
     Password: password,
     UserAttributes: [{ Name: "email", Value: email }],
+  });
+}
+
+function createAdminConfirmSignUpCommand(event) {
+  if (!process.env.COGNITO_USER_POOL_ID) {
+    throw new Error("COGNITO_USER_POOL_ID environment variable is not set");
+  }
+
+  const { username } = JSON.parse(event.body);
+
+  return new AdminConfirmSignUpCommand({
+    UserPoolId: process.env.COGNITO_USER_POOL_ID,
+    Username: username,
   });
 }
