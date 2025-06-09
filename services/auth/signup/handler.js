@@ -3,6 +3,7 @@ import {
   SignUpCommand,
   AdminConfirmSignUpCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { createAuthCommand } from "../auth-lib.js";
 import { AWS_REGION, CORS_HEADERS } from "../constants.js";
 
 export const handler = async (event) => {
@@ -10,17 +11,22 @@ export const handler = async (event) => {
     const cognitoClient = new CognitoIdentityProviderClient({
       region: AWS_REGION,
     });
-    const response = await cognitoClient.send(createSignUpCommand(event));
+    await cognitoClient.send(createSignUpCommand(event));
 
     // admin confirm the newly created user
     await cognitoClient.send(createAdminConfirmSignUpCommand(event));
+
+    // login and return access tokens
+    const authResponse = await cognitoClient.send(createAuthCommand(event));
 
     return {
       statusCode: 201,
       headers: CORS_HEADERS,
       body: JSON.stringify({
-        message: "Signup successful and confirmed",
-        userSub: response.UserSub,
+        message: "Signup successful, confirmed, and logged in",
+        accessToken: authResponse.AuthenticationResult.AccessToken,
+        idToken: authResponse.AuthenticationResult.IdToken,
+        refreshToken: authResponse.AuthenticationResult.RefreshToken,
       }),
     };
   } catch (err) {
