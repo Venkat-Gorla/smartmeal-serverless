@@ -2,18 +2,13 @@ import {
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-
-const corsHeaders = {
-  "Content-Type": "application/json",
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Credentials": true,
-};
+import { AWS_REGION, CORS_HEADERS } from "../constants.js";
 
 export const handler = async (event) => {
   try {
     const command = createAuthCommand(event);
     const cognitoClient = new CognitoIdentityProviderClient({
-      region: "us-east-1",
+      region: AWS_REGION,
     });
 
     const response = await cognitoClient.send(command);
@@ -21,7 +16,7 @@ export const handler = async (event) => {
   } catch (err) {
     return {
       statusCode: 401,
-      headers: corsHeaders,
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: err.message }),
     };
   }
@@ -51,7 +46,7 @@ function createAuthCommand(event) {
 function createSuccessResponse(response) {
   return {
     statusCode: 200,
-    headers: corsHeaders,
+    headers: CORS_HEADERS,
     body: JSON.stringify({
       accessToken: response.AuthenticationResult.AccessToken,
       idToken: response.AuthenticationResult.IdToken,

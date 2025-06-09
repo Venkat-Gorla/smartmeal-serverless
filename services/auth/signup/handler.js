@@ -2,25 +2,20 @@ import {
   CognitoIdentityProviderClient,
   SignUpCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { AWS_REGION, CORS_HEADERS } from "../constants.js";
 
 export const handler = async (event) => {
-  const corsHeaders = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Credentials": true,
-  };
-
   try {
     const command = createSignUpCommand(event);
     const cognitoClient = new CognitoIdentityProviderClient({
-      region: "us-east-1",
+      region: AWS_REGION,
     });
 
     const response = await cognitoClient.send(command);
 
     return {
       statusCode: 201,
-      headers: corsHeaders,
+      headers: CORS_HEADERS,
       body: JSON.stringify({
         message: "Signup successful",
         userSub: response.UserSub,
@@ -29,7 +24,7 @@ export const handler = async (event) => {
   } catch (err) {
     return {
       statusCode: 400,
-      headers: corsHeaders,
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: err.message }),
     };
   }
@@ -41,14 +36,15 @@ function createSignUpCommand(event) {
   }
 
   const body = JSON.parse(event.body);
-  const { username, password } = body;
-  if (!username || !password) {
-    throw new Error("Username and password are required");
+  const { username, password, email } = body;
+  if (!username || !password || !email) {
+    throw new Error("Username, password, and email are required");
   }
 
   return new SignUpCommand({
     ClientId: process.env.COGNITO_CLIENT_ID,
     Username: username,
     Password: password,
+    UserAttributes: [{ Name: "email", Value: email }],
   });
 }
