@@ -28,7 +28,7 @@ export default function Signup() {
     <div className="d-flex justify-content-center align-items-center">
       <div
         className="card p-4 shadow"
-        style={{ minWidth: "320px", maxWidth: "400px" }}
+        style={{ width: "100%", minWidth: "320px", maxWidth: "400px" }}
       >
         <h4 className="mb-3 text-center">Sign up for free</h4>
         <form onSubmit={handleSignup} noValidate>

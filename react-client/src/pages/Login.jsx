@@ -12,13 +12,9 @@ export default function Login() {
 
   return (
     <div className="d-flex justify-content-center align-items-center">
-      {/* <div
-      className="d-flex justify-content-center align-items-center"
-      style={{ height: "calc(100vh - 56px)", overflowY: "auto" }}
-    > */}
       <div
         className="card p-4 shadow"
-        style={{ minWidth: "320px", maxWidth: "400px" }}
+        style={{ width: "100%", minWidth: "320px", maxWidth: "400px" }}
       >
         <h4 className="mb-3 text-center">Log in to Smart Meals</h4>
         <form onSubmit={handleLogin}>
