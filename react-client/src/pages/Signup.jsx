@@ -1,13 +1,27 @@
 import { useState } from "react";
+import SignupUsername from "../components/SignupUsername";
+import SignupEmail from "../components/SignupEmail";
+import SignupPassword from "../components/SignupPassword";
 
 export default function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formValid, setFormValid] = useState({
+    username: false,
+    email: false,
+    password: false,
+  });
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const isFormValid = Object.values(formValid).every(Boolean);
 
   const handleSignup = (e) => {
     e.preventDefault();
-    // TODO: connect to signup logic
-    console.log("Signing up");
+    if (!isFormValid) return;
+    console.log("Signing up:", formData);
+    // TODO: connect to AWS Cognito signup
   };
 
   return (
@@ -17,34 +31,31 @@ export default function Signup() {
         style={{ minWidth: "320px", maxWidth: "400px" }}
       >
         <h4 className="mb-3 text-center">Sign up for free</h4>
-        <form onSubmit={handleSignup}>
-          <div className="mb-3">
-            <label htmlFor="signupEmail" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              id="signupEmail"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="signupPassword" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              id="signupPassword"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary w-100">
+        <form onSubmit={handleSignup} noValidate>
+          <SignupUsername
+            onValidChange={(val, valid) => {
+              setFormData((d) => ({ ...d, username: val }));
+              setFormValid((v) => ({ ...v, username: valid }));
+            }}
+          />
+          <SignupEmail
+            onValidChange={(val, valid) => {
+              setFormData((d) => ({ ...d, email: val }));
+              setFormValid((v) => ({ ...v, email: valid }));
+            }}
+          />
+          <SignupPassword
+            onValidChange={(val, valid) => {
+              setFormData((d) => ({ ...d, password: val }));
+              setFormValid((v) => ({ ...v, password: valid }));
+            }}
+          />
+
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={!isFormValid}
+          >
             Sign Up
           </button>
           <p className="text-muted small text-center mt-2">
