@@ -7,7 +7,7 @@ export default function Signup() {
   const handleSignup = (e) => {
     e.preventDefault();
     // TODO: connect to signup logic
-    console.log("Signing up:", email, password);
+    console.log("Signing up");
   };
 
   return (
