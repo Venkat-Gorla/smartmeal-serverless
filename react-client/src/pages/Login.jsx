@@ -1,13 +1,31 @@
 import { useState } from "react";
 
+// TODO: change component name to something more generic
+import SignupUsername from "../components/SignupUsername";
+
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const [formValid, setFormValid] = useState({
+    username: false,
+    password: false,
+  });
+
+  const isFormValid = Object.values(formValid).every(Boolean);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // TODO: connect to login logic
+    if (!isFormValid) return;
     console.log("Logging in");
+    // TODO: connect to AWS Cognito login logic
+  };
+
+  const handlePasswordChange = (e) => {
+    const val = e.target.value;
+    setFormData((d) => ({ ...d, password: val }));
+    setFormValid((v) => ({ ...v, password: !!val.trim() }));
   };
 
   return (
@@ -18,19 +36,12 @@ export default function Login() {
       >
         <h4 className="mb-3 text-center">Log in to Smart Meals</h4>
         <form onSubmit={handleLogin}>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+          <SignupUsername
+            onValidChange={(val, valid) => {
+              setFormData((d) => ({ ...d, username: val }));
+              setFormValid((v) => ({ ...v, username: valid }));
+            }}
+          />
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
               Password
@@ -39,12 +50,16 @@ export default function Login() {
               type="password"
               id="password"
               className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handlePasswordChange}
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+            disabled={!isFormValid}
+          >
             Login
           </button>
         </form>
