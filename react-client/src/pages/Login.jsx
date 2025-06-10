@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 // TODO: change component name to something more generic
 import SignupUsername from "../components/SignupUsername";
@@ -12,14 +12,25 @@ export default function Login() {
     username: false,
     password: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const isFormValid = Object.values(formValid).every(Boolean);
+  const isFormValid = useMemo(
+    () => Object.values(formValid).every(Boolean),
+    [formValid]
+  );
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (!isFormValid) return;
-    console.log("Logging in");
-    // TODO: connect to AWS Cognito login logic
+    if (!isFormValid || isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      // TODO: connect to AWS Cognito login logic
+      console.log("Logging in");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handlePasswordChange = (e) => {
@@ -58,9 +69,9 @@ export default function Login() {
           <button
             type="submit"
             className="btn btn-primary w-100"
-            disabled={!isFormValid}
+            disabled={!isFormValid || isSubmitting}
           >
-            Login
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>
