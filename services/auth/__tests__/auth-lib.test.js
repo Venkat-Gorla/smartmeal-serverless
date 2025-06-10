@@ -23,13 +23,17 @@ afterEach(() => {
   process.env = OLD_ENV;
 });
 
+const userEvent = {
+  body: JSON.stringify({
+    username: "user",
+    password: "pass",
+  }),
+};
+
 describe("createAuthCommand", () => {
   it("throws if COGNITO_CLIENT_ID is not set", () => {
     delete process.env.COGNITO_CLIENT_ID;
-    const event = {
-      body: JSON.stringify({ username: "user", password: "pass" }),
-    };
-    expect(() => createAuthCommand(event)).toThrow(/COGNITO_CLIENT_ID/);
+    expect(() => createAuthCommand(userEvent)).toThrow(/COGNITO_CLIENT_ID/);
   });
 
   it("throws if username is missing", () => {
@@ -43,11 +47,7 @@ describe("createAuthCommand", () => {
   });
 
   it("returns InitiateAuthCommand with correct parameters", () => {
-    const event = {
-      body: JSON.stringify({ username: "user", password: "pass" }),
-    };
-
-    const command = createAuthCommand(event);
+    const command = createAuthCommand(userEvent);
 
     expect(command.input).toEqual({
       AuthFlow: "USER_PASSWORD_AUTH",
@@ -58,5 +58,10 @@ describe("createAuthCommand", () => {
       },
     });
     expect(mockInitiateAuthCommand).toHaveBeenCalledWith(command.input);
+  });
+
+  it("throws if event.body is not valid JSON", () => {
+    const event = { body: "not-json" };
+    expect(() => createAuthCommand(event)).toThrow(SyntaxError);
   });
 });
