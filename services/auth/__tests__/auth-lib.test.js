@@ -1,10 +1,22 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { createAuthCommand } from "../auth-lib.js";
 
 const OLD_ENV = process.env;
 
+const mockInitiateAuthCommand = vi.fn();
+
+vi.mock("@aws-sdk/client-cognito-identity-provider", () => ({
+  InitiateAuthCommand: class {
+    constructor(input) {
+      mockInitiateAuthCommand(input);
+      this.input = input;
+    }
+  },
+}));
+
 beforeEach(() => {
   process.env = { ...OLD_ENV, COGNITO_CLIENT_ID: "mockClientId" };
+  mockInitiateAuthCommand.mockReset();
 });
 
 afterEach(() => {
@@ -45,5 +57,6 @@ describe("createAuthCommand", () => {
         PASSWORD: "pass",
       },
     });
+    expect(mockInitiateAuthCommand).toHaveBeenCalledWith(command.input);
   });
 });
