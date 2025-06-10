@@ -26,6 +26,7 @@ export default function Login() {
     try {
       // TODO: connect to AWS Cognito login logic
       console.log("Logging in");
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
     } catch (error) {
       console.error(error);
     } finally {
