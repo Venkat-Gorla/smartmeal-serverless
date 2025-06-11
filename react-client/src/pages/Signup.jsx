@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import AuthUsernameInput from "../components/AuthUsernameInput";
 import SignupEmail from "../components/SignupEmail";
 import SignupPassword from "../components/SignupPassword";
 
 export default function Signup() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const [formValid, setFormValid] = useState({
     username: false,
     email: false,
@@ -14,14 +19,33 @@ export default function Signup() {
     email: "",
     password: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const isFormValid = Object.values(formValid).every(Boolean);
+  const isFormValid = useMemo(
+    () => Object.values(formValid).every(Boolean),
+    [formValid]
+  );
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    if (!isFormValid) return;
-    console.log("Signing up:", formData);
-    // TODO: connect to AWS Cognito signup
+    if (!isFormValid || isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      // TODO: connect to AWS Cognito signup
+      // you can move this await inside AuthContext new function signup()
+      console.log("Signing up");
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+
+      login();
+      navigate("/profile");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -54,9 +78,9 @@ export default function Signup() {
           <button
             type="submit"
             className="btn btn-primary w-100"
-            disabled={!isFormValid}
+            disabled={!isFormValid || isSubmitting}
           >
-            Sign Up
+            {isSubmitting ? "Signing up..." : "Sign Up"}
           </button>
           <p className="text-muted small text-center mt-2">
             By clicking Sign up, you agree to the terms of use.

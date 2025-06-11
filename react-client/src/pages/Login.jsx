@@ -23,7 +23,10 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!isFormValid || isSubmitting) return;
+    if (!isFormValid || isSubmitting) {
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       // TODO: connect to AWS Cognito login logic
