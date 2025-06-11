@@ -1,7 +1,11 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import AuthUsernameInput from "../components/AuthUsernameInput";
 
 export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -25,6 +29,9 @@ export default function Login() {
       // TODO: connect to AWS Cognito login logic
       console.log("Logging in");
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+
+      login();
+      navigate("/profile");
     } catch (error) {
       console.error(error);
     } finally {
@@ -62,6 +69,7 @@ export default function Login() {
               className="form-control"
               value={formData.password}
               onChange={handlePasswordChange}
+              autoComplete="current-password"
               required
             />
           </div>
