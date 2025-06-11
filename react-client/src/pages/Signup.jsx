@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import useFormFields from "../hooks/useFormFields";
 import AuthUsernameInput from "../components/AuthUsernameInput";
 import SignupEmail from "../components/SignupEmail";
 import SignupPassword from "../components/SignupPassword";
@@ -8,23 +9,13 @@ import SignupPassword from "../components/SignupPassword";
 export default function Signup() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { formData, isFormValid, handleFieldChange } = useFormFields([
+    "username",
+    "email",
+    "password",
+  ]);
 
-  const [formValid, setFormValid] = useState({
-    username: false,
-    email: false,
-    password: false,
-  });
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const isFormValid = useMemo(
-    () => Object.values(formValid).every(Boolean),
-    [formValid]
-  );
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -57,22 +48,19 @@ export default function Signup() {
         <h4 className="mb-3 text-center">Sign up for free</h4>
         <form onSubmit={handleSignup} noValidate>
           <AuthUsernameInput
-            onValidChange={(val, valid) => {
-              setFormData((d) => ({ ...d, username: val }));
-              setFormValid((v) => ({ ...v, username: valid }));
-            }}
+            onValidChange={(val, valid) =>
+              handleFieldChange("username", val, valid)
+            }
           />
           <SignupEmail
-            onValidChange={(val, valid) => {
-              setFormData((d) => ({ ...d, email: val }));
-              setFormValid((v) => ({ ...v, email: valid }));
-            }}
+            onValidChange={(val, valid) =>
+              handleFieldChange("email", val, valid)
+            }
           />
           <SignupPassword
-            onValidChange={(val, valid) => {
-              setFormData((d) => ({ ...d, password: val }));
-              setFormValid((v) => ({ ...v, password: valid }));
-            }}
+            onValidChange={(val, valid) =>
+              handleFieldChange("password", val, valid)
+            }
           />
 
           <button
