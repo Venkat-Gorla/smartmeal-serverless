@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AuthUsernameInput from "../components/SignupUsername";
+import AuthUsernameInput from "../components/AuthUsernameInput";
 import SignupEmail from "../components/SignupEmail";
 import SignupPassword from "../components/SignupPassword";
 

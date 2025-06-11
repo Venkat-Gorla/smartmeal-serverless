@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import AuthUsernameInput from "../components/SignupUsername";
+import AuthUsernameInput from "../components/AuthUsernameInput";
 
 export default function Login() {
   const [formData, setFormData] = useState({
