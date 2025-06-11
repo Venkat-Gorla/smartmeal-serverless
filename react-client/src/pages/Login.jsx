@@ -22,10 +22,7 @@ export default function Login() {
 
     setIsSubmitting(true);
     try {
-      // TODO: connect to AWS Cognito login logic
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-
-      login();
+      await login();
       navigate("/profile");
     } catch (error) {
       console.error(error);

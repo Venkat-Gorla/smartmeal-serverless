@@ -7,7 +7,7 @@ import SignupEmail from "../components/SignupEmail";
 import SignupPassword from "../components/SignupPassword";
 
 export default function Signup() {
-  const { login } = useAuth();
+  const { signup } = useAuth();
   const navigate = useNavigate();
   const { formData, isFormValid, handleFieldChange } = useFormFields([
     "username",
@@ -25,11 +25,7 @@ export default function Signup() {
 
     setIsSubmitting(true);
     try {
-      // TODO: connect to AWS Cognito signup
-      // you can move this await inside AuthContext new function signup()
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
-
-      login();
+      await signup();
       navigate("/profile");
     } catch (error) {
       console.error(error);
