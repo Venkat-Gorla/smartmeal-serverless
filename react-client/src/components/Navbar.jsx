@@ -41,6 +41,11 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to="/profile" className={isActive("/profile")}>
+              Profile
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link to="/about" className={isActive("/about")}>
               About
             </Link>
