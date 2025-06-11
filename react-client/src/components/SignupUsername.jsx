@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function SignupUsername({ onValidChange }) {
+export default function AuthUsernameInput({ onValidChange }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
 
@@ -19,12 +19,12 @@ export default function SignupUsername({ onValidChange }) {
 
   return (
     <div className="mb-3">
-      <label htmlFor="signupUsername" className="form-label">
+      <label htmlFor="authUsernameInput" className="form-label">
         Username
       </label>
       <input
         type="text"
-        id="signupUsername"
+        id="authUsernameInput"
         className="form-control"
         value={value}
         onChange={handleChange}

@@ -1,7 +1,5 @@
 import { useState, useMemo } from "react";
-
-// TODO: change component name to something more generic
-import SignupUsername from "../components/SignupUsername";
+import AuthUsernameInput from "../components/SignupUsername";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -48,7 +46,7 @@ export default function Login() {
       >
         <h4 className="mb-3 text-center">Log in to Smart Meals</h4>
         <form onSubmit={handleLogin}>
-          <SignupUsername
+          <AuthUsernameInput
             onValidChange={(val, valid) => {
               setFormData((d) => ({ ...d, username: val }));
               setFormValid((v) => ({ ...v, username: valid }));

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SignupUsername from "../components/SignupUsername";
+import AuthUsernameInput from "../components/SignupUsername";
 import SignupEmail from "../components/SignupEmail";
 import SignupPassword from "../components/SignupPassword";
 
@@ -32,7 +32,7 @@ export default function Signup() {
       >
         <h4 className="mb-3 text-center">Sign up for free</h4>
         <form onSubmit={handleSignup} noValidate>
-          <SignupUsername
+          <AuthUsernameInput
             onValidChange={(val, valid) => {
               setFormData((d) => ({ ...d, username: val }));
               setFormValid((v) => ({ ...v, username: valid }));
