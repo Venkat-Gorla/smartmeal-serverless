@@ -27,7 +27,6 @@ export default function Signup() {
     try {
       // TODO: connect to AWS Cognito signup
       // you can move this await inside AuthContext new function signup()
-      console.log("Signing up");
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
 
       login();

@@ -1,25 +1,18 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import useFormFields from "../hooks/useFormFields";
 import AuthUsernameInput from "../components/AuthUsernameInput";
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-  const [formValid, setFormValid] = useState({
-    username: false,
-    password: false,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const isFormValid = useMemo(
-    () => Object.values(formValid).every(Boolean),
-    [formValid]
-  );
+  const { formData, isFormValid, handleFieldChange } = useFormFields([
+    "username",
+    "password",
+  ]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,7 +23,6 @@ export default function Login() {
     setIsSubmitting(true);
     try {
       // TODO: connect to AWS Cognito login logic
-      console.log("Logging in");
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
 
       login();
@@ -44,8 +36,7 @@ export default function Login() {
 
   const handlePasswordChange = (e) => {
     const val = e.target.value;
-    setFormData((d) => ({ ...d, password: val }));
-    setFormValid((v) => ({ ...v, password: !!val.trim() }));
+    handleFieldChange("password", val, !!val.trim());
   };
 
   return (
@@ -58,8 +49,7 @@ export default function Login() {
         <form onSubmit={handleLogin}>
           <AuthUsernameInput
             onValidChange={(val, valid) => {
-              setFormData((d) => ({ ...d, username: val }));
-              setFormValid((v) => ({ ...v, username: valid }));
+              handleFieldChange("username", val, valid);
             }}
           />
           <div className="mb-3">
