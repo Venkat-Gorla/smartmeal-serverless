@@ -1,3 +1,4 @@
+// src/pages/UploadMeal.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -60,7 +61,10 @@ export default function UploadMeal() {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label htmlFor="title" className="form-label">
+              <label
+                htmlFor="title"
+                className="form-label fw-semibold text-dark"
+              >
                 Title
               </label>
               <input
@@ -75,7 +79,10 @@ export default function UploadMeal() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="description" className="form-label">
+              <label
+                htmlFor="description"
+                className="form-label fw-semibold text-dark"
+              >
                 Description
               </label>
               <textarea
@@ -90,7 +97,10 @@ export default function UploadMeal() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="image" className="form-label">
+              <label
+                htmlFor="image"
+                className="form-label fw-semibold text-dark"
+              >
                 Meal Image (JPG/PNG, ≤ 300KB)
               </label>
               <input
