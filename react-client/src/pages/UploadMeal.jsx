@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "../components/ImageUpload";
+import TextInput from "../components/TextInput";
 
 export default function UploadMeal() {
   const [title, setTitle] = useState("");
@@ -61,23 +62,14 @@ export default function UploadMeal() {
           )}
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label
-                htmlFor="title"
-                className="form-label fw-semibold text-dark"
-              >
-                Title
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Enter meal title"
-                required
-              />
-            </div>
+            <TextInput
+              id="title"
+              label="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter meal title"
+              required
+            />
 
             <div className="mb-3">
               <label
