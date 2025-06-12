@@ -1,48 +1,35 @@
-// src/pages/UploadMeal.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ImageUpload from "../components/ImageUpload";
+import useImageUpload from "../hooks/useImageUpload";
 import TextInput from "../components/TextInput";
 import TextareaInput from "../components/TextareaInput";
+import ImageUpload from "../components/ImageUpload";
 
 export default function UploadMeal() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [formError, setFormError] = useState("");
   const navigate = useNavigate();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (!["image/jpeg", "image/png"].includes(file.type)) {
-      setError("Only JPG and PNG files are allowed.");
-      return;
-    }
-
-    if (file.size > 300 * 1024) {
-      setError("Image must be less than or equal to 300 KB.");
-      return;
-    }
-
-    setImage(file);
-    setPreview(URL.createObjectURL(file));
-    setError("");
-  };
+  const {
+    image,
+    preview,
+    error: imageError,
+    handleImageChange,
+    clearImage,
+  } = useImageUpload({ maxSizeKB: 300, accept: ["image/jpeg", "image/png"] });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title || !description || !image) {
-      setError("All fields are required.");
+      setFormError("All fields are required.");
       return;
     }
 
     console.log({ title, description, image });
     setSuccess(true);
-    setError("");
+    setFormError("");
     setTimeout(() => navigate("/browse"), 2000);
   };
 
@@ -55,7 +42,9 @@ export default function UploadMeal() {
         <div className="card-body">
           <h5 className="mb-3">Upload New Meal</h5>
 
-          {error && <div className="alert alert-danger">{error}</div>}
+          {(formError || imageError) && (
+            <div className="alert alert-danger">{formError || imageError}</div>
+          )}
           {success && (
             <div className="alert alert-success">
               Meal uploaded successfully!
