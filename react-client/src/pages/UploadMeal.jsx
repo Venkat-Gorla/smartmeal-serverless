@@ -1,6 +1,7 @@
 // src/pages/UploadMeal.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ImageUpload from "../components/ImageUpload";
 
 export default function UploadMeal() {
   const [title, setTitle] = useState("");
@@ -96,29 +97,11 @@ export default function UploadMeal() {
               ></textarea>
             </div>
 
-            <div className="mb-3">
-              <label
-                htmlFor="image"
-                className="form-label fw-semibold text-dark"
-              >
-                Meal Image (JPG/PNG, ≤ 300KB)
-              </label>
-              <input
-                type="file"
-                className="form-control"
-                id="image"
-                accept="image/jpeg,image/png"
-                onChange={handleImageChange}
-              />
-              {preview && (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="mt-3 img-thumbnail"
-                  style={{ maxWidth: "150px" }}
-                />
-              )}
-            </div>
+            <ImageUpload
+              label="Meal Image (JPG/PNG, ≤ 300KB)"
+              preview={preview}
+              onChange={handleImageChange}
+            />
 
             <div className="d-grid">
               <button type="submit" className="btn btn-primary">
