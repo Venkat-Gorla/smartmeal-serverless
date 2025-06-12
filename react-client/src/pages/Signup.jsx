@@ -1,38 +1,23 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import useFormFields from "../hooks/useFormFields";
+import { useSubmitHandler } from "../hooks/useSubmitHandler";
 import AuthUsernameInput from "../components/AuthUsernameInput";
 import SignupEmail from "../components/SignupEmail";
 import SignupPassword from "../components/SignupPassword";
 
 export default function Signup() {
   const { signup } = useAuth();
-  const navigate = useNavigate();
   const { formData, isFormValid, handleFieldChange } = useFormFields([
     "username",
     "email",
     "password",
   ]);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    if (!isFormValid || isSubmitting) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      await signup();
-      navigate("/profile");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const { handleSubmit: handleSignup, isSubmitting } = useSubmitHandler({
+    isFormValid,
+    actionFn: signup,
+    redirectTo: "/profile",
+  });
 
   return (
     <div className="d-flex justify-content-center align-items-center">
