@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "../components/ImageUpload";
 import TextInput from "../components/TextInput";
+import TextareaInput from "../components/TextareaInput";
 
 export default function UploadMeal() {
   const [title, setTitle] = useState("");
@@ -71,23 +72,15 @@ export default function UploadMeal() {
               required
             />
 
-            <div className="mb-3">
-              <label
-                htmlFor="description"
-                className="form-label fw-semibold text-dark"
-              >
-                Description
-              </label>
-              <textarea
-                className="form-control"
-                id="description"
-                rows="2"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter meal description"
-                required
-              ></textarea>
-            </div>
+            <TextareaInput
+              id="description"
+              label="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter meal description"
+              rows={2}
+              required
+            />
 
             <ImageUpload
               label="Meal Image (JPG/PNG, ≤ 300KB)"
