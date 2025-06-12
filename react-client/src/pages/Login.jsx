@@ -1,35 +1,21 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import useFormFields from "../hooks/useFormFields";
+import { useSubmitHandler } from "../hooks/useSubmitHandler";
 import AuthUsernameInput from "../components/AuthUsernameInput";
 
 export default function Login() {
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const { formData, isFormValid, handleFieldChange } = useFormFields([
     "username",
     "password",
   ]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!isFormValid || isSubmitting) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      await login();
-      navigate("/profile");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const { handleSubmit: handleLogin, isSubmitting } = useSubmitHandler({
+    isFormValid,
+    actionFn: login,
+    redirectTo: "/profile",
+  });
 
   const handlePasswordChange = (e) => {
     const val = e.target.value;
