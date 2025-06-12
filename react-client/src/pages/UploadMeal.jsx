@@ -36,19 +36,20 @@ export default function UploadMeal() {
       return;
     }
 
-    // Mock submit: Log form data
     console.log({ title, description, image });
     setSuccess(true);
     setError("");
-
     setTimeout(() => navigate("/browse"), 2000);
   };
 
   return (
-    <div className="container py-4">
-      <div className="card shadow-sm">
+    <div className="container py-0 d-flex justify-content-center">
+      <div
+        className="card shadow-sm"
+        style={{ maxWidth: "500px", width: "100%" }}
+      >
         <div className="card-body">
-          <h4 className="mb-4">Upload New Meal</h4>
+          <h5 className="mb-3">Upload New Meal</h5>
 
           {error && <div className="alert alert-danger">{error}</div>}
           {success && (
@@ -80,7 +81,7 @@ export default function UploadMeal() {
               <textarea
                 className="form-control"
                 id="description"
-                rows="4"
+                rows="2"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter meal description"
@@ -104,14 +105,16 @@ export default function UploadMeal() {
                   src={preview}
                   alt="Preview"
                   className="mt-3 img-thumbnail"
-                  style={{ maxWidth: "200px" }}
+                  style={{ maxWidth: "150px" }}
                 />
               )}
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Upload Meal
-            </button>
+            <div className="d-grid">
+              <button type="submit" className="btn btn-primary">
+                Upload Meal
+              </button>
+            </div>
           </form>
         </div>
       </div>
