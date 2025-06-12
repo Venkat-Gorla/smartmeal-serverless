@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Browse from "./pages/Browse";
+import UploadMeal from "./pages/UploadMeal";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -15,6 +16,14 @@ export default function AppRoutes() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/browse" element={<Browse />} />
+        <Route
+          path="/upload"
+          element={
+            <ProtectedRoute>
+              <UploadMeal />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/profile"
           element={

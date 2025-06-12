@@ -41,6 +41,11 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="nav-item">
+            <Link to="/upload" className={isActive("/upload")}>
+              Upload
+            </Link>
+          </li>
+          <li className="nav-item">
             <Link to="/profile" className={isActive("/profile")}>
               Profile
             </Link>
