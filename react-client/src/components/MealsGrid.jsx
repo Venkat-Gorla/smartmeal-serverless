@@ -8,14 +8,16 @@ export default function MealsGrid() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteMeals();
 
+  // vegorla: handle no meals found search case in the UI
   const meals = data?.pages.flatMap((page) => page.data) || [];
 
   return (
     <>
-      <div className="mb-3 text-center">
+      <div className="mb-3 d-flex justify-content-end">
         <input
           type="text"
-          className="form-control w-auto d-inline"
+          className="form-control"
+          style={{ maxWidth: "220px" }}
           placeholder="Search meals..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
