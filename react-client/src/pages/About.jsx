@@ -8,7 +8,7 @@ export default function About() {
   ];
 
   return (
-    <div className="text-center">
+    <div className="container text-center">
       <h2>About Smart Meals</h2>
       <p>
         This project showcases a modern React web app using React Router and
@@ -17,6 +17,7 @@ export default function About() {
       <ul className="list-unstyled">
         {features.map((feature, index) => (
           <li key={index} className="text-muted fst-italic">
+            <i className="bi bi-check2 me-1 text-dark"></i>
             {feature}
           </li>
         ))}
