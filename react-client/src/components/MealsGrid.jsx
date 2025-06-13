@@ -11,6 +11,13 @@ export default function MealsGrid() {
   // vegorla: handle no meals found search case in the UI
   const meals = data?.pages.flatMap((page) => page.data) || [];
 
+  // Apply client-side search filtering
+  const filteredMeals = searchTerm.trim()
+    ? meals.filter((meal) =>
+        meal.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    : meals;
+
   return (
     <>
       <div className="mb-3 d-flex justify-content-end">
@@ -25,7 +32,7 @@ export default function MealsGrid() {
       </div>
 
       <div className="row g-4">
-        {meals.map((meal) => (
+        {filteredMeals.map((meal) => (
           <div key={meal.id} className="col-sm-6 col-md-4 col-lg-3">
             <MealCard meal={meal} />
           </div>
