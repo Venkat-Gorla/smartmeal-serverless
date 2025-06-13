@@ -40,7 +40,7 @@ export default function MealsGrid() {
       </div>
       {/* vegorla: intersection observer */}
       <div className="text-center mt-4">
-        {isLoading || isFetchingNextPage ? (
+        {searchTerm.trim() ? null : isLoading || isFetchingNextPage ? (
           <div className="d-flex justify-content-center">
             <div className="spinner-border text-info" role="status">
               <span className="visually-hidden">Loading...</span>
