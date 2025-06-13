@@ -1,7 +1,10 @@
+import { useState } from "react";
 import useInfiniteMeals from "../hooks/useInfiniteMeals";
 import MealCard from "./MealCard";
 
 export default function MealsGrid() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteMeals();
 
@@ -9,6 +12,16 @@ export default function MealsGrid() {
 
   return (
     <>
+      <div className="mb-3 text-center">
+        <input
+          type="text"
+          className="form-control w-auto d-inline"
+          placeholder="Search meals..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <div className="row g-4">
         {meals.map((meal) => (
           <div key={meal.id} className="col-sm-6 col-md-4 col-lg-3">
