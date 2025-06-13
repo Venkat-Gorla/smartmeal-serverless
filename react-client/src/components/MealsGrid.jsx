@@ -1,6 +1,18 @@
-import { useState } from "react";
+import React, { useState, useMemo } from "react";
 import useInfiniteMeals from "../hooks/useInfiniteMeals";
 import MealCard from "./MealCard";
+
+const MealsList = React.memo(({ meals }) => {
+  return (
+    <>
+      {meals.map((meal) => (
+        <div key={meal.id} className="col-sm-6 col-md-4 col-lg-3">
+          <MealCard meal={meal} />
+        </div>
+      ))}
+    </>
+  );
+});
 
 export default function MealsGrid() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,12 +22,13 @@ export default function MealsGrid() {
 
   const meals = data?.pages.flatMap((page) => page.data) || [];
 
-  // Apply client-side search filtering
-  const filteredMeals = searchTerm.trim()
-    ? meals.filter((meal) =>
-        meal.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : meals;
+  // Memoize filtered meals to avoid recomputing on each render
+  const filteredMeals = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    return term
+      ? meals.filter((meal) => meal.name.toLowerCase().includes(term))
+      : meals;
+  }, [searchTerm, meals]);
 
   const isSearching = searchTerm.trim().length > 0;
 
@@ -33,11 +46,7 @@ export default function MealsGrid() {
       </div>
 
       <div className="row g-4">
-        {filteredMeals.map((meal) => (
-          <div key={meal.id} className="col-sm-6 col-md-4 col-lg-3">
-            <MealCard meal={meal} />
-          </div>
-        ))}
+        <MealsList meals={filteredMeals} />
 
         {isSearching && filteredMeals.length === 0 && (
           <div className="col-12 text-center mt-3">
