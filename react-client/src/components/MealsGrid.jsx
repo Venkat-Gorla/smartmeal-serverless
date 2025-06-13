@@ -8,7 +8,6 @@ export default function MealsGrid() {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteMeals();
 
-  // vegorla: handle no meals found search case in the UI
   const meals = data?.pages.flatMap((page) => page.data) || [];
 
   // Apply client-side search filtering
@@ -17,6 +16,8 @@ export default function MealsGrid() {
         meal.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : meals;
+
+  const isSearching = searchTerm.trim().length > 0;
 
   return (
     <>
@@ -37,10 +38,16 @@ export default function MealsGrid() {
             <MealCard meal={meal} />
           </div>
         ))}
+
+        {isSearching && filteredMeals.length === 0 && (
+          <div className="col-12 text-center mt-3">
+            <p className="text-muted">No meals found for "{searchTerm}".</p>
+          </div>
+        )}
       </div>
       {/* vegorla: intersection observer */}
       <div className="text-center mt-4">
-        {searchTerm.trim() ? null : isLoading || isFetchingNextPage ? (
+        {isSearching ? null : isLoading || isFetchingNextPage ? (
           <div className="d-flex justify-content-center">
             <div className="spinner-border text-info" role="status">
               <span className="visually-hidden">Loading...</span>
