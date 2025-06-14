@@ -53,8 +53,9 @@ async function getMockMeals(page) {
     "veggie-burger",
   ]);
 
-  const start = (page - 1) * 10 + 1;
-  const end = Math.min(start + 9, 100);
+  const pageSize = 10;
+  const start = (page - 1) * pageSize + 1;
+  const end = Math.min(start + pageSize - 1, 100);
 
   await new Promise((res) => setTimeout(res, 2000)); // simulate delay
 
@@ -70,6 +71,7 @@ async function getMockMeals(page) {
   });
 }
 
+// consider seed parameter to allow deterministic output for testing
 function shuffleArray(array) {
   return array
     .map((value) => ({ value, sort: Math.random() }))
