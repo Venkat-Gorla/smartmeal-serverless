@@ -57,7 +57,7 @@ async function getMockMeals(page) {
   const start = (page - 1) * pageSize + 1;
   const end = Math.min(start + pageSize - 1, 100);
 
-  await new Promise((res) => setTimeout(res, 2000)); // simulate delay
+  await new Promise((res) => setTimeout(res, 1000)); // simulate delay
 
   return Array.from({ length: end - start + 1 }, (_, i) => {
     const id = uuidv4();

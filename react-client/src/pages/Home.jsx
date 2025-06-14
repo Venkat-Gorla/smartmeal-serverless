@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Home() {
   return (
     <div className="text-center">
@@ -11,6 +13,15 @@ export default function Home() {
         demonstration purposes and are refreshed periodically from the backend.
         If they appear to change during browsing, this behavior is intentional.
       </p>
+
+      <div className="mt-4 fade-in">
+        <Link
+          to="/browse"
+          className="btn btn-outline-primary btn-lg px-4 fw-semibold"
+        >
+          Explore Meals
+        </Link>
+      </div>
     </div>
   );
 }
