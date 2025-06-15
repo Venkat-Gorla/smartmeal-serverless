@@ -12,19 +12,15 @@ describe("getMeals", () => {
   });
 
   it("returns meals for different pages with consistent structure", async () => {
-    const page1 = await getMeals(1);
-    const page2 = await getMeals(2);
+    const pages = [await getMeals(1), await getMeals(2)];
 
-    // Same mocked UUID used for all items
-    expect(page1[0].id).toBe("test-uuid");
-    expect(page2[0].id).toBe("test-uuid");
-
-    expect(page1).toHaveLength(10);
-    expect(page2).toHaveLength(10);
-
-    expect(page1[0]).toHaveProperty("name");
-    expect(page1[0]).toHaveProperty("calories");
-    expect(page1[0].image).toMatch(/^\/assets\/meals\/.*\.jpg$/);
+    for (const mealsPage of pages) {
+      expect(mealsPage).toHaveLength(10);
+      expect(mealsPage[0].id).toBe("test-uuid");
+      expect(mealsPage[0]).toHaveProperty("name");
+      expect(mealsPage[0]).toHaveProperty("calories");
+      expect(mealsPage[0].image).toMatch(/^\/assets\/meals\/.*\.jpg$/);
+    }
   });
 
   it("meal object contains expected fields", async () => {
