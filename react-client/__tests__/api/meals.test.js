@@ -17,13 +17,19 @@ describe("getMeals", () => {
     const pages = [await getMeals(1, delayMs), await getMeals(2, delayMs)];
 
     for (const mealsPage of pages) {
-      expect(mealsPage).toHaveLength(10);
-      expect(mealsPage[0].id).toBe("test-uuid");
-      expect(mealsPage[0]).toHaveProperty("name");
-      expect(mealsPage[0]).toHaveProperty("calories");
-      expect(mealsPage[0].image).toMatch(/^\/assets\/meals\/.*\.jpg$/);
+      validateMealsPage(mealsPage);
     }
   });
+
+  function validateMealsPage(mealsPage) {
+    expect(mealsPage).toHaveLength(10);
+    mealsPage.forEach((meal) => {
+      expect(meal.id).toBe("test-uuid");
+      expect(meal).toHaveProperty("name");
+      expect(meal).toHaveProperty("calories");
+      expect(meal.image).toMatch(/^\/assets\/meals\/.*\.jpg$/);
+    });
+  }
 
   it("meal object contains expected fields", async () => {
     const [meal] = await getMeals(1, delayMs);
