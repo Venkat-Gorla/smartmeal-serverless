@@ -59,7 +59,12 @@ describe("useInfiniteMeals", () => {
   });
 
   it("stops fetching after page 10", async () => {
-    getMeals.mockImplementation((page) => Promise.resolve([`Page ${page}`]));
+    getMeals.mockImplementation((page) => {
+      if (page > 10) {
+        throw new Error("Should not fetch beyond page 10");
+      }
+      return Promise.resolve([`Page ${page}`]);
+    });
 
     const { result } = renderHook(() => useInfiniteMeals(), {
       wrapper: createWrapper(),
