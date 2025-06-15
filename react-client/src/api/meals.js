@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 
-export async function getMeals(page) {
-  return getMockMeals(page);
+export async function getMeals(page, delayMs = 1000) {
+  return getMockMeals(page, delayMs);
 }
 
 // Mock paginated API
 // code to return meals with Food images instead of generic ones from the internet.
-async function getMockMeals(page) {
+async function getMockMeals(page, delayMs) {
   const mealSlugs = shuffleArray([
     "beef-tacos",
     "caesar-salad",
@@ -34,7 +34,9 @@ async function getMockMeals(page) {
   const start = (page - 1) * pageSize + 1;
   const end = Math.min(start + pageSize - 1, 100);
 
-  await new Promise((res) => setTimeout(res, 1000)); // simulate delay
+  if (delayMs > 0) {
+    await new Promise((res) => setTimeout(res, delayMs)); // simulate delay
+  }
 
   return Array.from({ length: end - start + 1 }, (_, i) => {
     const id = uuidv4();

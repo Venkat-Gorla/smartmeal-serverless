@@ -6,13 +6,15 @@ vi.mock("uuid", () => ({
 }));
 
 describe("getMeals", () => {
+  const delayMs = 0;
+
   it("returns 10 meals for page 1", async () => {
-    const meals = await getMeals(1);
+    const meals = await getMeals(1, delayMs);
     expect(meals).toHaveLength(10);
   });
 
   it("returns meals for different pages with consistent structure", async () => {
-    const pages = [await getMeals(1), await getMeals(2)];
+    const pages = [await getMeals(1, delayMs), await getMeals(2, delayMs)];
 
     for (const mealsPage of pages) {
       expect(mealsPage).toHaveLength(10);
@@ -24,7 +26,7 @@ describe("getMeals", () => {
   });
 
   it("meal object contains expected fields", async () => {
-    const [meal] = await getMeals(1);
+    const [meal] = await getMeals(1, delayMs);
     expect(meal).toMatchObject({
       id: "test-uuid",
       name: expect.any(String),
@@ -34,12 +36,12 @@ describe("getMeals", () => {
   });
 
   it("pagination range is correct", async () => {
-    const meals = await getMeals(3);
+    const meals = await getMeals(3, delayMs);
     expect(meals).toHaveLength(10);
   });
 
   it("page upper boundary returns fewer than 10 meals", async () => {
-    const meals = await getMeals(11); // (101st item - out of range)
+    const meals = await getMeals(11, delayMs); // (101st item - out of range)
     expect(meals).toHaveLength(0);
   });
 });
