@@ -34,7 +34,7 @@ export default function MealsGrid() {
 
   return (
     <>
-      <div className="mb-3 d-flex justify-content-end">
+      <div className="mb-3 d-flex justify-content-end gap-2">
         <input
           type="text"
           className="form-control"
@@ -43,6 +43,16 @@ export default function MealsGrid() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+
+        <select className="form-select" style={{ maxWidth: "200px" }}>
+          <option value="" disabled selected hidden>
+            Sort by...
+          </option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+          <option value="calories-asc">Calories (Low to High)</option>
+          <option value="calories-desc">Calories (High to Low)</option>
+        </select>
       </div>
 
       <div className="row g-4">
