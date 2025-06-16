@@ -66,14 +66,27 @@ describe("MealsGrid", () => {
       mockHookReturn({ hasNextPage: false })
     );
     render(<MealsGrid />);
+
+    // Expect first page meal data to be present
+    for (const meal of sampleMeals) {
+      expect(screen.getByText(meal.name)).toBeInTheDocument();
+    }
     expect(screen.getByText(/no more meals/i)).toBeInTheDocument();
   });
 
-  it("shows no meals message when meals data is empty", () => {
+  it("shows no more meals message when meals data is empty and no data at all", () => {
     vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(
-      mockHookReturn({ hasNextPage: false, data: { pages: [{ data: [] }] } })
+      mockHookReturn({
+        data: { pages: [{ data: [] }] },
+        hasNextPage: false,
+      })
     );
     render(<MealsGrid />);
+
+    // Expect no meals rendered
+    for (const meal of sampleMeals) {
+      expect(screen.queryByText(meal.name)).not.toBeInTheDocument();
+    }
     expect(screen.getByText(/no more meals/i)).toBeInTheDocument();
   });
 });
