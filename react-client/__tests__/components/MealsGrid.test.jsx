@@ -4,7 +4,7 @@ import * as useInfiniteMealsHook from "../../src/hooks/useInfiniteMeals";
 
 // Mock MealCard component
 vi.mock("../../src/components/MealCard", () => ({
-  default: ({ meal }) => <div>{meal.name}</div>,
+  default: ({ meal }) => <div data-testid="meal-card">{meal.name}</div>,
 }));
 
 // Stub meals
@@ -23,6 +23,22 @@ const mockHookReturn = (overrides = {}) => ({
   ...overrides,
 });
 
+// Assert sample meal card count and content presence
+const assertSampleMeals = (meals, present = true) => {
+  const cards = screen.queryAllByTestId("meal-card");
+  if (present) {
+    expect(cards).toHaveLength(meals.length);
+    meals.forEach((meal) => {
+      expect(screen.getByText(meal.name)).toBeInTheDocument();
+    });
+  } else {
+    expect(cards).toHaveLength(0);
+    meals.forEach((meal) => {
+      expect(screen.queryByText(meal.name)).not.toBeInTheDocument();
+    });
+  }
+};
+
 describe("MealsGrid", () => {
   beforeEach(() => {
     vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(mockHookReturn());
@@ -30,12 +46,10 @@ describe("MealsGrid", () => {
 
   it("renders all meals by default", () => {
     render(<MealsGrid />);
-    for (const meal of sampleMeals) {
-      expect(screen.getByText(meal.name)).toBeInTheDocument();
-    }
+    assertSampleMeals(sampleMeals, true);
   });
 
-  it("shows no results message if searchTerm excludes all", () => {
+  it("shows no matching results message if searchTerm excludes all", () => {
     render(<MealsGrid />);
     fireEvent.change(screen.getByPlaceholderText(/search meals/i), {
       target: { value: "xyz" },
@@ -66,15 +80,11 @@ describe("MealsGrid", () => {
       mockHookReturn({ hasNextPage: false })
     );
     render(<MealsGrid />);
-
-    // Expect first page meal data to be present
-    for (const meal of sampleMeals) {
-      expect(screen.getByText(meal.name)).toBeInTheDocument();
-    }
+    assertSampleMeals(sampleMeals, true);
     expect(screen.getByText(/no more meals/i)).toBeInTheDocument();
   });
 
-  it("shows no more meals message when meals data is empty and no data at all", () => {
+  it("renders no meal cards when meals data is empty", () => {
     vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(
       mockHookReturn({
         data: { pages: [{ data: [] }] },
@@ -82,11 +92,7 @@ describe("MealsGrid", () => {
       })
     );
     render(<MealsGrid />);
-
-    // Expect no meals rendered
-    for (const meal of sampleMeals) {
-      expect(screen.queryByText(meal.name)).not.toBeInTheDocument();
-    }
+    assertSampleMeals(sampleMeals, false);
     expect(screen.getByText(/no more meals/i)).toBeInTheDocument();
   });
 });
