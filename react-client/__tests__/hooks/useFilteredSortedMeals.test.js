@@ -78,4 +78,18 @@ describe("useFilteredSortedMeals", () => {
     );
     expect(result.current.map((m) => m.name)).toEqual(["Carrot Cake"]);
   });
+
+  it("returns empty array when given empty meals list", () => {
+    const { result } = renderHook(() =>
+      useFilteredSortedMeals([], "", "name-asc")
+    );
+    expect(result.current).toEqual([]);
+  });
+
+  it("returns empty array when searchTerm matches nothing", () => {
+    const { result } = renderHook(() =>
+      useFilteredSortedMeals(sampleMeals, "nonexistent", "")
+    );
+    expect(result.current).toEqual([]);
+  });
 });
