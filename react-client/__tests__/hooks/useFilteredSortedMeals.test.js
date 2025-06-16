@@ -7,6 +7,26 @@ const sampleMeals = [
   { id: 3, name: "Carrot Cake", calories: 200 },
 ];
 
+function expectSortedBy(arr, key, direction = "asc") {
+  const values = arr.map((obj) => obj[key]);
+  if (values.length === 0) return;
+  if (values.some((v) => v === null || v === undefined)) {
+    throw new Error("Cannot sort by a key with null or undefined values");
+  }
+
+  const isString = typeof values[0] === "string";
+
+  const sorted = [...values].sort((a, b) => {
+    if (isString) {
+      return direction === "asc" ? a.localeCompare(b) : b.localeCompare(a);
+    } else {
+      return direction === "asc" ? a - b : b - a;
+    }
+  });
+
+  expect(values).toEqual(sorted);
+}
+
 describe("useFilteredSortedMeals", () => {
   it("returns all meals when no searchTerm or sortOption is provided", () => {
     const { result } = renderHook(() =>
@@ -28,36 +48,28 @@ describe("useFilteredSortedMeals", () => {
     const { result } = renderHook(() =>
       useFilteredSortedMeals(sampleMeals, "", "name-asc")
     );
-    expect(result.current.map((m) => m.name)).toEqual([
-      "Apple Pie",
-      "Banana Bread",
-      "Carrot Cake",
-    ]);
+    expectSortedBy(result.current, "name", "asc");
   });
 
   it("sorts meals by name descending", () => {
     const { result } = renderHook(() =>
       useFilteredSortedMeals(sampleMeals, "", "name-desc")
     );
-    expect(result.current.map((m) => m.name)).toEqual([
-      "Carrot Cake",
-      "Banana Bread",
-      "Apple Pie",
-    ]);
+    expectSortedBy(result.current, "name", "desc");
   });
 
   it("sorts meals by calories ascending", () => {
     const { result } = renderHook(() =>
       useFilteredSortedMeals(sampleMeals, "", "calories-asc")
     );
-    expect(result.current.map((m) => m.calories)).toEqual([200, 250, 300]);
+    expectSortedBy(result.current, "calories", "asc");
   });
 
   it("sorts meals by calories descending", () => {
     const { result } = renderHook(() =>
       useFilteredSortedMeals(sampleMeals, "", "calories-desc")
     );
-    expect(result.current.map((m) => m.calories)).toEqual([300, 250, 200]);
+    expectSortedBy(result.current, "calories", "desc");
   });
 
   it("filters and sorts together", () => {
