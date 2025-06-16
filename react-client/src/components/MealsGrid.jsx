@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import useInfiniteMeals from "../hooks/useInfiniteMeals";
+import useFilteredSortedMeals from "../hooks/useFilteredSortedMeals";
 import MealCard from "./MealCard";
 
 const MealsList = React.memo(({ meals }) => {
@@ -24,24 +25,7 @@ export default function MealsGrid() {
   const meals = data?.pages.flatMap((page) => page.data) || [];
 
   // Memoize filtered meals to avoid recomputing on each render
-  const filteredMeals = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase();
-    let filtered = term
-      ? meals.filter((meal) => meal.name.toLowerCase().includes(term))
-      : meals;
-
-    if (sortOption === "name-asc") {
-      filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortOption === "name-desc") {
-      filtered = [...filtered].sort((a, b) => b.name.localeCompare(a.name));
-    } else if (sortOption === "calories-asc") {
-      filtered = [...filtered].sort((a, b) => a.calories - b.calories);
-    } else if (sortOption === "calories-desc") {
-      filtered = [...filtered].sort((a, b) => b.calories - a.calories);
-    }
-
-    return filtered;
-  }, [searchTerm, meals, sortOption]);
+  const filteredMeals = useFilteredSortedMeals(meals, searchTerm, sortOption);
 
   const isSearching = searchTerm.trim().length > 0;
 
