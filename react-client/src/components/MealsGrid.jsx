@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useInfiniteMeals from "../hooks/useInfiniteMeals";
 import useFilteredSortedMeals from "../hooks/useFilteredSortedMeals";
 import MealCard from "./MealCard";
+import MealSearchSortBar from "./MealSearchSortBar";
 
 const MealsList = React.memo(({ meals }) => {
   return (
@@ -31,31 +32,12 @@ export default function MealsGrid() {
 
   return (
     <>
-      <div className="mb-3 d-flex justify-content-end gap-2">
-        <input
-          type="text"
-          className="form-control"
-          style={{ maxWidth: "220px" }}
-          placeholder="Search meals..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
-        <select
-          className="form-select"
-          style={{ maxWidth: "200px" }}
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-        >
-          <option value="" disabled hidden>
-            Sort by...
-          </option>
-          <option value="name-asc">Name (A-Z)</option>
-          <option value="name-desc">Name (Z-A)</option>
-          <option value="calories-asc">Calories (Low to High)</option>
-          <option value="calories-desc">Calories (High to Low)</option>
-        </select>
-      </div>
+      <MealSearchSortBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        sortOption={sortOption}
+        setSortOption={setSortOption}
+      />
 
       <div className="row g-4">
         <MealsList meals={filteredMeals} />
