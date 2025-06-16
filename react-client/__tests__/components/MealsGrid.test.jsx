@@ -13,15 +13,19 @@ const sampleMeals = [
   { id: 2, name: "Apple Pie", calories: 300 },
 ];
 
+// Utility to create mocked hook values
+const mockHookReturn = (overrides = {}) => ({
+  data: { pages: [{ data: sampleMeals }] },
+  fetchNextPage: vi.fn(),
+  hasNextPage: true,
+  isFetchingNextPage: false,
+  isLoading: false,
+  ...overrides,
+});
+
 describe("MealsGrid", () => {
   beforeEach(() => {
-    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue({
-      data: { pages: [{ data: sampleMeals }] },
-      fetchNextPage: vi.fn(),
-      hasNextPage: true,
-      isFetchingNextPage: false,
-      isLoading: false,
-    });
+    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(mockHookReturn());
   });
 
   it("renders all meals by default", () => {
@@ -41,38 +45,34 @@ describe("MealsGrid", () => {
 
   it("calls fetchNextPage when Load More is clicked", () => {
     const fetchNextPage = vi.fn();
-    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue({
-      data: { pages: [{ data: sampleMeals }] },
-      fetchNextPage,
-      hasNextPage: true,
-      isFetchingNextPage: false,
-      isLoading: false,
-    });
+    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(
+      mockHookReturn({ fetchNextPage })
+    );
     render(<MealsGrid />);
     fireEvent.click(screen.getByRole("button", { name: /load more/i }));
     expect(fetchNextPage).toHaveBeenCalled();
   });
 
   it("shows loading spinner if loading state is true", () => {
-    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue({
-      data: { pages: [{ data: [] }] },
-      fetchNextPage: vi.fn(),
-      hasNextPage: false,
-      isFetchingNextPage: false,
-      isLoading: true,
-    });
+    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(
+      mockHookReturn({ data: { pages: [{ data: [] }] }, isLoading: true })
+    );
     render(<MealsGrid />);
     expect(screen.getByRole("status")).toBeInTheDocument();
   });
 
   it('shows "no more meals" if hasNextPage is false', () => {
-    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue({
-      data: { pages: [{ data: sampleMeals }] },
-      fetchNextPage: vi.fn(),
-      hasNextPage: false,
-      isFetchingNextPage: false,
-      isLoading: false,
-    });
+    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(
+      mockHookReturn({ hasNextPage: false })
+    );
+    render(<MealsGrid />);
+    expect(screen.getByText(/no more meals/i)).toBeInTheDocument();
+  });
+
+  it("shows no meals message when meals data is empty", () => {
+    vi.spyOn(useInfiniteMealsHook, "default").mockReturnValue(
+      mockHookReturn({ hasNextPage: false, data: { pages: [{ data: [] }] } })
+    );
     render(<MealsGrid />);
     expect(screen.getByText(/no more meals/i)).toBeInTheDocument();
   });
