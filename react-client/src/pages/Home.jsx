@@ -5,8 +5,8 @@ export default function Home() {
     <div className="text-center">
       <h2 className="mb-3">Welcome to Smart Meals</h2>
       <p className="lead mb-2">
-        This is the home page of Smart Meals. Use the navigation bar to explore
-        meal options, upload content, or view your profile.
+        Use the navigation bar to explore meal options, upload content, or view
+        your profile.
       </p>
       <p className="text-muted">
         Note: Meal images and calorie data are randomly generated for
@@ -15,10 +15,10 @@ export default function Home() {
       </p>
 
       <section className="mt-6 text-left max-w-xl mx-auto">
-        <h3 className="mb-3">Key Features & Limitations</h3>
+        <h4 className="mb-3">Key Features & Limitations</h4>
 
-        <div className="">
-          <h4 className="">Upload Experience</h4>
+        <div className="mb-2">
+          <h5 className="text-secondary">Upload Experience</h5>
           <p className="text-muted">
             The upload interface is fully implemented on the client side. Users
             can preview selected images and must provide non-empty input fields.
@@ -28,7 +28,7 @@ export default function Home() {
         </div>
 
         <div className="mb-4">
-          <h4 className="">Authentication</h4>
+          <h5 className="text-secondary">Authentication</h5>
           <p className="text-muted">
             Login and signup forms include input validation only. Email must be
             correctly formatted, usernames must be non-empty, and passwords must
