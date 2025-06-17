@@ -24,7 +24,7 @@ export default function About() {
         Bootstrap.
       </p>
       <ul
-        className="list-unstyled text-start mx-auto"
+        className="list-unstyled text-start mx-auto ps-4"
         style={{ maxWidth: "700px" }}
       >
         {features.map((feature, index) => (
