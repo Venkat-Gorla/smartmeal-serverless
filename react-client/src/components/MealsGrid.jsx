@@ -58,7 +58,7 @@ export default function MealsGrid() {
             </div>
           </div>
         ) : hasNextPage ? (
-          <button className="btn btn-outline-primary" onClick={fetchNextPage}>
+          <button className="btn btn-primary" onClick={fetchNextPage}>
             Load More
           </button>
         ) : (

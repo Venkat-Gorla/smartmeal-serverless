@@ -60,7 +60,7 @@ export default function About() {
 
   return (
     <div className="container">
-      <h2 className="text-center mb-3">About Smart Meals</h2>
+      <h2 className="fw-bold text-center mb-3">About Smart Meals</h2>
       <p className="lead text-center mb-4">
         This project showcases a modern React web app using React Router and
         Bootstrap.
