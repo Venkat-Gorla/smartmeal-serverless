@@ -140,6 +140,10 @@ These tests use `Vitest` with full mocking of:
 
 - `elastic-search/client.js` (returns a stubbed client with `index()` method)
 
+### 🧪 Sample Test Output
+
+![OpenSearch Unit Tests](../docs/os-unit-tests.PNG)
+
 ### 🔗 Integration Tests
 
 - Run end-to-end tests in dev environment using real OpenSearch
