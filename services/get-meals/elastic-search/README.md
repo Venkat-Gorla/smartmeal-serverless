@@ -56,20 +56,26 @@ Function: `getMeals({ page, pageSize, userId, sortBy, sortOrder })`
 
 ### 📤 GET `/meals`
 
-Returns paginated and optionally filtered meals from OpenSearch.
+Handles API Gateway requests to retrieve paginated meals data from OpenSearch.
 
 #### Query Parameters
 
-| Param  | Description              |
-| ------ | ------------------------ |
-| `q`    | Search term (optional)   |
-| `page` | Page number (default: 1) |
-| `size` | Page size (default: 10)  |
+| Param       | Description                                                     |
+| ----------- | --------------------------------------------------------------- |
+| `page`      | Required page number (must be >= 1)                             |
+| `pageSize`  | Number of meals per page (optional, default: 10)                |
+| `sortBy`    | Field to sort by (`createdAt` or `likes`, default: `createdAt`) |
+| `sortOrder` | Sort direction (`asc` or `desc`, default: `desc`)               |
+| `userId`    | Optional user ID to filter meals                                |
+| --------    | ----------------------------                                    |
+| `q`         | Search term (optional)                                          |
+| `page`      | Page number (default: 1)                                        |
+| `size`      | Page size (default: 10)                                         |
 
 #### Example Request
 
 ```
-GET /meals?q=pasta&page=1&size=10
+GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=abc123
 ```
 
 #### Example Response
