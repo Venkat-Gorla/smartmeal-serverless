@@ -67,15 +67,11 @@ Handles API Gateway requests to retrieve paginated meals data from OpenSearch.
 | `sortBy`    | Field to sort by (`createdAt` or `likes`, default: `createdAt`) |
 | `sortOrder` | Sort direction (`asc` or `desc`, default: `desc`)               |
 | `userId`    | Optional user ID to filter meals                                |
-| --------    | ----------------------------                                    |
-| `q`         | Search term (optional)                                          |
-| `page`      | Page number (default: 1)                                        |
-| `size`      | Page size (default: 10)                                         |
 
 #### Example Request
 
 ```
-GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=abc123
+GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=user789
 ```
 
 #### Example Response
@@ -92,9 +88,12 @@ GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=abc123
       "likes": 12
     }
   ],
+  "total": 45,
   "page": 1,
-  "size": 10,
-  "total": 45
+  "pageSize": 10,
+  "totalPages": 5,
+  "hasNext": true,
+  "hasPrev": false
 }
 ```
 
