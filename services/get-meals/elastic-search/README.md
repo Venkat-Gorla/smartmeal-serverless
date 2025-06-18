@@ -43,11 +43,14 @@ Function: `indexMeal(meal)`
 
 ### 🧱 `query.js`
 
-Function: `searchMeals({ query, page, size })`
+Function: `getMeals({ page, pageSize, userId, sortBy, sortOrder })`
 
-- Uses OpenSearch DSL to filter and match meals
-- Supports keyword matching and paginated results
-- Returns array of matched meals with metadata
+- Uses OpenSearch DSL with structured filters and sorting
+- Retrieves paginated list of meals from OpenSearch
+- Supports optional filtering by userId
+- Supports sorting by createdAt or likes in ascending/descending order
+- Excludes imageUrl from \_source for privacy
+- Returns meal data along with pagination metadata (totalPages, hasNext, hasPrev)
 
 ## 📡 Lambda Entry Point
 
@@ -124,6 +127,8 @@ GET /meals?q=pasta&page=1&size=10
 ## 🔐 Security
 
 - Client signs requests with IAM credentials
+- OpenSearch domain endpoint is public (VPC out of scope for MVP), with strict IAM policies applied to restrict indexing and querying to specific Lambda functions
+- Error logs do not include sensitive meal fields (e.g., image URLs)
 
 ### 🔐 Example IAM Policy
 
@@ -146,9 +151,6 @@ GET /meals?q=pasta&page=1&size=10
 ```
 
 - Replace `<your-account-id>` with your actual AWS account ID.
-- OpenSearch domain endpoint is public (VPC out of scope for MVP), with strict IAM policies applied to restrict indexing and querying to specific Lambda functions
-- OpenSearch access is mitigated by routing all queries and indexing strictly through Lambda functions
-- Error logs do not include sensitive meal fields (e.g., image URLs)
 
 ## 🚀 Deployment
 
