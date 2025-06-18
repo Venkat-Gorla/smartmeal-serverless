@@ -40,7 +40,10 @@ export default function UploadMeal() {
         style={{ maxWidth: "500px", width: "100%" }}
       >
         <div className="card-body">
-          <h5 className="mb-3">Upload New Meal</h5>
+          <div className="d-flex align-items-center gap-2 mb-2">
+            <i className="bi bi-cloud-arrow-up-fill text-primary fs-3"></i>
+            <h5 className="mb-0">Upload New Meal</h5>
+          </div>
 
           {(formError || imageError) && (
             <div className="alert alert-danger">{formError || imageError}</div>
