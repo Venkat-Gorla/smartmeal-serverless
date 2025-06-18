@@ -108,12 +108,21 @@ GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=user789
 
 ### 🧱 Unit Tests
 
-- Mock `@opensearch-project/opensearch` client using `vi.mock`
-- Test scenarios:
+#### 🧪 Sample Unit Tests: `client.js`
 
-  - Missing env vars
-  - Invalid responses
-  - Indexing/querying failures
+- **Ensures correct OpenSearch client construction**
+
+  - Verifies `AwsSigv4Signer` is configured with correct region, service, and mocked credentials
+  - Validates `Client` receives expected `node` and signer values
+
+- **Validates environment behavior**
+  - Throws a descriptive error when `OPENSEARCH_ENDPOINT` is missing
+
+These tests use `Vitest` with full mocking of:
+
+- `@opensearch-project/opensearch`
+- `@opensearch-project/opensearch/aws`
+- `@aws-sdk/credential-provider-node`
 
 ### 🔗 Integration Tests
 
