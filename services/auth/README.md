@@ -92,15 +92,14 @@ All errors return a structured JSON response with HTTP 400 or 401 status.
 
 ### 🔗 Integration Tests
 
-- Use test user pools to validate end-to-end signup and login flows
-- Automate token validation via `AuthenticationResult`
-- Use AWS SDK mocks to simulate network behavior
+- Use CLI scripts (`signup-cli.js`, `login-cli.js`) to invoke Lambda handlers with test credentials
+- Validate end-to-end flows using a real Cognito test user pool
+- Inspect returned `AuthenticationResult` for valid token structure
 
 ### 🧰 Tools
 
 - **Vitest** for unit tests
 - **AWS SDK v3 client mocks** for Cognito
-- **LocalStack** or test environments for integration tests
 
 ## 🔐 Security
 
