@@ -124,6 +124,22 @@ These tests use `Vitest` with full mocking of:
 - `@opensearch-project/opensearch/aws`
 - `@aws-sdk/credential-provider-node`
 
+#### 🧪 Sample Unit Tests: `indexer.js`
+
+- **Successfully indexes a meal**
+
+  - Validates that the meal is passed correctly to the OpenSearch `index()` method
+  - Confirms `imageUrl` is excluded from the indexed body
+  - Ensures no errors are logged to console
+
+- **Handles unexpected indexing result**
+  - Simulates non-successful result (`noop`) and expects a thrown error
+  - Asserts that the error is logged with meal context
+
+These tests use `Vitest` with full mocking of:
+
+- `elastic-search/client.js` (returns a stubbed client with `index()` method)
+
 ### 🔗 Integration Tests
 
 - Run end-to-end tests in dev environment using real OpenSearch
