@@ -86,9 +86,9 @@ All errors return a structured JSON response with HTTP 400 or 401 status.
 
 ### 🧱 Unit Tests
 
-- Mock Cognito client interactions
-- Validate payload shape and input validations
-- Ensure error messages and response formatting
+- Use `Vitest` with full mocking of AWS SDK (`CognitoIdentityProviderClient`) and auth command factory
+- Validate handler behavior under various scenarios: success, input validation, missing environment variables, and Cognito failures
+- Assert correct HTTP status codes and response payload structure
 
 ### 🔗 Integration Tests
 
@@ -98,8 +98,8 @@ All errors return a structured JSON response with HTTP 400 or 401 status.
 
 ### 🧰 Tools
 
-- **Vitest** for unit tests
-- **AWS SDK v3 client mocks** for Cognito
+- **Vitest** for writing and executing unit tests
+- Manual mocks of **AWS SDK v3** modules using `vi.mock` for `CognitoIdentityProviderClient` and related commands
 
 ## 🔐 Security
 
