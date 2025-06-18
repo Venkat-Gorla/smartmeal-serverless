@@ -140,6 +140,34 @@ These tests use `Vitest` with full mocking of:
 
 - `elastic-search/client.js` (returns a stubbed client with `index()` method)
 
+#### 🧪 Sample Unit Tests: `query.js`
+
+- **Validates successful search and pagination**
+
+  - Confirms correct structure for `from`, `size`, `sort`, and excluded fields
+  - Asserts returned metadata includes `total`, `page`, `pageSize`, `hasNext`, `hasPrev`
+
+- **Handles empty search results**
+
+  - Returns `meals: []` with `total: 0` and correct pagination metadata
+
+- **Input validation coverage**
+
+  - Throws on missing or invalid `page`, `pageSize`
+  - Throws on invalid `sortOrder` and unsupported `sortBy`
+  - Throws on invalid `userId` (e.g., non-string or empty string)
+
+- **User filtering behavior**
+
+  - Adds `userId.keyword` term filter when `userId` is provided
+
+- **Error propagation**
+  - Throws on search failure and rethrows internal OpenSearch error
+
+These tests use `Vitest` with full mocking of:
+
+- `elastic-search/client.js` (returns a stubbed client with `search()` method)
+
 ### 🧪 Sample Test Output
 
 ![OpenSearch Unit Tests](../docs/os-unit-tests.PNG)
