@@ -26,7 +26,8 @@ export default function About() {
     },
     {
       icon: "bi-ui-checks",
-      title: "Form validation using stateful hooks and consistent input policies",
+      title:
+        "Form validation using stateful hooks and consistent input policies",
     },
     {
       icon: "bi-lightning-charge-fill",
@@ -68,11 +69,11 @@ export default function About() {
 
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {features.map((feature, index) => (
-          <div key={index} className="col d-flex gap-3">
-            <i className={`bi ${feature.icon} fs-2 text-primary`}></i>
-            <div>
-              <p className="mb-0 text-muted small fw-semibold">{feature.title}</p>
+          <div key={index} className="col text-center">
+            <div className="text-primary fs-2 mb-2">
+              <i className={`bi ${feature.icon}`}></i>
             </div>
+            <p className="text-muted small fw-semibold">{feature.title}</p>
           </div>
         ))}
       </div>
