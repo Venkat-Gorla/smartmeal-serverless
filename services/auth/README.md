@@ -1,29 +1,30 @@
-# Auth Service - Smart Meals Platform
+# 🔐 Auth Service - Smart Meals Platform
 
-## Overview
+## 🧭 Overview
 
 The Auth Service in the Smart Meals platform is a foundational microservice responsible for identity and access management. It leverages **Amazon Cognito** to securely handle user signups, confirmations, and authentication workflows.
 
-## Responsibilities
+## 📌 Responsibilities
 
 - User registration and confirmation
 - Token-based authentication
 
-## Key AWS Resources
+## 🛠️ Key AWS Resources
 
 - **Amazon Cognito User Pool**: Manages user identities
 - **CognitoIdentityProviderClient**: Interacts with Cognito APIs
 
-## Environment Variables
+## ⚙️ Environment Variables
 
-| Variable Name          | Description                     |
-| ---------------------- | ------------------------------- |
-| `COGNITO_CLIENT_ID`    | App client ID for the user pool |
-| `COGNITO_USER_POOL_ID` | ID of the Cognito User Pool     |
+| Variable Name          | Description                           |
+| ---------------------- | ------------------------------------- |
+| `COGNITO_CLIENT_ID`    | App client ID for the user pool       |
+| `COGNITO_USER_POOL_ID` | ID of the Cognito User Pool           |
+| `AWS_REGION`           | AWS region where resources are hosted |
 
-## API Endpoints
+## 📡 API Endpoints
 
-### POST `/signup`
+### 📥 POST `/signup`
 
 Registers and authenticates a user in a single step.
 
@@ -48,7 +49,7 @@ Registers and authenticates a user in a single step.
 }
 ```
 
-### POST `/login`
+### 🔑 POST `/login`
 
 Authenticates an existing user and returns access tokens.
 
@@ -71,7 +72,7 @@ Authenticates an existing user and returns access tokens.
 }
 ```
 
-## Error Handling
+## 🧨 Error Handling
 
 Common failure modes include:
 
@@ -81,38 +82,38 @@ Common failure modes include:
 
 All errors return a structured JSON response with HTTP 400 or 401 status.
 
-## Testing Strategy
+## 🧪 Testing Strategy
 
-### Unit Tests
+### 🧱 Unit Tests
 
 - Mock Cognito client interactions
 - Validate payload shape and input validations
 - Ensure error messages and response formatting
 
-### Integration Tests
+### 🔗 Integration Tests
 
 - Use test user pools to validate end-to-end signup and login flows
 - Automate token validation via `AuthenticationResult`
 - Use AWS SDK mocks to simulate network behavior
 
-### Tools
+### 🧰 Tools
 
 - **Vitest** for unit tests
 - **AWS SDK v3 client mocks** for Cognito
 - **LocalStack** or test environments for integration tests
 
-## Security
+## 🔐 Security
 
 - Passwords never logged
 - Tokens only returned after successful signup or login
 - AdminConfirmSignUp used programmatically (not exposed)
 
-## Deployment
+## 🚀 Deployment
 
 - Deployed as an AWS Lambda via Serverless Framework or SAM
 - Requires appropriate IAM permissions for Cognito operations
 
-## Future Enhancements
+## 🔮 Future Enhancements
 
 - Multi-factor authentication (MFA) support
 - Token refresh endpoint
