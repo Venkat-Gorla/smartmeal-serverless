@@ -23,7 +23,7 @@ export default function Home() {
             <i className="bi bi-cloud-arrow-up-fill"></i>
           </div>
           <div>
-            <h5 className="text-dark">Upload Experience</h5>
+            <h5 className="text-dark mt-1">Upload Experience</h5>
             <p className="text-muted small mb-0">
               The upload interface is fully implemented on the client side.
               Users can preview selected images and must provide non-empty input
@@ -38,7 +38,7 @@ export default function Home() {
             <i className="bi bi-shield-lock-fill"></i>
           </div>
           <div>
-            <h5 className="text-dark">Authentication</h5>
+            <h5 className="text-dark mt-1">Authentication</h5>
             <p className="text-muted small mb-0">
               Login and signup forms include input validation only. Email must
               be correctly formatted, usernames must be non-empty, and passwords
