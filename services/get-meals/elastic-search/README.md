@@ -117,7 +117,7 @@ Mocked dependencies:
 
 - `elastic-search/client.js` with stubbed `search()` method
 
-### Unit Tests Output
+#### Test Output Snapshot
 
 ![OpenSearch Unit Tests](../docs/os-unit-tests.PNG)
 
@@ -144,7 +144,7 @@ Mocked dependencies:
 ## 🔐 Security
 
 - Client signs requests with IAM credentials
-- OpenSearch domain endpoint is public (VPC out of scope for MVP), with strict IAM policies applied to restrict indexing and querying to specific Lambda functions
+- OpenSearch domain endpoint is public (due to MVP constraints), with strict IAM policies restricting access to specific Lambda functions and trusted clients
 - Error logs do not include sensitive meal fields (e.g., image URLs)
 
 ### 🔐 Example IAM Policy
