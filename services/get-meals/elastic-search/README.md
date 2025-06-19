@@ -87,14 +87,14 @@ GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=user789
 
 ### 🧱 Unit Tests
 
+Robust test coverage across core OpenSearch components, validating correct behavior for indexing, querying, client setup, and edge case handling.
+
 #### 🧪 Unit Tests: `client.js`
 
-- **Ensures correct OpenSearch client construction**
+- Ensures correct OpenSearch client construction
+  - Validates signer and node config
 
-  - Verifies `AwsSigv4Signer` is configured with correct region, service, and mocked credentials
-  - Validates `Client` receives expected `node` and signer values
-
-These tests use `Vitest` with full mocking of:
+Mocked dependencies:
 
 - `@opensearch-project/opensearch`
 - `@aws-sdk/credential-provider-node`
@@ -104,20 +104,18 @@ These tests use `Vitest` with full mocking of:
 - Successfully indexes a meal
 - Handles unexpected indexing result
 
-These tests use `Vitest` with full mocking of:
+Mocked dependencies:
 
-- `elastic-search/client.js` (returns a stubbed client with `index()` method)
+- `elastic-search/client.js` with stubbed `index()` method
 
 #### 🧪 Unit Tests: `query.js`
 
-- Validates successful search and pagination
-- Handles empty search results
-- Input validation coverage and error handling
-- User filtering behavior
+- Validates search, pagination, and filtering
+- Covers invalid input and OpenSearch failures
 
-These tests use `Vitest` with full mocking of:
+Mocked dependencies:
 
-- `elastic-search/client.js` (returns a stubbed client with `search()` method)
+- `elastic-search/client.js` with stubbed `search()` method
 
 ### 🧪 Unit Test Output
 
