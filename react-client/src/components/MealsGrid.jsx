@@ -49,7 +49,7 @@ export default function MealsGrid() {
         )}
       </div>
 
-      {/* vegorla: intersection observer */}
+      {/* TODO: intersection observer */}
       <div className="text-center mt-4">
         {isSearching ? null : isLoading || isFetchingNextPage ? (
           <div className="d-flex justify-content-center">

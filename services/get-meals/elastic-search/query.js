@@ -29,7 +29,7 @@ export async function getMeals({
   const from = (page - 1) * pageSize;
   const query = buildMealQuery(userId);
 
-  // vegorla: validate response before return, check with Git copilot
+  // TODO: validate response before return, check with Git copilot
   // auto-log available fields/types if queries return 0 results (for future debugging)
   const response = await es.search({
     index: MEALS_INDEX,

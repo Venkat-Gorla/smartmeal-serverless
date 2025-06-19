@@ -20,7 +20,7 @@ export const handler = async (event) => {
 
     validateFile(file);
 
-    const userId = "dev-user"; // vegorla: replace with authenticated user
+    const userId = "dev-user"; // TODO: replace with authenticated user
     const key = generateS3Key(userId, file.mimeType);
 
     await uploadToS3({ title, description, key, file });

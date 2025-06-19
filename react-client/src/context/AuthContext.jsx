@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = async () => {
-    // vegorla: TODO: connect to AWS Cognito login logic
+    // TODO: connect to AWS Cognito login logic
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsAuthenticated(true);

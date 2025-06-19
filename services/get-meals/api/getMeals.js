@@ -54,6 +54,6 @@ export const handler = async (event) => {
 function getHeaders() {
   return {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost:3000", // vegorla TODO: restrict origin for prod
+    "Access-Control-Allow-Origin": "http://localhost:3000", // TODO: restrict origin for prod
   };
 }
