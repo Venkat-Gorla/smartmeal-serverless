@@ -32,7 +32,7 @@ Creates an OpenSearch client with AWS SigV4 signing using `@opensearch-project/o
 
 ### 🧱 `indexer.js`
 
-Code to index a meal into the OpenSearch domain along with validation and result checks
+Code to index a meal into the OpenSearch domain along with validation and result checks.
 
 ### 🧱 `query.js`
 
@@ -94,26 +94,16 @@ GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=user789
   - Verifies `AwsSigv4Signer` is configured with correct region, service, and mocked credentials
   - Validates `Client` receives expected `node` and signer values
 
-- **Validates environment behavior**
-  - Throws a descriptive error when `OPENSEARCH_ENDPOINT` is missing
-
 These tests use `Vitest` with full mocking of:
 
 - `@opensearch-project/opensearch`
-- `@opensearch-project/opensearch/aws`
 - `@aws-sdk/credential-provider-node`
 
 #### 🧪 Sample Unit Tests: `indexer.js`
 
 - **Successfully indexes a meal**
-
-  - Validates that the meal is passed correctly to the OpenSearch `index()` method
-  - Confirms `imageUrl` is excluded from the indexed body
-  - Ensures no errors are logged to console
-
 - **Handles unexpected indexing result**
   - Simulates non-successful result (`noop`) and expects a thrown error
-  - Asserts that the error is logged with meal context
 
 These tests use `Vitest` with full mocking of:
 
@@ -127,21 +117,9 @@ These tests use `Vitest` with full mocking of:
   - Asserts returned metadata includes `total`, `page`, `pageSize`, `hasNext`, `hasPrev`
 
 - **Handles empty search results**
-
-  - Returns `meals: []` with `total: 0` and correct pagination metadata
-
-- **Input validation coverage**
-
-  - Throws on missing or invalid `page`, `pageSize`
-  - Throws on invalid `sortOrder` and unsupported `sortBy`
-  - Throws on invalid `userId` (e.g., non-string or empty string)
+- **Input validation coverage and error handling**
 
 - **User filtering behavior**
-
-  - Adds `userId.keyword` term filter when `userId` is provided
-
-- **Error propagation**
-  - Throws on search failure and rethrows internal OpenSearch error
 
 These tests use `Vitest` with full mocking of:
 
