@@ -32,7 +32,7 @@ The OpenSearch (OS) Service in the Smart Meals platform powers efficient indexin
 - **Lambda Function**: Handles search requests and uses the OS library
 - **IAM Role**: With permissions to access OpenSearch and CloudWatch
 
-## ⚙️ Environment Variables
+## 🔧 Environment Variables
 
 | Variable Name         | Description                           |
 | --------------------- | ------------------------------------- |
