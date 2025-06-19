@@ -123,11 +123,17 @@ Mocked dependencies:
 
 ### 🔗 Integration Tests
 
-- Run end-to-end tests in dev environment using real OpenSearch
-- Validate:
+✅ Run `node es-reset.js --query|--delete [--dry-run]`
 
-  - Indexing of meals
-  - Query accuracy and pagination
+- Ensures OpenSearch connectivity and safely verifies or deletes all index documents via dry-run or live mode.
+
+✅ Run `node indexSampleMeals.js`
+
+- Ensures OpenSearch index and query pagination work as expected by indexing meals, paginating results, and asserting correct timestamp sort order.
+
+✅ Run `node meal-test-cli.js --insert <N> [--delete]`
+
+- Simulates realistic DynamoDB records for React client integration, using a CLI powered by `commander`. Inserts sortable meal items and optionally deletes them.
 
 ### 🧰 Tools
 
