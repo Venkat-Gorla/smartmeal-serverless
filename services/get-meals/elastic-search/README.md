@@ -2,8 +2,18 @@
 
 ## 📑 Table of Contents
 
-- [Overview](#overview)
+- [Overview](#-overview)
 - [Responsibilities](#-responsibilities)
+- [Key AWS Resources](#key-aws-resources)
+- [Environment Variables](#-environment-variables)
+- [OS Library Functions](#-os-library-functions)
+- [Lambda Entry Point](#-lambda-entry-point)
+- [Error Handling](#-error-handling)
+- [Testing Strategy](#-testing-strategy)
+- [Tools](#-tools)
+- [Security](#-security)
+- [Deployment](#-deployment)
+- [Future Enhancements](#-future-enhancements)
 
 ## 🧭 Overview
 
