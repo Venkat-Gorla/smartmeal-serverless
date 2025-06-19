@@ -117,7 +117,7 @@ Mocked dependencies:
 
 - `elastic-search/client.js` with stubbed `search()` method
 
-### 🧪 Unit Test Output
+### Unit Tests Output
 
 ![OpenSearch Unit Tests](../docs/os-unit-tests.PNG)
 
@@ -137,9 +137,9 @@ Mocked dependencies:
 
 ### 🧰 Tools
 
-- **Vitest** for testing
-- **vi.mock** for mocking OpenSearch clients
-- CLI scripts for local dev indexing/querying
+- **Vitest** for writing and running unit tests
+- **vi.mock** to isolate and mock OpenSearch-related modules
+- Custom CLI scripts for local indexing, querying, and integration testing
 
 ## 🔐 Security
 
@@ -171,10 +171,9 @@ Mocked dependencies:
 
 ## 🚀 Deployment
 
-- Deployed via Serverless Framework or SAM
-- Requires IAM policy:
-
-  - `es:ESHttpPost`, `es:ESHttpGet`, `es:ESHttpPut` on domain resource
+- See [Key AWS Resources](#-key-aws-resources) for infrastructure details
+- Deployed Lambdas/scripts require IAM permissions:
+  - `es:ESHttpPost`, `es:ESHttpGet`, `es:ESHttpPut` on the OpenSearch domain
 
 ## 🔮 Future Enhancements
 
