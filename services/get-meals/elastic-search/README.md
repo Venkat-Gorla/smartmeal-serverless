@@ -30,43 +30,22 @@ The OpenSearch (OS) Service in the Smart Meals platform powers efficient indexin
 
 Creates an OpenSearch client with AWS SigV4 signing using `@opensearch-project/opensearch/aws` and default credentials.
 
-- Throws error if endpoint is not configured
-- Logs and rethrows errors if client instantiation fails
-
 ### 🧱 `indexer.js`
 
-Function: `indexMeal(meal)`
-
-- Indexes a meal into the OpenSearch domain
-- Performs basic validation and result checks
-- Logs structured error information
+Code to index a meal into the OpenSearch domain along with validation and result checks
 
 ### 🧱 `query.js`
 
 Function: `getMeals({ page, pageSize, userId, sortBy, sortOrder })`
 
 - Uses OpenSearch DSL with structured filters and sorting
-- Retrieves paginated list of meals from OpenSearch
-- Supports optional filtering by userId
-- Supports sorting by createdAt or likes in ascending/descending order
-- Excludes imageUrl from \_source for privacy
-- Returns meal data along with pagination metadata (totalPages, hasNext, hasPrev)
+- Returns paginated meal data along with metadata (totalPages, hasNext, hasPrev)
 
 ## 📡 Lambda Entry Point
 
 ### 📤 GET `/meals`
 
 Handles API Gateway requests to retrieve paginated meals data from OpenSearch.
-
-#### Query Parameters
-
-| Param       | Description                                                     |
-| ----------- | --------------------------------------------------------------- |
-| `page`      | Required page number (must be >= 1)                             |
-| `pageSize`  | Number of meals per page (optional, default: 10)                |
-| `sortBy`    | Field to sort by (`createdAt` or `likes`, default: `createdAt`) |
-| `sortOrder` | Sort direction (`asc` or `desc`, default: `desc`)               |
-| `userId`    | Optional user ID to filter meals                                |
 
 #### Example Request
 
