@@ -1,5 +1,10 @@
 # 🔍 OpenSearch Service - Smart Meals Platform
 
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Responsibilities](#-responsibilities)
+
 ## 🧭 Overview
 
 The OpenSearch (OS) Service in the Smart Meals platform powers efficient indexing and querying of meal data. It provides a typed client, indexing utilities, and search functionality, integrated as an AWS Lambda function.
