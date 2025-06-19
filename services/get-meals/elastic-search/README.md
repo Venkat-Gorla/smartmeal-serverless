@@ -21,7 +21,7 @@ The OpenSearch (OS) Service in the Smart Meals platform powers efficient indexin
 
 | Variable Name         | Description                           |
 | --------------------- | ------------------------------------- |
-| `OPENSEARCH_ENDPOINT` | Internal VPC endpoint of OS domain    |
+| `OPENSEARCH_ENDPOINT` | Endpoint of OS domain                 |
 | `AWS_REGION`          | AWS region where OpenSearch is hosted |
 
 ## 📚 OS Library Functions
@@ -87,7 +87,7 @@ GET /meals?page=1&pageSize=10&sortBy=likes&sortOrder=asc&userId=user789
 
 ### 🧱 Unit Tests
 
-#### 🧪 Sample Unit Tests: `client.js`
+#### 🧪 Unit Tests: `client.js`
 
 - **Ensures correct OpenSearch client construction**
 
@@ -99,33 +99,27 @@ These tests use `Vitest` with full mocking of:
 - `@opensearch-project/opensearch`
 - `@aws-sdk/credential-provider-node`
 
-#### 🧪 Sample Unit Tests: `indexer.js`
+#### 🧪 Unit Tests: `indexer.js`
 
-- **Successfully indexes a meal**
-- **Handles unexpected indexing result**
-  - Simulates non-successful result (`noop`) and expects a thrown error
+- Successfully indexes a meal
+- Handles unexpected indexing result
 
 These tests use `Vitest` with full mocking of:
 
 - `elastic-search/client.js` (returns a stubbed client with `index()` method)
 
-#### 🧪 Sample Unit Tests: `query.js`
+#### 🧪 Unit Tests: `query.js`
 
-- **Validates successful search and pagination**
-
-  - Confirms correct structure for `from`, `size`, `sort`, and excluded fields
-  - Asserts returned metadata includes `total`, `page`, `pageSize`, `hasNext`, `hasPrev`
-
-- **Handles empty search results**
-- **Input validation coverage and error handling**
-
-- **User filtering behavior**
+- Validates successful search and pagination
+- Handles empty search results
+- Input validation coverage and error handling
+- User filtering behavior
 
 These tests use `Vitest` with full mocking of:
 
 - `elastic-search/client.js` (returns a stubbed client with `search()` method)
 
-### 🧪 Sample Test Output
+### 🧪 Unit Test Output
 
 ![OpenSearch Unit Tests](../docs/os-unit-tests.PNG)
 
