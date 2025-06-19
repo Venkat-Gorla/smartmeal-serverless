@@ -11,7 +11,7 @@ The OpenSearch (OS) Service in the Smart Meals platform powers efficient indexin
 - Query meals with filters, search terms, and pagination
 - Expose meals via a paginated Lambda endpoint
 
-## 🛠️ Key AWS Resources
+## Key AWS Resources
 
 - **Amazon OpenSearch Service**: Custom OpenSearch domain created via AWS Management Console for this project
 - **Lambda Function**: Handles search requests and uses the OS library
@@ -171,12 +171,11 @@ Mocked dependencies:
 
 ## 🚀 Deployment
 
-- See [Key AWS Resources](#-key-aws-resources) for infrastructure details
+- See [Key AWS Resources](#key-aws-resources) for infrastructure details
 - Deployed Lambdas/scripts require IAM permissions:
   - `es:ESHttpPost`, `es:ESHttpGet`, `es:ESHttpPut` on the OpenSearch domain
 
 ## 🔮 Future Enhancements
 
-- Add support for filtering by meal fields (e.g., userId)
-- Support sorting by likes or date
-- Introduce autosuggestions and full-text ranking
+- Add autosuggestions and support keyword search in meal titles or descriptions
+- Allow filtering meals by tags or date ranges
