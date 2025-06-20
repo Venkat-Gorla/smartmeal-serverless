@@ -65,11 +65,11 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 - Invalid records are logged and skipped (no retries currently).
 - Future improvements may include DLQ (Dead Letter Queue) support.
 
-// vegorla pending, to be covered
+// **vegorla pending**, to be covered
 
 - Integration tests for end-to-end meal ingestion
-  // what is this, needed?
 - Mock S3, DynamoDB, and EventBridge events in test suite
+  // what is this, needed?
 
 ## 🧪 Testing Strategy
 
@@ -77,13 +77,17 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 
 All critical paths (success and failure) are covered using mocked dependencies.
 
-- **mealUploadEventConsumer.js**
+- **mealUploadEventConsumer.test.js**
 
   - Tests both the Lambda `handler` and its internal logic
   - Reuses fixture from `upload-meal` for consistent test data
 
-- **dynamoStreamIndexer.js**
+- **dynamoStreamIndexer.test.js**
+
   - Mocks `unmarshall` and `indexMeal` to simulate stream processing and indexing
+
+- **dynamo-db.test.js**
+  - Validates structure, defaults, and error handling in the `buildMealReadModelItem` transformer
 
 ## 🧰 Tools
 
