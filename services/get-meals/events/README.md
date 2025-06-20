@@ -46,16 +46,20 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 | `OPENSEARCH_ENDPOINT` | Endpoint of OS domain      |
 | `AWS_REGION`          | AWS region                 |
 
+// vegorla: sample events or block diagram?
+
 ## 🔁 Lambda Entry Points
 
 - **mealUploadEventConsumer.js**
 
-  - **Trigger**: EventBridge — specifically on `MealUploaded` events
-  - **Action**: Validate and transform the event detail → create DynamoDB item → insert into `MealsRead` table
+  - **Trigger**: EventBridge (`MealUploaded` events)
+  - **Action**: Validate and transform event payload → insert into `MealsRead` DynamoDB table
 
 - **dynamoStreamIndexer.js**
-  - Trigger: DynamoDB stream (INSERT events)
-  - Action: Format and forward meals to OpenSearch
+  - **Trigger**: DynamoDB Stream (on `INSERT` or `MODIFY`)
+  - **Action**: Unmarshall new record → index meal into OpenSearch via a library function
+
+// vegorla Next
 
 ## 🧯 Error Handling
 
