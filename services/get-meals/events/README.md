@@ -53,14 +53,6 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
   - **Trigger**: EventBridge — specifically on `MealUploaded` events
   - **Action**: Validate and transform the event detail → create DynamoDB item → insert into `MealsRead` table
 
-## 🔁 Lambda Entry Points
-
-- **mealUploadEventConsumer.js**
-
-  - Trigger: EventBridge (S3 upload notification)
-  - vegorla fix based on code
-  - Action: Parse uploaded file → validate → store in DynamoDB
-
 - **dynamoStreamIndexer.js**
   - Trigger: DynamoDB stream (INSERT events)
   - Action: Format and forward meals to OpenSearch
