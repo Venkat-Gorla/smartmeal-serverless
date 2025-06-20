@@ -23,17 +23,11 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 
 ## 📌 Responsibilities
 
-- Process raw meal data from S3 uploads.
-- Transform and store meals in the DynamoDB table.
-- Monitor DynamoDB streams for changes (INSERT, MODIFY).
-- Forward indexed data to OpenSearch for searchability.
-
-## 📌 Responsibilities
-
-- Listen for `MealUploaded` events via EventBridge (from upstream S3 workflows).
-- Validate and transform meal event payloads into a structured DynamoDB format.
-- Store meal records in the `MealsRead` DynamoDB table.
-- Act as the first step in the meal indexing pipeline (used downstream by the OpenSearch indexer).
+- Listen for `MealUploaded` events via EventBridge (triggered by upstream S3 uploads).
+- Validate and transform meal metadata into structured DynamoDB records.
+- Insert meal records into the `MealsRead` DynamoDB table.
+- React to DynamoDB stream events on `INSERT` and `MODIFY`.
+- Index new/updated meal records into OpenSearch by calling a library function.
 
 ## 🔑 Key AWS Resources
 
