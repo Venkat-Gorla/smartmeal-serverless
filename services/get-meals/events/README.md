@@ -113,7 +113,7 @@ All critical paths (success and failure) are covered using mocked dependencies.
 
 ## 🌱 Future Enhancements
 
-- Add Dead Letter Queues (DLQ) for failed events
-- Add tracing with AWS X-Ray
-- Use schema validation (e.g., with Joi)
-- Integrate Lambda Powertools for JS to standardize logging, tracing, and metrics across all Lambdas.
+- Add Dead Letter Queues (DLQs) for failed events
+- Enable tracing with AWS X-Ray
+- Apply schema validation (e.g., using Joi)
+- Integrate Lambda Powertools for JS to standardize logging, tracing, and metrics
