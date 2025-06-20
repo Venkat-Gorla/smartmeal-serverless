@@ -27,7 +27,7 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 - Validate and transform meal metadata into structured DynamoDB records.
 - Insert meal records into the `MealsRead` DynamoDB table.
 - React to DynamoDB stream events on `INSERT` and `MODIFY`.
-- Index new/updated meal records into OpenSearch by calling a library function.
+- Index new/updated meal records into OpenSearch.
 
 ## 🔑 Key AWS Resources
 
@@ -107,9 +107,9 @@ All critical paths (success and failure) are covered using mocked dependencies.
 
 ## 🚀 Deployment
 
-- Managed via Serverless Framework
-- Separate stages for `dev`, `staging`, and `prod`
-- CI/CD pipeline will run tests and deploy Lambdas
+- Managed using the Serverless Framework
+- Deploys DynamoDB tables and Lambda functions together
+- Requires appropriate IAM permissions for DynamoDB operations
 
 ## 🌱 Future Enhancements
 
