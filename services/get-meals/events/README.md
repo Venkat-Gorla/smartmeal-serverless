@@ -115,5 +115,5 @@ All critical paths (success and failure) are covered using mocked dependencies.
 
 - Add Dead Letter Queues (DLQs) for failed events
 - Enable tracing with AWS X-Ray
-- Apply schema validation (e.g., using Joi)
+- Apply schema validation (e.g., using Joi) in the EventBridge-triggered Lambda before DynamoDB upsert
 - Integrate Lambda Powertools for JS to standardize logging, tracing, and metrics
