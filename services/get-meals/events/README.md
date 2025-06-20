@@ -4,7 +4,7 @@
 
 - [Overview](#-overview)
 - [Responsibilities](#-responsibilities)
-- [Key AWS Resources](#key-aws-resources)
+- [Key AWS Resources](#-key-aws-resources)
 - [Environment Variables](#-environment-variables)
 - [Lambda Entry Points](#-lambda-entry-points)
 - [Error Handling](#-error-handling)
@@ -41,15 +41,16 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 
 | Variable Name         | Description                   |
 | --------------------- | ----------------------------- |
-| `MEAL_TABLE_NAME`     | Name of the DynamoDB table    |
-| `OPENSEARCH_ENDPOINT` | URL of the OpenSearch service |
-| `REGION`              | AWS region                    |
+| `MEALS_TABLE`     | Name of the DynamoDB table    |
+| `OPENSEARCH_ENDPOINT` | Endpoint of OS domain                 |
+| `AWS_REGION`              | AWS region                    |
 
 ## 🔁 Lambda Entry Points
 
 - **mealUploadEventConsumer.js**
 
   - Trigger: EventBridge (S3 upload notification)
+  - vegorla fix based on code
   - Action: Parse uploaded file → validate → store in DynamoDB
 
 - **dynamoStreamIndexer.js**
@@ -68,8 +69,9 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 - Integration tests for end-to-end meal ingestion
 - Mock S3, DynamoDB, and EventBridge events in test suite
 
-## 🛠️ Tools
+## 🧰 Tools
 
+- vegorla review
 - AWS SDK v3
 - Jest for testing
 - Lambda Powertools (planned)
