@@ -95,11 +95,9 @@ All critical paths (success and failure) are covered using mocked dependencies.
 
 ## 🧰 Tools
 
-- vegorla review
-- AWS SDK v3
-- Jest for testing
-- Lambda Powertools (planned)
-- OpenSearch Client (used downstream)
+- **Vitest** for writing and running unit tests
+- **`vi.mock`** for isolating and mocking DynamoDB modules
+- Custom CLI script for **DynamoDB → OpenSearch** integration testing
 
 ## 🔐 Security
 
@@ -118,4 +116,4 @@ All critical paths (success and failure) are covered using mocked dependencies.
 - Add Dead Letter Queues (DLQ) for failed events
 - Add tracing with AWS X-Ray
 - Use schema validation (e.g., with Joi)
-- Index updated records (MODIFY events)
+- Integrate Lambda Powertools for JS to standardize logging, tracing, and metrics across all Lambdas.
