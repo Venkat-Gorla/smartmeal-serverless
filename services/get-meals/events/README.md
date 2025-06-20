@@ -89,6 +89,10 @@ All critical paths (success and failure) are covered using mocked dependencies.
 - **dynamo-db.test.js**
   - Validates structure, defaults, and error handling in the `buildMealReadModelItem` transformer
 
+#### Test Output Snapshot
+
+![DynamoDB Service Unit Tests](../docs/dynamo-unit-tests.PNG)
+
 ## 🧰 Tools
 
 - vegorla review
