@@ -59,19 +59,31 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
   - **Trigger**: DynamoDB Stream (on `INSERT` or `MODIFY`)
   - **Action**: Unmarshall new record → index meal into OpenSearch via a library function
 
-// vegorla Next
-
 ## 🧯 Error Handling
 
 - Each Lambda is wrapped with try/catch blocks and logs detailed error messages.
 - Invalid records are logged and skipped (no retries currently).
 - Future improvements may include DLQ (Dead Letter Queue) support.
 
+// vegorla pending, to be covered
+
+- Integration tests for end-to-end meal ingestion
+  // what is this, needed?
+- Mock S3, DynamoDB, and EventBridge events in test suite
+
 ## 🧪 Testing Strategy
 
-- Unit tests for transformation and validation logic
-- Integration tests for end-to-end meal ingestion
-- Mock S3, DynamoDB, and EventBridge events in test suite
+### 🧱 Unit Tests
+
+All critical paths (success and failure) are covered using mocked dependencies.
+
+- **mealUploadEventConsumer.js**
+
+  - Tests both the Lambda `handler` and its internal logic
+  - Reuses fixture from `upload-meal` for consistent test data
+
+- **dynamoStreamIndexer.js**
+  - Mocks `unmarshall` and `indexMeal` to simulate stream processing and indexing
 
 ## 🧰 Tools
 
