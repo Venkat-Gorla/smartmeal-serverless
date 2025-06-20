@@ -90,6 +90,10 @@ All errors return a structured JSON response with HTTP 400 or 401 status.
 - Validate handler behavior under various scenarios: success, input validation, missing environment variables, and Cognito failures
 - Assert correct HTTP status codes and response payload structure
 
+#### Test Output Snapshot
+
+![Auth Service Unit Tests](./docs/auth-unit-tests.PNG)
+
 ### 🔗 Integration Tests
 
 - Use CLI scripts (`signup-cli.js`, `login-cli.js`) to invoke Lambda handlers with test credentials
