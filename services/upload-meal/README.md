@@ -51,8 +51,7 @@ The Upload Service handles multipart meal media uploads. It stores files in S3 a
 
 - **Content-Type**: `multipart/form-data`
 - **Body Fields**:
-
-  - `file`: image file
+  - `file`: image file (`.jpg`, `.png`, max 300KB)
   - `title`: string (required)
   - `description`: string (required)
 
