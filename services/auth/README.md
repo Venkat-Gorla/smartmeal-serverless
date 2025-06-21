@@ -4,7 +4,7 @@
 
 - [🧭 Overview](#-overview)
 - [📌 Responsibilities](#-responsibilities)
-- [🛠️ Key AWS Resources](#-key-aws-resources)
+- [🔑 Key AWS Resources](#-key-aws-resources)
 - [🔧 Environment Variables](#-environment-variables)
 - [📡 API Endpoints](#-api-endpoints)
   - [📥 POST `/signup`](#-post-signup)
@@ -27,7 +27,7 @@ The Auth Service in the Smart Meals platform is a foundational microservice resp
 - User registration and confirmation
 - Token-based authentication
 
-## 🛠️ Key AWS Resources
+## 🔑 Key AWS Resources
 
 - **Amazon Cognito User Pool**: Manages user identities
 - **CognitoIdentityProviderClient**: Interacts with Cognito APIs
