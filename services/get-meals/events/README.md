@@ -21,6 +21,10 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 1. **S3 Upload Listener** - Responds to S3 upload notifications via EventBridge and inserts structured records into DynamoDB.
 2. **DynamoDB Stream Indexer** - Processes DynamoDB stream events and forwards meals to the OpenSearch indexer for search capabilities.
 
+## 🧭 Event Pipeline
+
+![Event Pipeline](../docs/dynamo-os-pipeline.PNG)
+
 ## 📌 Responsibilities
 
 - Listen for `MealUploaded` events via EventBridge (triggered by upstream S3 uploads).
