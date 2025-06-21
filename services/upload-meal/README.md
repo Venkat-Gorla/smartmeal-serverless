@@ -27,9 +27,9 @@ The Upload Service handles multipart meal media uploads. It stores files in S3 a
 
 ## 📌 Responsibilities
 
-- Parse and validate multipart form data using a custom `Busboy`-based parser (`parse-form.js`), tailored for Lambda environments.
-- Upload files to S3 with metadata.
-- Emit `MealUploaded` event to event bus using `buildMealUploadedEvent()` with generated ID, timestamp, and image URL.
+- Handle multipart form data via custom `Busboy` parser (`parse-form.js`).
+- Validate and upload files to S3 with structured metadata.
+- Generate and publish `MealUploaded` events to EventBridge (`buildMealUploadedEvent`, `publishMealUploadedEvent`).
 
 ## 🔑 Key AWS Resources
 
