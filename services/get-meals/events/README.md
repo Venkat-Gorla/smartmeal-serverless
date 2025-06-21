@@ -3,6 +3,7 @@
 ## 📑 Table of Contents
 
 - [Overview](#-overview)
+- [Event Pipeline](#-event-pipeline)
 - [Responsibilities](#-responsibilities)
 - [Key AWS Resources](#-key-aws-resources)
 - [Environment Variables](#-environment-variables)
