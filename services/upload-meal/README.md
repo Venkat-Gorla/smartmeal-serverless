@@ -52,7 +52,7 @@ The Upload Service handles multipart meal media uploads. It stores files in S3 a
 - **Content-Type**: `multipart/form-data`
 - **Body Fields**:
 
-  - `file`: image or video file
+  - `file`: image file
   - `title`: string (required)
   - `description`: string (required)
 
@@ -77,6 +77,8 @@ The Upload Service handles multipart meal media uploads. It stores files in S3 a
 - 400: Missing or invalid fields.
 - 415: Invalid file type.
 - 500: Unexpected server or AWS error.
+- File uploads are validated via `validateFile()` in `util.js` (type, size, structure).
+- Invalid MIME types or large files trigger structured error responses.
 
 ## 🧪 Testing Strategy
 
