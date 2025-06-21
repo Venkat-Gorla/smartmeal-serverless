@@ -1,5 +1,23 @@
 # 🔐 Auth Service - Smart Meals Platform
 
+## 📚 Table of Contents
+
+- [🧭 Overview](#-overview)
+- [📌 Responsibilities](#-responsibilities)
+- [🛠️ Key AWS Resources](#-key-aws-resources)
+- [🔧 Environment Variables](#-environment-variables)
+- [📡 API Endpoints](#-api-endpoints)
+  - [📥 POST `/signup`](#-post-signup)
+  - [🔑 POST `/login`](#-post-login)
+- [🧨 Error Handling](#-error-handling)
+- [🧪 Testing Strategy](#-testing-strategy)
+  - [🧱 Unit Tests](#-unit-tests)
+  - [🔗 Integration Tests](#-integration-tests)
+  - [🧰 Tools](#-tools)
+- [🔐 Security](#-security)
+- [🚀 Deployment](#-deployment)
+- [🔮 Future Enhancements](#-future-enhancements)
+
 ## 🧭 Overview
 
 The Auth Service in the Smart Meals platform is a foundational microservice responsible for identity and access management. It leverages **Amazon Cognito** to securely handle user signups, confirmations, and authentication workflows.
@@ -14,7 +32,7 @@ The Auth Service in the Smart Meals platform is a foundational microservice resp
 - **Amazon Cognito User Pool**: Manages user identities
 - **CognitoIdentityProviderClient**: Interacts with Cognito APIs
 
-## ⚙️ Environment Variables
+## 🔧 Environment Variables
 
 | Variable Name          | Description                           |
 | ---------------------- | ------------------------------------- |
