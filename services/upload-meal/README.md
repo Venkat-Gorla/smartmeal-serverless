@@ -129,6 +129,6 @@ The test suite covers:
 
 ## 🔮 Future Enhancements
 
-- Enforce IAM identity via Cognito or JWT
 - Virus scanning on upload
-- Image optimization pipeline
+- Image optimization pipeline – generate thumbnails and resize images for consistent display and faster load times.
+- CDN integration – use Amazon CloudFront to cache and serve images globally for low-latency access and scalable delivery.
