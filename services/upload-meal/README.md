@@ -88,7 +88,19 @@ The Upload Service handles multipart meal media uploads. It stores files in S3 a
 
 ### 🧱 Unit Tests
 
-- `validateFile`, `generateS3Key`, and `normalizeMetadata`
+Located in `services\upload-meal\__tests__`, this service includes comprehensive unit tests using `vitest` with full mocking of AWS SDK v3 modules.
+
+The test suite covers:
+
+✅ **Multipart parsing** (`parse-form.test.js`)  
+✅ **File validation, S3 metadata, and key generation** (`util.test.js`)  
+✅ **Lambda entry point behavior including full success/failure paths** (`upload.test.js`)  
+✅ **Meal event construction and formatting** (`meal-event.test.js`)  
+✅ **EventBridge publishing logic** (`mealEventPublisher.test.js`)
+
+> Tests assert correctness, error handling, and edge cases. Readers are encouraged to explore the test code directly.
+
+![Unit Test Output](./docs/upload-unit-tests.PNG)
 
 ### 🔗 Integration Tests
 
