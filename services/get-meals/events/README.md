@@ -2,18 +2,22 @@
 
 ## 📑 Table of Contents
 
-- [Overview](#-overview)
-- [Event Pipeline](#-event-pipeline)
-- [Responsibilities](#-responsibilities)
-- [Key AWS Resources](#-key-aws-resources)
-- [Environment Variables](#-environment-variables)
-- [Lambda Entry Points](#-lambda-entry-points)
-- [Error Handling](#-error-handling)
-- [Testing Strategy](#-testing-strategy)
-- [Tools](#-tools)
-- [Security](#-security)
-- [Deployment](#-deployment)
-- [Future Enhancements](#-future-enhancements)
+- [🧭 Overview](#-overview)
+- [🧬 Event Pipeline](#-event-pipeline)
+- [📌 Responsibilities](#-responsibilities)
+- [🔑 Key AWS Resources](#-key-aws-resources)
+- [🧪 Environment Variables](#-environment-variables)
+- [🔁 Lambda Entry Points](#-lambda-entry-points)
+  - [mealUploadEventConsumer.js](#mealuploadeventconsumerjs)
+  - [dynamoStreamIndexer.js](#dynamostreamindexerjs)
+- [🧯 Error Handling](#-error-handling)
+- [🧪 Testing Strategy](#-testing-strategy)
+  - [🧱 Unit Tests](#-unit-tests)
+  - [🔗 Integration Tests](#-integration-tests)
+- [🧰 Tools](#-tools)
+- [🔐 Security](#-security)
+- [🚀 Deployment](#-deployment)
+- [🌱 Future Enhancements](#-future-enhancements)
 
 ## 🧭 Overview
 
