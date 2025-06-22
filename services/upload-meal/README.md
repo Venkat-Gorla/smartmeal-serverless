@@ -98,9 +98,9 @@ The test suite covers:
 
 ![Unit Test Output](./docs/upload-unit-tests.PNG)
 
-### 🔗 vegorla next, Integration Tests
+### 🔗 Integration Tests
 
-- End-to-end test for upload to S3 and event emission
+- End-to-end test for upload to S3 and event emission (`integration-test\s3-upload.js`)
 
 ### 🧰 Tools
 
