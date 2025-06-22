@@ -3,6 +3,7 @@
 ## 📚 Table of Contents
 
 - [🧭 Overview](#-overview)
+- [🧬 Upload Pipeline](#-upload-pipeline)
 - [📌 Responsibilities](#-responsibilities)
 - [🔑 Key AWS Resources](#-key-aws-resources)
 - [🔧 Environment Variables](#-environment-variables)
@@ -24,6 +25,10 @@
 ## 🧭 Overview
 
 The Upload Service handles multipart meal media uploads. It stores files in S3 and publishes a meal event for downstream consumers.
+
+## 🧬 Upload Pipeline
+
+![Upload Pipeline](./docs/upload-pipeline.PNG)
 
 ## 📌 Responsibilities
 
