@@ -59,12 +59,13 @@ This module manages the ingestion and indexing of meal data using AWS DynamoDB. 
 
 ### mealUploadEventConsumer.js
 
-  - **Trigger**: EventBridge (`MealUploaded` events)
-  - **Action**: Validate and transform event payload → insert into `MealsRead` DynamoDB table
+- **Trigger**: EventBridge (`MealUploaded` events)
+- **Action**: Validate and transform event payload → insert into `MealsRead` DynamoDB table
 
-- **dynamoStreamIndexer.js**
-  - **Trigger**: DynamoDB Stream (on `INSERT` or `MODIFY`)
-  - **Action**: Unmarshall new record → index meal into OpenSearch via a library function
+### dynamoStreamIndexer.js
+
+- **Trigger**: DynamoDB Stream (on `INSERT` or `MODIFY`)
+- **Action**: Unmarshall new record → index meal into OpenSearch via a library function
 
 ## 🧯 Error Handling
 
