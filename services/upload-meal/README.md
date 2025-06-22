@@ -105,7 +105,8 @@ The test suite covers:
 
 ### 🧰 Tools
 
-- Vitest, AWS SDK v3 mocks, Multipart parser mocks
+- Vitest, AWS SDK v3 mocks
+- Generate realistic base64-encoded multipart form Lambda events using `form-data`, `mime-types`, and `stream`; see `__tests__\test-util.js`
 
 ## 🔐 Security
 
