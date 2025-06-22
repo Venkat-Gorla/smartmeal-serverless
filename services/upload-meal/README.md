@@ -40,9 +40,10 @@ The Upload Service handles multipart meal media uploads. It stores files in S3 a
 
 ## 🔧 Environment Variables
 
-| Variable      | Description                      |
-| ------------- | -------------------------------- |
-| `BUCKET_NAME` | Target S3 bucket for file upload |
+| Variable         | Description                           |
+| ---------------- | ------------------------------------- |
+| `BUCKET_NAME`    | Target S3 bucket for file upload      |
+| `EVENT_BUS_NAME` | Event Bus name for meal event publish |
 
 ## 📡 API Endpoints
 
