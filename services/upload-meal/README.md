@@ -15,6 +15,7 @@
   - [🔗 Integration Tests](#-integration-tests)
   - [🧰 Tools](#-tools)
 - [🔐 Security](#-security)
+- [🧩 Planned Work](#-planned-work)
 - [🚀 Deployment](#-deployment)
 - [🔮 Future Enhancements](#-future-enhancements)
 
@@ -115,7 +116,7 @@ The test suite covers:
 
 ## 🧩 Planned Work
 
-- **Auth is ready** via Amazon Cognito; integration with the upload service is pending.
+- **Auth is ready via Amazon Cognito**; integration with the upload service is pending.
 - Explore rate limiting using AWS-native solutions:
   - **API Gateway Usage Plans** – enforce per-user or per-app limits (e.g., 100 requests per minute) using API keys or Cognito identity.
   - **AWS WAF** – apply rate-based rules to block or throttle high-frequency requests by IP.
