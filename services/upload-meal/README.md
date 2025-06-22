@@ -98,13 +98,13 @@ The test suite covers:
 
 ![Unit Test Output](./docs/upload-unit-tests.PNG)
 
-### 🔗 Integration Tests
+### 🔗 vegorla next, Integration Tests
 
 - End-to-end test for upload to S3 and event emission
 
 ### 🧰 Tools
 
-- Jest, AWS SDK v3 mocks, Multipart parser mocks
+- Vitest, AWS SDK v3 mocks, Multipart parser mocks
 
 ## 🔐 Security
 
