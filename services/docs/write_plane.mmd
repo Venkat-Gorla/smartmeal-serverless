@@ -1,10 +1,10 @@
 %%{init: {"theme": "default", "themeVariables": { "fontSize": "20px", "primaryColor": "#E0F2FE", "edgeLabelBackground":"#ffffff"}}}%%
 flowchart TD
 
-  A["📨 HTTP Client<br/>(POST /upload)"]:::client
-  %% X["🔐 Auth Context"]:::auth
+  A["📨 HTTP Client<br/>(POST /upload,<br/>GET /meals)"]:::client
   Y["🛰️ API Gateway"]:::apigw
 
+  %% Write Plane
   subgraph WRITE["✍️ Write Plane"]
     B["📡 Lambda API -<br/>Upload Handler"]:::lambda
     C["📦 Amazon S3"]:::s3
@@ -15,15 +15,27 @@ flowchart TD
     H["🔎 Lambda<br/>OpenSearch Indexer"]:::lambda
   end
 
-  A -->|🔐 Auth Context| Y -->|Multipart Form| B
+  %% Read Plane
+  subgraph READ["📖 Read Plane"]
+    R1["📡 Lambda API -<br/>Get Meals Handler"]:::lambda
+    R2["🔎 OpenSearch<br/>(Indexed Meals)"]:::search
+  end
+
+  %% Client routes
+  A -->|🔐 Auth Context -<br/>Only For Write| Y
+  Y -->|Multipart Form| B
+  Y -->|Read Query| R1
+  R1 -->|Get Meals| R2
+
+  %% Write flow
   B -->|Store Image| C
   C -->|Publish Event| D
   E -->|Meal Uploaded Event| F
   F -->|Insert Record| G
   G -->|DynamoDB Stream<br/>Event| H
 
+  %% Class styles
   classDef client fill:#F0F9FF,stroke:#0284C7,color:#075985;
-  classDef auth fill:#E0F2FE,stroke:#A3A3A3,color:#525252;
   classDef apigw fill:#E0F2FE,stroke:#06B6D4,color:#0F172A;
   classDef lambda fill:#E0F2FE,stroke:#0EA5E9,color:#1E3A8A;
   classDef s3 fill:#FEF9C3,stroke:#CA8A04,color:#78350F;
