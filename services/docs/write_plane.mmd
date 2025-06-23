@@ -7,15 +7,17 @@ flowchart TD
     B["📡 Lambda API - Upload Handler"]:::lambda
     C["📦 Amazon S3"]:::s3
     D["🧩 EventBridge"]:::event
-    E["🗃️ Lambda DynamoDB insert - Meals Table (with likes)"]:::ddb
-    F["🔎 Lambda OpenSearch Indexer"]:::search
+    E["📡 Lambda DynamoDB Handler"]:::lambda
+    F["🗃️ DynamoDB Meals Table (with likes)"]:::ddb
+    G["🔎 Lambda OpenSearch Indexer"]:::search
   end
 
   A -->|Multipart form| B
   B -->|Store Image| C
   C -->|Publish Event| D
   D -->|Meal Uploaded Event| E
-  E -->|Dynamo Stream Event| F
+  E -->|Insert| F
+  F -->|DynamoDB Stream Event| G
 
   classDef client fill:#F0F9FF,stroke:#0284C7,color:#075985;
   classDef lambda fill:#E0F2FE,stroke:#0EA5E9,color:#1E3A8A;
