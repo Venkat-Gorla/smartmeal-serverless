@@ -1,0 +1,28 @@
+%%{init: {"theme": "default", "themeVariables": { "fontSize": "20px", "primaryColor": "#E0F2FE", "edgeLabelBackground":"#ffffff"}}}%%
+flowchart TD
+
+  A["📨 HTTP Client<br/>(POST /upload)"]:::client
+
+  subgraph WRITE["✍️ Write Plane"]
+    B["📡 Lambda API - Upload Handler"]:::lambda
+    C["📦 Amazon S3"]:::s3
+    D["🧩 EventBridge"]:::event
+    E["🗃️ Lambda DynamoDB insert - Meals Table (with likes)"]:::ddb
+    F["🔎 Lambda OpenSearch Indexer"]:::search
+  end
+
+  A -->|Multipart form| B
+  B -->|Store Image| C
+  C -->|Publish Event| D
+  D -->|Meal Uploaded Event| E
+  E -->|Dynamo Stream Event| F
+
+  classDef client fill:#F0F9FF,stroke:#0284C7,color:#075985;
+  classDef lambda fill:#E0F2FE,stroke:#0EA5E9,color:#1E3A8A;
+  classDef s3 fill:#FEF9C3,stroke:#CA8A04,color:#78350F;
+  classDef event fill:#DDD6FE,stroke:#8B5CF6,color:#4C1D95;
+  classDef ddb fill:#BBF7D0,stroke:#22C55E,color:#14532D;
+  classDef search fill:#F3E8FF,stroke:#A855F7,color:#6B21A8;
+
+  linkStyle default stroke-width:2px,fill:none;
+
