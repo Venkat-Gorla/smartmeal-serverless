@@ -1,11 +1,11 @@
 %%{init: {"theme": "default", "themeVariables": { "fontSize": "20px", "primaryColor": "#E0F2FE", "edgeLabelBackground":"#ffffff"}}}%%
 flowchart TD
 
-  A["📨 HTTP Client<br/>(POST /upload,<br/>GET /meals)"]:::client
+  A["📨 HTTP Client<br/>(POST /upload,<br/>GET /meals,<br/>Get /meal-image)"]:::client
   Y["🛰️ API Gateway"]:::apigw
 
   %% Write Plane
-  subgraph WRITE["✍️ Write Plane"]
+  subgraph WRITE["✍️ Write Plane 🔐"]
     B["📡 Lambda API -<br/>Upload Handler"]:::lambda
     C["📦 Amazon S3"]:::s3
     D["🧩 EventBridge<br/>(From S3 Upload)"]:::event
@@ -19,13 +19,20 @@ flowchart TD
   subgraph READ["📖 Read Plane"]
     R1["📡 Lambda API -<br/>Get Meals Handler"]:::lambda
     R2["🔎 OpenSearch<br/>(Indexed Meals)"]:::search
+
+    R3["📡 Lambda API -<br/>Get Meal Image"]:::lambda
+    R4["🗃️ DynamoDB Meals<br/>Table (with likes)"]:::ddb
+    R5["📦 Amazon S3"]:::s3
   end
 
   %% Client routes
   A -->|🔐 Auth Context -<br/>Only For Write| Y
   Y -->|Upload Multipart Form| B
   Y -->|Read Query| R1
+  Y -->|Meal Image Query| R3
   R1 -->|Get Meals| R2
+  R3 -->|Get Image URL| R4
+  R4 -->|Stream Image| R5
 
   %% Write flow
   B -->|Store Image| C
