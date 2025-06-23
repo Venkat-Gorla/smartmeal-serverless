@@ -28,7 +28,7 @@ flowchart TD
   %% Client routes
   A -->|🔐 Auth Context -<br/>Only For Write| Y
   Y -->|Upload Multipart Form| B
-  Y -->|Read Query| R1
+  Y -->|Meals Query| R1
   Y -->|Meal Image Query| R3
   R1 -->|Get Meals| R2
   R3 -->|Get Image URL| R4
