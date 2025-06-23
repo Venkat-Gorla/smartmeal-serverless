@@ -6,8 +6,8 @@ flowchart TD
   subgraph WRITE["✍️ Write Plane"]
     B["📡 Lambda API - Upload Handler"]:::lambda
     C["📦 Amazon S3"]:::s3
-    D["🧩 EventBridge"]:::event
-    E["🧩 EventBridge"]:::event
+    D["🧩 EventBridge<br/>(From S3 Upload)"]:::event
+    E["🧩 EventBridge<br/>(Triggers DB Handler)"]:::event
     F["📡 Lambda DynamoDB Handler"]:::lambda
     G["🗃️ DynamoDB Meals Table (with likes)"]:::ddb
     H["🔎 Lambda OpenSearch Indexer"]:::lambda
