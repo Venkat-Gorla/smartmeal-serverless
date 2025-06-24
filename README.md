@@ -1,8 +1,8 @@
 # 🍱 Smart Meals Platform
 
-A personal project to design and prototype a full-stack, event-driven, serverless meals application — built for learning, and future extensibility.
+A personal project to design and prototype a full-stack meals application — built for learning, and future extensibility.
 
-**“SmartMeal”** — Meal sharing with image uploads, real-time voting, and notification via microservices on AWS using event-driven SNS and DynamoDB. Built in Node.js, deployed with serverless infra.
+**SmartMeal** — A meal-sharing platform featuring image uploads, real-time voting, and notifications. Built with Node.js microservices on AWS using event-driven architecture (SNS, EventBridge, DynamoDB), and deployed with fully managed serverless infrastructure.
 
 ## 📑 Table of Contents
 
