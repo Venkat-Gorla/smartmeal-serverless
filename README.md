@@ -7,12 +7,12 @@ A personal project to design and prototype a full-stack, event-driven, serverles
 ## 📑 Table of Contents
 
 - [Architecture](#architecture)
+- [🎯 Highlights](#-highlights)
 - [✅ MVP Scope](#-mvp-scope)
   - [🚧 Not Yet Implemented (Planned Work)](#-not-yet-implemented-planned-work)
-- [🧪 Testing](#-testing)
-- [🎯 Highlights](#-highlights)
 - [💻 Frontend Preview](#-frontend-preview)
 - [📁 Services Overview](#-services-overview)
+- [🧪 Testing](#-testing)
 - [📚 Motivation](#-motivation)
 - [🚀 License](#-license)
 
@@ -30,6 +30,14 @@ This project follows a **CQRS architecture** and leverages:
 > The full proposed design is represented in the system diagram.  
 > Not everything is implemented for the MVP.
 
+## 🎯 Highlights
+
+- ⚙️ Node.js + AWS Lambda
+- 🌐 React-based frontend (standalone, no backend wiring yet)
+- 📬 API Gateway secured with **Amazon Cognito**
+- 🔄 EventBridge & DynamoDB Streams used for inter-service events
+- 🧠 Designed for learning and growth
+
 ## ✅ MVP Scope
 
 The following are fully implemented and tested:
@@ -42,22 +50,6 @@ The following are fully implemented and tested:
 
 - **Upload & Authentication Integration** (Cognito token validation → API Gateway)
 - **Like Meal Flow** (API → DynamoDB → deduplication → EventBridge)
-
-## 🧪 Testing
-
-✅ Rigorous test coverage across all services and frontend:
-
-- **Unit Testing**: [Vitest](https://vitest.dev/) for logic
-- **UI Testing**: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- **Integration & Contract Tests**
-
-## 🎯 Highlights
-
-- ⚙️ Node.js + AWS Lambda
-- 🌐 React-based frontend (standalone, no backend wiring yet)
-- 📬 API Gateway secured with **Amazon Cognito**
-- 🔄 EventBridge & DynamoDB Streams used for inter-service events
-- 🧠 Designed for learning and growth
 
 ## 💻 Frontend Preview
 
@@ -72,6 +64,14 @@ Each service is documented with its own detailed README:
 - [`/upload`](./services/upload-meal/README.md)
 - [`/dynamodb`](./services/get-meals/events/README.md)
 - [`/indexer-opensearch`](./services/get-meals/elastic-search/README.md)
+
+## 🧪 Testing
+
+✅ Rigorous test coverage across all services and frontend:
+
+- **Unit Testing**: [Vitest](https://vitest.dev/) for logic
+- **UI Testing**: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- **Integration & Contract Tests**
 
 ## 📚 Motivation
 
