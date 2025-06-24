@@ -40,7 +40,7 @@ This project follows a **CQRS architecture** and leverages:
 
 ## 🖥️ Frontend Preview
 
-- **Live Preview**: _[Try it!]_(https://smartmeal-preview.netlify.app/)
+- **Live Preview**: [Try it!](https://smartmeal-preview.netlify.app/)
 - **Source**: [`/react-client`](./react-client/)
 
 ## 📁 Services Overview
