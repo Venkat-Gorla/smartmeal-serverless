@@ -4,6 +4,18 @@ A personal project to design and prototype a full-stack, event-driven, serverles
 
 **“SmartMeal”** — Meal sharing with image uploads, real-time voting, and notification via microservices on AWS using event-driven SNS and DynamoDB. Built in Node.js, deployed with serverless infra.
 
+## 📑 Table of Contents
+
+- [Architecture](#architecture)
+- [✅ MVP Scope](#-mvp-scope)
+  - [🚧 Not Yet Implemented (Planned Work)](#-not-yet-implemented-planned-work)
+- [🧪 Testing](#-testing)
+- [🎯 Highlights](#-highlights)
+- [💻 Frontend Preview](#-frontend-preview)
+- [📁 Services Overview](#-services-overview)
+- [📚 Motivation](#-motivation)
+- [🚀 License](#-license)
+
 ## 📐 Architecture
 
 ![System Diagram](./services/docs/architecture.PNG)
@@ -26,8 +38,6 @@ The following are fully implemented and tested:
 - End-to-end infrastructure for write and read planes
 - Event-driven communication across services
 
----
-
 ### 🚧 Not Yet Implemented (Planned Work)
 
 - **Upload & Authentication Integration** (Cognito token validation → API Gateway)
@@ -49,7 +59,7 @@ The following are fully implemented and tested:
 - 🔄 EventBridge & DynamoDB Streams used for inter-service events
 - 🧠 Designed for learning and growth
 
-## 🖥️ Frontend Preview
+## 💻 Frontend Preview
 
 - **Live Preview**: [Try it!](https://smartmeal-preview.netlify.app/)
 - **Source**: [`/react-client`](./react-client/)
