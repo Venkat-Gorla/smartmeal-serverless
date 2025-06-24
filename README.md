@@ -18,9 +18,14 @@ This project follows a **CQRS architecture** and leverages:
 > The full proposed design is represented in the system diagram.  
 > Not everything is implemented for the MVP.
 
-## What is done for MVP vegorla Placeholder
+## What is done for MVP
 
----
+All backend services are fully implemented and tested.
+
+Currently not implemented but part of planned work:
+
+- Upload and auth integration
+- Like meal flow
 
 ## 🧪 Testing
 
