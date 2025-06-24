@@ -18,14 +18,20 @@ This project follows a **CQRS architecture** and leverages:
 > The full proposed design is represented in the system diagram.  
 > Not everything is implemented for the MVP.
 
-## What is done for MVP
+## ✅ MVP Scope
 
-All backend services are fully implemented and tested.
+The following are fully implemented and tested:
 
-Currently not implemented but part of planned work:
+- All backend services
+- End-to-end infrastructure for write and read planes
+- Event-driven communication across services
 
-- Upload and auth integration
-- Like meal flow
+---
+
+### 🚧 Not Yet Implemented (Planned Work)
+
+- **Upload & Authentication Integration** (Cognito token validation → API Gateway)
+- **Like Meal Flow** (API → DynamoDB → deduplication → EventBridge)
 
 ## 🧪 Testing
 
