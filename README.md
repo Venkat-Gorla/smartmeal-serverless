@@ -6,7 +6,7 @@ A personal project to design and prototype a full-stack, event-driven, serverles
 
 ## 📐 Architecture
 
-![System Diagram](./assets/system-architecture.png)
+![System Diagram](./services/docs/architecture.PNG)
 
 This project follows a **CQRS architecture** and leverages:
 
