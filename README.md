@@ -6,8 +6,6 @@
 
 A personal project to design and prototype a full-stack, event-driven, serverless meals application — built for learning, resume showcasing, and future extensibility.
 
----
-
 ## 📐 Architecture
 
 ![System Diagram](./assets/system-architecture.png)
@@ -22,8 +20,6 @@ This project follows a **CQRS architecture** and leverages:
 > The full proposed design is represented in the system diagram.  
 > Not everything is implemented for the MVP.
 
----
-
 ## 🧪 Testing
 
 ✅ Rigorous test coverage across all services:
@@ -31,8 +27,6 @@ This project follows a **CQRS architecture** and leverages:
 - **Unit Testing**: [Vitest](https://vitest.dev/) for logic
 - **UI Testing**: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - **Integration & Contract Tests**: In progress / partially implemented
-
----
 
 ## 🎯 Highlights
 
@@ -42,14 +36,10 @@ This project follows a **CQRS architecture** and leverages:
 - 🔄 EventBridge & DynamoDB Streams used for inter-service events
 - 🧠 Designed for learning → Interviews → Resume-ready
 
----
-
 ## 🖥️ Frontend Preview
 
 - **Live Preview**: _[Coming Soon]_
 - **Source**: [`/client`](./client)
-
----
 
 ## 📁 Services Overview
 
@@ -62,8 +52,6 @@ Each service is documented with its own detailed README:
 - [`/sns-notifier`](./services/sns-notifier)
 - ... and more.
 
----
-
 ## 📚 Motivation
 
 > This project is a deep dive into:
@@ -74,8 +62,6 @@ Each service is documented with its own detailed README:
 
 All code is open-sourced and maintained here on GitHub.
 
----
-
 ## 🚀 License
 
-MIT — [open to contributions](CONTRIBUTING.md) if you find it useful.
+MIT License © 2025 VG — open to contributions, if you find it useful.
