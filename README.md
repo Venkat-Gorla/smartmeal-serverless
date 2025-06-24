@@ -47,11 +47,10 @@ This project follows a **CQRS architecture** and leverages:
 
 Each service is documented with its own detailed README:
 
-- [`/api-upload`](./services/api-upload)
-- [`/api-like-meal`](./services/api-like-meal)
-- [`/api-get-meals`](./services/api-get-meals)
-- [`/indexer-opensearch`](./services/indexer-opensearch)
-- [`/sns-notifier`](./services/sns-notifier)
+- [`/auth`](./services/auth/README.md)
+- [`/upload`](./services/upload-meal/README.md)
+- [`/dynamodb`](./services/get-meals/events/README.md)
+- [`/indexer-opensearch`](./services/get-meals/elastic-search/README.md)
 
 ## 📚 Motivation
 
