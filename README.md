@@ -6,7 +6,7 @@ A personal project to design and prototype a full-stack, event-driven, serverles
 
 ## 📑 Table of Contents
 
-- [Architecture](#architecture)
+- [Architecture](#-architecture)
 - [🎯 Highlights](#-highlights)
 - [✅ MVP Scope](#-mvp-scope)
   - [🚧 Not Yet Implemented (Planned Work)](#-not-yet-implemented-planned-work)
