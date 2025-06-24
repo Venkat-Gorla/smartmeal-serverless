@@ -2,7 +2,7 @@
 
 A personal project to design and prototype a full-stack, event-driven, serverless meals application — built for learning, and future extensibility.
 
-“SmartMeal” — Meal sharing with image uploads, real-time voting, and notification via microservices on AWS using event-driven SNS and DynamoDB. Built in Node.js, deployed with serverless infra.
+**“SmartMeal”** — Meal sharing with image uploads, real-time voting, and notification via microservices on AWS using event-driven SNS and DynamoDB. Built in Node.js, deployed with serverless infra.
 
 ## 📐 Architecture
 
@@ -24,7 +24,7 @@ This project follows a **CQRS architecture** and leverages:
 
 ## 🧪 Testing
 
-✅ Rigorous test coverage across all services:
+✅ Rigorous test coverage across all services and frontend:
 
 - **Unit Testing**: [Vitest](https://vitest.dev/) for logic
 - **UI Testing**: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
@@ -40,8 +40,8 @@ This project follows a **CQRS architecture** and leverages:
 
 ## 🖥️ Frontend Preview
 
-- **Live Preview**: _[Coming Soon]_
-- **Source**: [`/client`](./react-client/)
+- **Live Preview**: _[Try it!]_(https://smartmeal-preview.netlify.app/)
+- **Source**: [`/react-client`](./react-client/)
 
 ## 📁 Services Overview
 
