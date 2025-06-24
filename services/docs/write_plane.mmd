@@ -10,9 +10,12 @@ flowchart TD
     C["📦 Amazon S3"]:::s3
     D["🧩 EventBridge<br/>(From S3 Upload)"]:::event
     E["🧩 EventBridge<br/>(Triggers DB Handler)"]:::event
-    F["📡 Lambda<br/>DynamoDB Handler"]:::lambda
-    G["🗃️ DynamoDB Meals<br/>Table (with likes)"]:::ddb
+    F["📡 Lambda Meal<br/>Uploaded Handler"]:::lambda
+    G["🗃️ DynamoDB Meals<br/>Table (w likes count)"]:::ddb
     H["🔎 Lambda<br/>OpenSearch Indexer"]:::lambda
+
+    I["📡 Lambda Meal<br/>Liked Handler"]:::lambda
+    J["📨 Lambda SNS<br/>Notify User"]:::lambda
   end
 
   %% Read Plane
@@ -21,7 +24,7 @@ flowchart TD
     R2["🔎 OpenSearch<br/>(Indexed Meals)"]:::search
 
     R3["📡 Lambda API -<br/>Get Meal Image"]:::lambda
-    R4["🗃️ DynamoDB Meals<br/>Table (with likes)"]:::ddb
+    R4["🗃️ DynamoDB Meals<br/>Table (w likes count)"]:::ddb
     R5["📦 Amazon S3"]:::s3
   end
 
@@ -38,8 +41,11 @@ flowchart TD
   B -->|Store Image| C
   C -->|Publish Event| D
   E -->|Meal Uploaded Event| F
+  E -->|Meal Liked Event| I
   F -->|Insert Record| G
-  G -->|DynamoDB Stream<br/>Event| H
+  G -->|DDB Stream<br/>Event| H
+  G -->|DDB Stream<br/>Event| J
+  I -->|Update Record| G
 
   %% Class styles
   classDef client fill:#F0F9FF,stroke:#0284C7,color:#075985;
