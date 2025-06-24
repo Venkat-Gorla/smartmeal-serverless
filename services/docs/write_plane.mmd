@@ -1,7 +1,7 @@
 %%{init: {"theme": "default", "themeVariables": { "fontSize": "20px", "primaryColor": "#E0F2FE", "edgeLabelBackground":"#ffffff"}}}%%
 flowchart TD
 
-  A["📨 HTTP Client<br/>(POST /upload,<br/>GET /meals,<br/>Get /meal-image)"]:::client
+  A["📨 HTTP Client<br/>(POST /upload,<br/>POST /like-meal,<br/>GET /meals,<br/>Get /meal-image)"]:::client
   Y["🛰️ API Gateway"]:::apigw
 
   %% Write Plane
@@ -16,6 +16,10 @@ flowchart TD
 
     I["📡 Lambda Meal<br/>Liked Handler"]:::lambda
     J["📨 Lambda SNS<br/>Notify User"]:::lambda
+
+    K["📡 Lambda API -<br/>Like Meal Handler"]:::lambda
+    L["🗃️ DynamoDB Table<br/>Meal-Liked UserIds"]:::ddb
+    M["🧩 EventBridge<br/>(From Meal Like)"]:::event
   end
 
   %% Read Plane
@@ -31,6 +35,7 @@ flowchart TD
   %% Client routes
   A -->|🔐 Auth Context -<br/>Only For Write| Y
   Y -->|Upload Multipart Form| B
+  Y -->|User Likes Meal| K
   Y -->|Meals Query| R1
   Y -->|Meal Image Query| R3
   R1 -->|Get Meals| R2
@@ -46,6 +51,8 @@ flowchart TD
   G -->|DDB Stream<br/>Event| H
   G -->|DDB Stream<br/>Event| J
   I -->|Update Record| G
+  K -->|Check Unique Like| L
+  L -->|Publish Event| M
 
   %% Class styles
   classDef client fill:#F0F9FF,stroke:#0284C7,color:#075985;
