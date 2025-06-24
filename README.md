@@ -1,10 +1,8 @@
 # 🍱 Smart Meals Platform
 
+A personal project to design and prototype a full-stack, event-driven, serverless meals application — built for learning, and future extensibility.
+
 “SmartMeal” — Meal sharing with image uploads, real-time voting, and notification via microservices on AWS using event-driven SNS and DynamoDB. Built in Node.js, deployed with serverless infra.
-
-# 🍱 Serverless Meals Platform
-
-A personal project to design and prototype a full-stack, event-driven, serverless meals application — built for learning, resume showcasing, and future extensibility.
 
 ## 📐 Architecture
 
@@ -20,26 +18,30 @@ This project follows a **CQRS architecture** and leverages:
 > The full proposed design is represented in the system diagram.  
 > Not everything is implemented for the MVP.
 
+## What is done for MVP vegorla Placeholder
+
+---
+
 ## 🧪 Testing
 
 ✅ Rigorous test coverage across all services:
 
 - **Unit Testing**: [Vitest](https://vitest.dev/) for logic
 - **UI Testing**: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
-- **Integration & Contract Tests**: In progress / partially implemented
+- **Integration & Contract Tests**
 
 ## 🎯 Highlights
 
-- ⚙️ Node.js + AWS Lambda + TypeScript (where applicable)
+- ⚙️ Node.js + AWS Lambda
 - 🌐 React-based frontend (standalone, no backend wiring yet)
 - 📬 API Gateway secured with **Amazon Cognito**
 - 🔄 EventBridge & DynamoDB Streams used for inter-service events
-- 🧠 Designed for learning → Interviews → Resume-ready
+- 🧠 Designed for learning and growth
 
 ## 🖥️ Frontend Preview
 
 - **Live Preview**: _[Coming Soon]_
-- **Source**: [`/client`](./client)
+- **Source**: [`/client`](./react-client/)
 
 ## 📁 Services Overview
 
@@ -50,7 +52,6 @@ Each service is documented with its own detailed README:
 - [`/api-get-meals`](./services/api-get-meals)
 - [`/indexer-opensearch`](./services/indexer-opensearch)
 - [`/sns-notifier`](./services/sns-notifier)
-- ... and more.
 
 ## 📚 Motivation
 
