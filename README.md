@@ -1,5 +1,12 @@
 # 🍱 Smart Meals Platform
 
+![Node.js](https://img.shields.io/badge/Node.js-20.x-green?logo=node.js)
+![AWS](https://img.shields.io/badge/AWS-Lambda%2C%20DynamoDB%2C%20S3-orange?logo=amazon-aws)
+![AWS SDK](https://img.shields.io/badge/AWS%20SDK-v3-orange?logo=amazon-aws)
+![React](https://img.shields.io/badge/React-18-blue?logo=react)
+![Vitest](https://img.shields.io/badge/Tested%20with-Vitest-8A2BE2?logo=vitest)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 A personal project to design and prototype a full-stack meals application — built for learning, and future extensibility.
 
 **SmartMeal** — A meal-sharing platform featuring image uploads, real-time voting, and notifications. Built with Node.js microservices on AWS using event-driven architecture (SNS, EventBridge, DynamoDB), and deployed with fully managed serverless infrastructure.
