@@ -69,8 +69,8 @@ Each service is documented with its own detailed README:
 
 - [`/auth`](./services/auth)
 - [`/upload`](./services/upload-meal)
-- [`/dynamodb`](./services/get-meals/events/README.md)
-- [`/indexer-opensearch`](./services/get-meals/elastic-search/README.md)
+- [`/dynamodb`](./services/get-meals/events)
+- [`/indexer-opensearch`](./services/get-meals/elastic-search)
 
 ## 🧪 Testing
 
