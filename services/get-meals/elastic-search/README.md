@@ -132,7 +132,7 @@ Mocked dependencies:
 
 - `elastic-search/client.js` with stubbed `search()` method
 
-#### Test Output Snapshot
+#### Test Output Snapshot for OS Lib and Lambda
 
 ![OpenSearch Unit Tests](../docs/os-unit-tests.PNG)
 

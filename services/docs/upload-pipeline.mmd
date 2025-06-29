@@ -1,0 +1,19 @@
+%%{init: {"theme": "default", "themeVariables": { "fontSize": "18px", "primaryColor": "#EDE9FE", "edgeLabelBackground": "#ffffff", "tertiaryColor": "#D1FAE5"}}}%%
+flowchart TD
+    A["📨 HTTP Client (POST /upload)"]:::client
+    B["🟠 Upload API"]:::api
+    C["📦 S3"]:::s3
+    D["🧩 EventBridge"]:::event
+    E["🗃️ DynamoDB"]:::ddb
+    F["🔎 OpenSearch"]:::os
+
+    A --> B --> C --> D --> E --> F
+
+    classDef client fill:#EDE9FE,stroke:#A78BFA,color:#111;
+    classDef api fill:#FEF3C7,stroke:#F59E0B,color:#92400E;
+    classDef s3 fill:#DBEAFE,stroke:#3B82F6,color:#1E3A8A;
+    classDef event fill:#DBEAFE,stroke:#0284C7,color:#075985;
+    classDef ddb fill:#BBF7D0,stroke:#22C55E,color:#14532D;
+    classDef os fill:#BBF7D0,stroke:#10B981,color:#064E3B;
+
+    linkStyle default stroke-width:2px,fill:none;

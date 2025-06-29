@@ -1,0 +1,69 @@
+%%{init: {"theme": "default", "themeVariables": { "fontSize": "20px", "primaryColor": "#E0F2FE", "edgeLabelBackground":"#ffffff"}}}%%
+flowchart TD
+
+  A["📨 HTTP Client<br/>(POST /upload,<br/>POST /like-meal,<br/>GET /meals,<br/>Get /meal-image)"]:::client
+  X["Amazon Cognito"]:::cognito
+  Y["🛰️ API Gateway"]:::apigw
+
+  %% Write Plane
+  subgraph WRITE["✍️ Write Plane 🔐"]
+    B["📡 Lambda API -<br/>Upload Handler"]:::lambda
+    C["📦 Amazon S3"]:::s3
+    D["🧩 EventBridge<br/>(From S3 Upload)"]:::event
+    E["🧩 EventBridge<br/>(Triggers DB Handler)"]:::event
+    F["📡 Lambda Meal<br/>Uploaded Handler"]:::lambda
+    G["🗃️ DynamoDB Meals<br/>Table (w likes count)"]:::ddb
+    H["🔎 Lambda<br/>OpenSearch Indexer"]:::lambda
+
+    I["📡 Lambda Meal<br/>Liked Handler"]:::lambda
+    J["📨 Lambda SNS<br/>Notify User"]:::lambda
+
+    K["📡 Lambda API -<br/>Like Meal Handler"]:::lambda
+    L["🗃️ DynamoDB Table<br/>Meal-Liked UserIds"]:::ddb
+    M["🧩 EventBridge<br/>(From Meal Like)"]:::event
+  end
+
+  %% Read Plane
+  subgraph READ["📖 Read Plane"]
+    R1["📡 Lambda API -<br/>Get Meals Handler"]:::lambda
+    R2["🔎 OpenSearch<br/>(Indexed Meals)"]:::search
+
+    R3["📡 Lambda API -<br/>Get Meal Image"]:::lambda
+    R4["🗃️ DynamoDB Meals<br/>Table (w likes count)"]:::ddb
+    R5["📦 Amazon S3"]:::s3
+  end
+
+  %% Client routes
+  A -->|🔐 Auth Context -<br/>Only For Write| Y
+  A -->|🔐| X
+  Y -->|Upload Multipart Form| B
+  Y -->|User Likes Meal| K
+  Y -->|Meals Query| R1
+  Y -->|Meal Image Query| R3
+  R1 -->|Get Meals| R2
+  R3 -->|Get Image URL| R4
+  R4 -->|Stream Image| R5
+
+  %% Write flow
+  B -->|Store Image| C
+  C -->|Publish Event| D
+  E -->|Meal Uploaded Event| F
+  E -->|Meal Liked Event| I
+  F -->|Insert Record| G
+  G -->|DDB Stream<br/>Event| H
+  G -->|DDB Stream<br/>Event| J
+  I -->|Update Record| G
+  K -->|Check Unique Like| L
+  L -->|Publish Event| M
+
+  %% Class styles
+  classDef client fill:#F0F9FF,stroke:#0284C7,color:#075985;
+  classDef apigw fill:#E0F2FE,stroke:#06B6D4,color:#0F172A;
+  classDef cognito fill:#BBEDD0,stroke:#22C55E,color:#14532D;
+  classDef lambda fill:#E0F2FE,stroke:#0EA5E9,color:#1E3A8A;
+  classDef s3 fill:#FEF9C3,stroke:#CA8A04,color:#78350F;
+  classDef event fill:#DDD6FE,stroke:#8B5CF6,color:#4C1D95;
+  classDef ddb fill:#BBF7D0,stroke:#22C55E,color:#14532D;
+  classDef search fill:#F3E8FF,stroke:#A855F7,color:#6B21A8;
+
+  linkStyle default stroke-width:2px,fill:none;

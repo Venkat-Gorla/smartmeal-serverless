@@ -1,5 +1,23 @@
 # 🔐 Auth Service - Smart Meals Platform
 
+## 📚 Table of Contents
+
+- [🧭 Overview](#-overview)
+- [📌 Responsibilities](#-responsibilities)
+- [🔑 Key AWS Resources](#-key-aws-resources)
+- [🔧 Environment Variables](#-environment-variables)
+- [📡 API Endpoints](#-api-endpoints)
+  - [📥 POST `/signup`](#-post-signup)
+  - [🔑 POST `/login`](#-post-login)
+- [🧨 Error Handling](#-error-handling)
+- [🧪 Testing Strategy](#-testing-strategy)
+  - [🧱 Unit Tests](#-unit-tests)
+  - [🔗 Integration Tests](#-integration-tests)
+  - [🧰 Tools](#-tools)
+- [🔐 Security](#-security)
+- [🚀 Deployment](#-deployment)
+- [🔮 Future Enhancements](#-future-enhancements)
+
 ## 🧭 Overview
 
 The Auth Service in the Smart Meals platform is a foundational microservice responsible for identity and access management. It leverages **Amazon Cognito** to securely handle user signups, confirmations, and authentication workflows.
@@ -9,12 +27,12 @@ The Auth Service in the Smart Meals platform is a foundational microservice resp
 - User registration and confirmation
 - Token-based authentication
 
-## 🛠️ Key AWS Resources
+## 🔑 Key AWS Resources
 
 - **Amazon Cognito User Pool**: Manages user identities
 - **CognitoIdentityProviderClient**: Interacts with Cognito APIs
 
-## ⚙️ Environment Variables
+## 🔧 Environment Variables
 
 | Variable Name          | Description                           |
 | ---------------------- | ------------------------------------- |
@@ -89,6 +107,10 @@ All errors return a structured JSON response with HTTP 400 or 401 status.
 - Use `Vitest` with full mocking of AWS SDK (`CognitoIdentityProviderClient`) and auth command factory
 - Validate handler behavior under various scenarios: success, input validation, missing environment variables, and Cognito failures
 - Assert correct HTTP status codes and response payload structure
+
+#### Test Output Snapshot
+
+![Auth Service Unit Tests](./docs/auth-unit-tests.PNG)
 
 ### 🔗 Integration Tests
 
