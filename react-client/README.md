@@ -6,11 +6,19 @@ Smart Meals is a **React-powered frontend** for a full-stack meal management pla
 
 > 🔌 This version runs entirely on **mock data** (no backend integration), ideal for showcasing UI/UX, architectural decisions, and front-end state management.
 
+## 📚 Table of Contents
+
+- [🎯 Project Vision](#-project-vision)
+- [🔧 Highlights & Features](#-highlights--features)
+- [✅ Ideal For](#-ideal-for)
+- [📂 Backend?](#-backend)
+- [📜 License](#-license)
+
 ## 🎯 Project Vision
 
 Build a smart, modern, and responsive interface for discovering, filtering, uploading, and managing meals—scalable to production, yet perfectly suited for learning and portfolio showcasing.
 
-## 🛠️ Highlights & Features
+## 🔧 Highlights & Features
 
 - ⚡ **React Router v6** – Modern single-page app navigation
 - 📱 **Bootstrap 5** – Fully responsive UI with adaptive Navbar
