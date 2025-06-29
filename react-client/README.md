@@ -6,8 +6,8 @@ Smart Meals is a **React-powered frontend** for a full-stack meal management pla
 
 > 🔌 This version runs entirely on **mock data** (no backend integration), ideal for showcasing UI/UX, architectural decisions, and front-end state management.
 
-> 📸 Homepage view with navigation, mock upload/auth preview, and call-to-action.
-> ![Smart Meals UI](./public/app-preview.PNG)
+📸 Homepage view with navigation, mock upload/auth preview, and call-to-action.
+![Smart Meals UI](./public/app-preview.PNG)
 
 ## 📚 Table of Contents
 
