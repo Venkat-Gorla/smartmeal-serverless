@@ -20,6 +20,7 @@ A personal project to design and prototype a full-stack meals application — bu
 - [💻 Frontend Preview](#-frontend-preview)
 - [📁 Services Overview](#-services-overview)
 - [🧪 Testing](#-testing)
+  - [🧱 Unit Tests in Action](#-unit-tests-in-action)
 - [📚 Motivation](#-motivation)
 - [🚀 License](#-license)
 
@@ -79,6 +80,12 @@ Each service is documented with its own detailed README:
 - **Unit Testing**: [Vitest](https://vitest.dev/) for logic
 - **UI Testing**: [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - **Integration & Contract Tests**
+
+### 🧱 Unit Tests in Action
+
+![Services unit tests](./docs/services-unit-tests.PNG)
+
+![React unit tests](./docs/react-unit-tests.PNG)
 
 ## 📚 Motivation
 
